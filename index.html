@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiziano Mazzetti | AI Consultant</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0e27;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(0, 150, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 212, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(30, 60, 114, 0.2) 0%, transparent 50%),
+                linear-gradient(135deg, #0a0e27 0%, #1a2332 50%, #0f1c2e 100%);
+            z-index: -1;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 212, 255, 0.03) 2px, rgba(0, 212, 255, 0.03) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0, 212, 255, 0.03) 2px, rgba(0, 212, 255, 0.03) 4px);
+            z-index: -1;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 14, 39, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #00d4ff 0%, #0096ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #00d4ff;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .hero-content {
+            flex: 1;
+            z-index: 10;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #00d4ff 0%, #0096ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-content h2 {
+            font-size: 2rem;
+            color: #a0c4e0;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: #cbd5e0;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00d4ff 0%, #0096ff 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid #00d4ff;
+            color: #00d4ff;
+        }
+
+        .btn-secondary:hover {
+            background: #00d4ff;
+            color: white;
+        }
+
+        #avatar-container {
+            flex: 1;
+            height: 600px;
+            position: relative;
+        }
+
+        .tech-network {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 0.6;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .network-node {
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        .network-orbit {
+            animation: rotate 60s linear infinite;
+            transform-origin: center;
+        }
+
+        section {
+            padding: 5rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, #00d4ff 0%, #0096ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-card {
+            background: rgba(10, 20, 40, 0.6);
+            padding: 2rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.3);
+            border-color: rgba(0, 212, 255, 0.5);
+        }
+
+        .skill-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #00d4ff;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .skill-icon {
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+        }
+
+        .skill-card p {
+            color: #cbd5e0;
+            line-height: 1.6;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: rgba(10, 20, 40, 0.6);
+            border-radius: 12px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            transition: transform 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 212, 255, 0.5);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, #1a2f4a 0%, #0f1c2e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .project-icon {
+            width: 120px;
+            height: 120px;
+            filter: drop-shadow(0 10px 30px rgba(0, 212, 255, 0.3));
+        }
+
+        .project-content {
+            padding: 2rem;
+        }
+
+        .project-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #00d4ff;
+        }
+
+        .project-content p {
+            color: #cbd5e0;
+            line-height: 1.6;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .tag {
+            background: rgba(0, 212, 255, 0.15);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #00d4ff;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .contact-card {
+            background: rgba(10, 20, 40, 0.6);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 212, 255, 0.5);
+        }
+
+        .contact-card h3 {
+            color: #00d4ff;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-card a {
+            color: #cbd5e0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .contact-card a:hover {
+            color: #00d4ff;
+        }
+
+        .contact-card p {
+            color: #cbd5e0;
+        }
+
+        /* MODAL STYLES */
+        .cv-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .cv-modal.active {
+            display: flex;
+        }
+
+        .cv-modal-content {
+            background: rgba(10, 20, 40, 0.95);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 900px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .cv-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .cv-modal-header h3 {
+            color: #00d4ff;
+            font-size: 1.5rem;
+        }
+
+        .cv-modal-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .cv-modal-btn {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .cv-modal-btn.download {
+            background: linear-gradient(135deg, #00d4ff 0%, #0096ff 100%);
+            color: white;
+        }
+
+        .cv-modal-btn.download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.4);
+        }
+
+        .cv-modal-btn.close {
+            background: transparent;
+            border: 2px solid #ff4444;
+            color: #ff4444;
+        }
+
+        .cv-modal-btn.close:hover {
+            background: #ff4444;
+            color: white;
+        }
+
+        .cv-preview-container {
+            flex: 1;
+            overflow: auto;
+            padding: 2rem;
+            background: #fff;
+            color: #000;
+        }
+
+        .cv-preview-container h1 {
+            color: #0096ff;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cv-preview-container h2 {
+            color: #00d4ff;
+            font-size: 1.3rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+            border-bottom: 2px solid #00d4ff;
+            padding-bottom: 0.3rem;
+        }
+
+        .cv-preview-container h3 {
+            color: #0096ff;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cv-preview-container p {
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+
+        .cv-preview-container ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cv-preview-container li {
+            color: #333;
+            margin-bottom: 0.3rem;
+        }
+
+        .cv-info-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* --- NUOVO STILE PER LA FOTO NEL CV --- */
+        .cv-right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .cv-photo-frame {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid #00d4ff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background-color: #e0e0e0;
+            flex-shrink: 0;
+        }
+
+        .cv-photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 80%; /* Centra la foto sul viso */
+        }
+        /* ------------------------------------- */
+
+        .cv-contact-info {
+            background: #f0f8ff;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #00d4ff;
+            width: 100%; /* Assicura che occupi la larghezza nel flex container */
+        }
+
+        .cv-contact-info p {
+            margin-bottom: 0.3rem;
+            font-size: 0.95rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(10, 14, 39, 0.9);
+            color: #a0aec0;
+            border-top: 1px solid rgba(0, 212, 255, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                padding: 6rem 1.5rem 2rem;
+                text-align: center;
+                height: auto;
+                min-height: 100vh;
+            }
+
+            .hero-content {
+                margin-bottom: 2rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .hero-content h2 {
+                font-size: 1.3rem;
+            }
+
+            .hero-content p {
+                font-size: 1rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                gap: 0.8rem;
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 280px;
+                margin: 0 auto;
+            }
+
+            #avatar-container {
+                height: 350px;
+                width: 100%;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            section {
+                padding: 3rem 1.5rem;
+            }
+
+            .skills-grid,
+            .projects-grid,
+            .contact-info {
+                grid-template-columns: 1fr;
+            }
+
+            .tech-network {
+                opacity: 0.5;
+            }
+
+            .cv-modal {
+                padding: 1rem;
+            }
+
+            .cv-modal-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .cv-modal-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .cv-modal-btn {
+                width: 100%;
+            }
+
+            .cv-info-section {
+                grid-template-columns: 1fr;
+            }
+            
+            /* Adattamento foto per mobile */
+            .cv-right-column {
+                flex-direction: row;
+                align-items: center;
+            }
+            
+            .cv-photo-frame {
+                width: 100px;
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <svg class="tech-network" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <linearGradient id="techGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:0.9" />
+                <stop offset="50%" style="stop-color:#0096ff;stop-opacity:0.7" />
+                <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:0.5" />
+            </linearGradient>
+            <linearGradient id="techGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#0096ff;stop-opacity:0.8" />
+                <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:0.6" />
+            </linearGradient>
+            <filter id="glow">
+                <feGaussianBlur stdDeviation="4" result="coloredBlur" />
+                <feMerge>
+                    <feMergeNode in="coloredBlur" />
+                    <feMergeNode in="SourceGraphic" />
+                </feMerge>
+            </filter>
+            <filter id="glow-strong">
+                <feGaussianBlur stdDeviation="6" result="coloredBlur" />
+                <feMerge>
+                    <feMergeNode in="coloredBlur" />
+                    <feMergeNode in="SourceGraphic" />
+                </feMerge>
+            </filter>
+        </defs>
+
+        <g class="network-orbit">
+            <circle cx="300" cy="300" r="120" fill="none" stroke="url(#techGrad)" stroke-width="3" opacity="0.6" />
+            <circle cx="300" cy="300" r="90" fill="none" stroke="url(#techGrad)" stroke-width="2" opacity="0.5" />
+            <circle cx="300" cy="300" r="60" fill="none" stroke="url(#techGrad)" stroke-width="2" opacity="0.4" />
+
+            <ellipse cx="300" cy="300" rx="120" ry="40" fill="none" stroke="url(#techGrad2)" stroke-width="2"
+                opacity="0.5" />
+            <ellipse cx="300" cy="300" rx="40" ry="120" fill="none" stroke="url(#techGrad2)" stroke-width="2"
+                opacity="0.5" />
+            <ellipse cx="300" cy="300" rx="100" ry="100" fill="none" stroke="url(#techGrad)" stroke-width="1.5"
+                opacity="0.4" transform="rotate(45 300 300)" />
+
+            <circle class="network-node" cx="180" cy="180" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="420" cy="180" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="460" cy="300" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="420" cy="420" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="180" cy="420" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="140" cy="300" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="300" cy="140" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="300" cy="460" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+
+            <circle class="network-node" cx="240" cy="200" r="8" fill="url(#techGrad2)" filter="url(#glow)"
+                opacity="0.8" />
+            <circle class="network-node" cx="360" cy="200" r="8" fill="url(#techGrad2)" filter="url(#glow)"
+                opacity="0.8" />
+            <circle class="network-node" cx="400" cy="260" r="8" fill="url(#techGrad2)" filter="url(#glow)"
+                opacity="0.8" />
+            <circle class="network-node" cx="400" cy="340" r="8" fill="url(#techGrad2)" filter="url(#glow)"
+                opacity="0.8" />
+            <circle class="network-node" cx="360" cy="400" r="8" fill="url(#techGrad2)" filter="url(#glow)"
+                opacity="0.8" />
+            <circle class="network-node" cx="240" cy="400" r="8" fill="url(#techGrad2)" filter="url(#glow)"
+                opacity="0.8" />
+            <circle class="network-node" cx="200" cy="340" r="8" fill="url(#techGrad2)" filter="url(#glow)"
+                opacity="0.8" />
+            <circle class="network-node" cx="200" cy="260" r="8" fill="url(#techGrad2)" filter="url(#glow)"
+                opacity="0.8" />
+
+            <line x1="300" y1="300" x2="180" y2="180" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="300" y1="300" x2="420" y2="180" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="300" y1="300" x2="460" y2="300" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="300" y1="300" x2="420" y2="420" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="300" y1="300" x2="180" y2="420" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="300" y1="300" x2="140" y2="300" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="300" y1="300" x2="300" y2="140" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="300" y1="300" x2="300" y2="460" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+
+            <line x1="180" y1="180" x2="140" y2="300" stroke="url(#techGrad2)" stroke-width="1" opacity="0.4" />
+            <line x1="420" y1="180" x2="460" y2="300" stroke="url(#techGrad2)" stroke-width="1" opacity="0.4" />
+            <line x1="180" y1="420" x2="140" y2="300" stroke="url(#techGrad2)" stroke-width="1" opacity="0.4" />
+            <line x1="420" y1="420" x2="460" y2="300" stroke="url(#techGrad2)" stroke-width="1" opacity="0.4" />
+            <line x1="180" y1="180" x2="300" y2="140" stroke="url(#techGrad2)" stroke-width="1" opacity="0.4" />
+            <line x1="420" y1="180" x2="300" y2="140" stroke="url(#techGrad2)" stroke-width="1" opacity="0.4" />
+            <line x1="180" y1="420" x2="300" y2="460" stroke="url(#techGrad2)" stroke-width="1" opacity="0.4" />
+            <line x1="420" y1="420" x2="300" y2="460" stroke="url(#techGrad2)" stroke-width="1" opacity="0.4" />
+
+            <line x1="300" y1="300" x2="240" y2="200" stroke="url(#techGrad2)" stroke-width="1" opacity="0.3" />
+            <line x1="300" y1="300" x2="360" y2="200" stroke="url(#techGrad2)" stroke-width="1" opacity="0.3" />
+            <line x1="300" y1="300" x2="400" y2="260" stroke="url(#techGrad2)" stroke-width="1" opacity="0.3" />
+            <line x1="300" y1="300" x2="400" y2="340" stroke="url(#techGrad2)" stroke-width="1" opacity="0.3" />
+        </g>
+
+        <g class="network-orbit" style="animation-direction: reverse;">
+            <circle cx="1620" cy="540" r="100" fill="none" stroke="url(#techGrad)" stroke-width="3" opacity="0.6" />
+            <circle cx="1620" cy="540" r="75" fill="none" stroke="url(#techGrad)" stroke-width="2" opacity="0.5" />
+            <circle cx="1620" cy="540" r="50" fill="none" stroke="url(#techGrad)" stroke-width="2" opacity="0.4" />
+
+            <ellipse cx="1620" cy="540" rx="100" ry="35" fill="none" stroke="url(#techGrad2)" stroke-width="2"
+                opacity="0.5" />
+            <ellipse cx="1620" cy="540" rx="35" ry="100" fill="none" stroke="url(#techGrad2)" stroke-width="2"
+                opacity="0.5" />
+
+            <circle class="network-node" cx="1520" cy="440" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="1720" cy="440" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="1760" cy="540" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="1720" cy="640" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="1520" cy="640" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="1480" cy="540" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+
+            <line x1="1620" y1="540" x2="1520" y2="440" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="1620" y1="540" x2="1720" y2="440" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="1620" y1="540" x2="1760" y2="540" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="1620" y1="540" x2="1720" y2="640" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="1620" y1="540" x2="1520" y2="640" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="1620" y1="540" x2="1480" y2="540" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+        </g>
+
+        <g>
+            <circle cx="960" cy="900" r="80" fill="none" stroke="url(#techGrad)" stroke-width="2" opacity="0.5" />
+            <circle cx="960" cy="900" r="50" fill="none" stroke="url(#techGrad2)" stroke-width="1.5" opacity="0.4" />
+
+            <circle class="network-node" cx="880" cy="850" r="10" fill="url(#techGrad)" filter="url(#glow)" />
+            <circle class="network-node" cx="1040" cy="850" r="10" fill="url(#techGrad)" filter="url(#glow)" />
+            <circle class="network-node" cx="1040" cy="950" r="10" fill="url(#techGrad)" filter="url(#glow)" />
+            <circle class="network-node" cx="880" cy="950" r="10" fill="url(#techGrad)" filter="url(#glow)" />
+
+            <line x1="960" y1="900" x2="880" y2="850" stroke="url(#techGrad)" stroke-width="1.5" opacity="0.5" />
+            <line x1="960" y1="900" x2="1040" y2="850" stroke="url(#techGrad)" stroke-width="1.5" opacity="0.5" />
+            <line x1="960" y1="900" x2="1040" y2="950" stroke="url(#techGrad)" stroke-width="1.5" opacity="0.5" />
+            <line x1="960" y1="900" x2="880" y2="950" stroke="url(#techGrad)" stroke-width="1.5" opacity="0.5" />
+        </g>
+
+        <g>
+            <circle cx="1500" cy="150" r="60" fill="none" stroke="url(#techGrad2)" stroke-width="2" opacity="0.4" />
+            <circle class="network-node" cx="1450" cy="120" r="8" fill="url(#techGrad)" filter="url(#glow)" />
+            <circle class="network-node" cx="1550" cy="120" r="8" fill="url(#techGrad)" filter="url(#glow)" />
+            <circle class="network-node" cx="1550" cy="180" r="8" fill="url(#techGrad)" filter="url(#glow)" />
+            <circle class="network-node" cx="1450" cy="180" r="8" fill="url(#techGrad)" filter="url(#glow)" />
+
+            <line x1="1500" y1="150" x2="1450" y2="120" stroke="url(#techGrad2)" stroke-width="1" opacity="0.4" />
+            <line x1="1500" y1="150" x2="1550" y2="120" stroke="url(#techGrad2)" stroke-width="1" opacity="0.4" />
+            <line x1="1500" y1="150" x2="1550" y2="180" stroke="url(#techGrad2)" stroke-width="1" opacity="0.4" />
+            <line x1="1500" y1="150" x2="1450" y2="180" stroke="url(#techGrad2)" stroke-width="1" opacity="0.4" />
+        </g>
+
+        <line x1="460" y1="300" x2="880" y2="850" stroke="url(#techGrad)" stroke-width="1" opacity="0.2"
+            stroke-dasharray="10,10" />
+        <line x1="420" y1="420" x2="1480" y2="540" stroke="url(#techGrad)" stroke-width="1" opacity="0.2"
+            stroke-dasharray="10,10" />
+        <line x1="1040" y1="850" x2="1520" y2="640" stroke="url(#techGrad)" stroke-width="1" opacity="0.2"
+            stroke-dasharray="10,10" />
+
+        <circle class="network-node" cx="700" cy="200" r="5" fill="url(#techGrad)" filter="url(#glow)" opacity="0.6" />
+        <circle class="network-node" cx="1200" cy="300" r="5" fill="url(#techGrad)" filter="url(#glow)" opacity="0.6" />
+        <circle class="network-node" cx="800" cy="600" r="5" fill="url(#techGrad)" filter="url(#glow)" opacity="0.6" />
+        <circle class="network-node" cx="1400" cy="700" r="5" fill="url(#techGrad)" filter="url(#glow)" opacity="0.6" />
+        <circle class="network-node" cx="600" cy="500" r="5" fill="url(#techGrad)" filter="url(#glow)" opacity="0.6" />
+    </svg>
+
+    <header>
+        <nav>
+            <div class="logo">TM</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Progetti</a></li>
+                <li><a href="#contact">Contatti</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Tiziano Mazzetti</h1>
+            <h2>AI & Web3 Junior Consultant</h2>
+            <p>Appassionato autodidatta in intelligenza artificiale, avatar AI, ambienti di metaverso e tecnologie Web3.
+                Credo nell'IA come transito per un futuro migliore nelle aziende.</p>
+            <div class="cta-buttons">
+                <a href="#projects" class="btn btn-primary">Vedi Progetti</a>
+                <a href="#contact" class="btn btn-secondary">Contattami</a>
+            </div>
+        </div>
+        <div id="avatar-container"></div>
+    </section>
+
+    <section id="skills">
+        <h2 class="section-title">Esplora con un clic le mie Competenze</h2>
+        <div class="skills-grid">
+
+            <a href="skills/avatar-ai.html" class="skill-card"
+                style="text-decoration: none; display: block; color: inherit;">
+                <h3>
+                    <svg class="skill-icon" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="avatarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00d4ff" />
+                                <stop offset="100%" style="stop-color:#0096ff" />
+                            </linearGradient>
+                        </defs>
+                        <rect x="60" y="60" width="80" height="80" rx="10" fill="url(#avatarGrad)" />
+                        <line x1="100" y1="60" x2="100" y2="40" stroke="#00d4ff" stroke-width="3" />
+                        <circle cx="100" cy="35" r="5" fill="#00d4ff" />
+                        <circle cx="80" cy="85" r="8" fill="#0a0e27" />
+                        <circle cx="120" cy="85" r="8" fill="#0a0e27" />
+                        <circle cx="82" cy="83" r="3" fill="#00d4ff" />
+                        <circle cx="122" cy="83" r="3" fill="#00d4ff" />
+                        <rect x="75" y="110" width="50" height="15" rx="3" fill="#0a0e27" opacity="0.6" />
+                        <line x1="85" y1="110" x2="85" y2="125" stroke="#00d4ff" stroke-width="2" />
+                        <line x1="95" y1="110" x2="95" y2="125" stroke="#00d4ff" stroke-width="2" />
+                        <line x1="105" y1="110" x2="105" y2="125" stroke="#00d4ff" stroke-width="2" />
+                        <line x1="115" y1="110" x2="115" y2="125" stroke="#00d4ff" stroke-width="2" />
+                        <rect x="70" y="145" width="60" height="40" rx="5" fill="url(#avatarGrad)" opacity="0.8" />
+                        <circle cx="85" cy="165" r="4" fill="#0a0e27" opacity="0.5" />
+                        <circle cx="115" cy="165" r="4" fill="#0a0e27" opacity="0.5" />
+                    </svg>
+                    Avatar AI
+                </h3>
+                <p>Creo avatar dotati di intelligenza artificiale per interazioni immersive e personalizzate.</p>
+            </a>
+
+            <a href="skills/ambienti-metaverso.html" class="skill-card"
+                style="text-decoration: none; display: block; color: inherit;">
+                <h3>
+                    <svg class="skill-icon" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="metaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00d4ff" />
+                                <stop offset="100%" style="stop-color:#0096ff" />
+                            </linearGradient>
+                        </defs>
+                        <ellipse cx="100" cy="100" rx="70" ry="45" fill="url(#metaGrad)" />
+                        <circle cx="75" cy="100" r="20" fill="#0a0e27" opacity="0.6" />
+                        <circle cx="125" cy="100" r="20" fill="#0a0e27" opacity="0.6" />
+                        <circle cx="75" cy="100" r="15" fill="#00d4ff" opacity="0.3" />
+                        <circle cx="125" cy="100" r="15" fill="#00d4ff" opacity="0.3" />
+                        <path d="M 30 100 Q 20 100 20 110 L 20 120 Q 20 125 25 125 L 30 125" fill="url(#metaGrad)"
+                            opacity="0.7" />
+                        <path d="M 170 100 Q 180 100 180 110 L 180 120 Q 180 125 175 125 L 170 125" fill="url(#metaGrad)"
+                            opacity="0.7" />
+                        <line x1="100" y1="70" x2="100" y2="130" stroke="#0a0e27" stroke-width="2" opacity="0.3" />
+                        <rect x="90" y="55" width="20" height="8" rx="2" fill="#00d4ff" opacity="0.6" />
+                    </svg>
+                    Ambienti Metaverso
+                </h3>
+                <p>Realizzo stanze virtuali metaversali usufruibili anche tramite visore VR.</p>
+            </a>
+
+            <a href="skills/formazione.html" class="skill-card"
+                style="text-decoration: none; display: block; color: inherit;">
+                <h3>
+                    <svg class="skill-icon" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="formGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00d4ff" />
+                                <stop offset="100%" style="stop-color:#0096ff" />
+                            </linearGradient>
+                        </defs>
+                        <rect x="50" y="40" width="100" height="120" rx="5" fill="url(#formGrad)" />
+                        <rect x="55" y="45" width="90" height="110" rx="3" fill="#0a0e27" opacity="0.2" />
+                        <line x1="70" y1="70" x2="130" y2="70" stroke="#0a0e27" stroke-width="3" opacity="0.4" />
+                        <line x1="70" y1="85" x2="130" y2="85" stroke="#0a0e27" stroke-width="3" opacity="0.4" />
+                        <line x1="70" y1="100" x2="110" y2="100" stroke="#0a0e27" stroke-width="3" opacity="0.4" />
+                        <circle cx="100" cy="125" r="12" fill="#00d4ff" opacity="0.8" />
+                        <path d="M 95 137 L 95 145 L 105 145 L 105 137" fill="#00d4ff" opacity="0.6" />
+                        <line x1="85" y1="120" x2="80" y2="115" stroke="#00d4ff" stroke-width="2" />
+                        <line x1="115" y1="120" x2="120" y2="115" stroke="#00d4ff" stroke-width="2" />
+                        <line x1="85" y1="130" x2="80" y2="135" stroke="#00d4ff" stroke-width="2" />
+                        <line x1="115" y1="130" x2="120" y2="135" stroke="#00d4ff" stroke-width="2" />
+                    </svg>
+                    Formazione
+                </h3>
+                <p>Ho esperienza come formatore nell'uso di visori VR e tecnologie innovative.</p>
+            </a>
+
+            <a href="skills/ai-applications.html" class="skill-card"
+                style="text-decoration: none; display: block; color: inherit;">
+                <h3>
+                    <svg class="skill-icon" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="aiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00d4ff" />
+                                <stop offset="100%" style="stop-color:#0096ff" />
+                            </linearGradient>
+                        </defs>
+                        <ellipse cx="100" cy="90" rx="50" ry="55" fill="url(#aiGrad)" />
+                        <circle cx="75" cy="70" r="6" fill="#0a0e27" opacity="0.5" />
+                        <circle cx="125" cy="70" r="6" fill="#0a0e27" opacity="0.5" />
+                        <circle cx="85" cy="95" r="6" fill="#0a0e27" opacity="0.5" />
+                        <circle cx="115" cy="95" r="6" fill="#0a0e27" opacity="0.5" />
+                        <circle cx="75" cy="115" r="6" fill="#0a0e27" opacity="0.5" />
+                        <circle cx="125" cy="115" r="6" fill="#0a0e27" opacity="0.5" />
+                        <circle cx="100" cy="105" r="8" fill="#00d4ff" />
+                        <line x1="75" y1="70" x2="85" y2="95" stroke="#0a0e27" stroke-width="2" opacity="0.3" />
+                        <line x1="125" y1="70" x2="115" y2="95" stroke="#0a0e27" stroke-width="2" opacity="0.3" />
+                        <line x1="85" y1="95" x2="100" y2="105" stroke="#00d4ff" stroke-width="2" opacity="0.6" />
+                        <line x1="115" y1="95" x2="100" y2="105" stroke="#00d4ff" stroke-width="2" opacity="0.6" />
+                        <line x1="100" y1="105" x2="75" y2="115" stroke="#00d4ff" stroke-width="2" opacity="0.6" />
+                        <line x1="100" y1="105" x2="125" y2="115" stroke="#00d4ff" stroke-width="2" opacity="0.6" />
+                        <rect x="70" y="145" width="60" height="30" rx="5" fill="url(#aiGrad)" opacity="0.7" />
+                        <circle cx="85" cy="160" r="4" fill="#00d4ff" />
+                        <circle cx="100" cy="160" r="4" fill="#00d4ff" />
+                        <circle cx="115" cy="160" r="4" fill="#00d4ff" />
+                    </svg>
+                    AI Applications
+                </h3>
+                <p>Studio e applico praticamente l'intelligenza artificiale in ambiti lavorativi.</p>
+            </a>
+
+            <a href="skills/modellazione-3d.html" class="skill-card"
+                style="text-decoration: none; display: block; color: inherit;">
+                <h3>
+                    <svg class="skill-icon" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="modelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00d4ff" />
+                                <stop offset="100%" style="stop-color:#0096ff" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M 100 50 L 150 75 L 150 125 L 100 150 L 50 125 L 50 75 Z" fill="url(#modelGrad)"
+                            opacity="0.8" />
+                        <path d="M 100 50 L 150 75 L 100 100 L 50 75 Z" fill="url(#modelGrad)" />
+                        <path d="M 100 100 L 100 150 L 50 125 L 50 75 Z" fill="url(#modelGrad)" opacity="0.6" />
+                        <path d="M 100 100 L 100 150 L 150 125 L 150 75 Z" fill="url(#modelGrad)" opacity="0.9" />
+                        <line x1="100" y1="50" x2="100" y2="100" stroke="#0a0e27" stroke-width="2" opacity="0.3" />
+                        <line x1="75" y1="62.5" x2="75" y2="112.5" stroke="#0a0e27" stroke-width="1.5" opacity="0.3" />
+                        <line x1="125" y1="62.5" x2="125" y2="112.5" stroke="#0a0e27" stroke-width="1.5" opacity="0.3" />
+                        <line x1="50" y1="75" x2="100" y2="100" stroke="#0a0e27" stroke-width="1.5" opacity="0.3" />
+                        <line x1="150" y1="75" x2="100" y2="100" stroke="#0a0e27" stroke-width="1.5" opacity="0.3" />
+                        <circle cx="100" cy="50" r="4" fill="#00d4ff" />
+                        <circle cx="50" cy="75" r="4" fill="#00d4ff" />
+                        <circle cx="150" cy="75" r="4" fill="#00d4ff" />
+                        <circle cx="100" cy="150" r="4" fill="#00d4ff" />
+                        <circle cx="50" cy="125" r="4" fill="#00d4ff" />
+                        <circle cx="150" cy="125" r="4" fill="#00d4ff" />
+                    </svg>
+                    Modellazione 3D
+                </h3>
+                <p>Creo modelli 3D per stanze di metaverso in realtà virtuale.</p>
+            </a>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2 class="section-title">Sintesi dei miei Progetti </h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-image"><svg class="project-icon" viewBox="0 0 200 200"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="proj1Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00d4ff" />
+                                <stop offset="100%" style="stop-color:#0096ff" />
+                            </linearGradient>
+                        </defs>
+                        <rect x="50" y="60" width="100" height="100" rx="8" fill="url(#proj1Grad)" />
+                        <rect x="65" y="75" width="20" height="20" rx="2" fill="#0a0e27" opacity="0.4" />
+                        <rect x="90" y="75" width="20" height="20" rx="2" fill="#0a0e27" opacity="0.4" />
+                        <rect x="115" y="75" width="20" height="20" rx="2" fill="#0a0e27" opacity="0.4" />
+                        <rect x="65" y="100" width="20" height="20" rx="2" fill="#0a0e27" opacity="0.4" />
+                        <rect x="90" y="100" width="20" height="20" rx="2" fill="#00d4ff" opacity="0.6" />
+                        <rect x="115" y="100" width="20" height="20" rx="2" fill="#0a0e27" opacity="0.4" />
+                        <rect x="65" y="125" width="20" height="20" rx="2" fill="#0a0e27" opacity="0.4" />
+                        <rect x="90" y="125" width="20" height="20" rx="2" fill="#0a0e27" opacity="0.4" />
+                        <rect x="115" y="125" width="20" height="20" rx="2" fill="#0a0e27" opacity="0.4" />
+                        <rect x="85" y="145" width="30" height="15" rx="2" fill="#0a0e27" opacity="0.5" />
+                        <circle cx="100" cy="40" r="15" fill="#00d4ff" opacity="0.8" /><text x="100" y="48"
+                            text-anchor="middle" font-size="14" fill="#0a0e27" font-weight="bold">VR</text>
+                    </svg></div>
+                <div class="project-content">
+                    <h3>Ambienti Metaversali Aziendali</h3>
+                    <p>Stanze virtuali metaversali per meeting aziendali,
+                        completa di spazi personalizzabili.</p>
+                    <div class="project-tags"><span class="tag">Metaverso</span><span class="tag">VR</span><span
+                            class="tag">Blender</span></div>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-image"><svg class="project-icon" viewBox="0 0 200 200"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="proj2Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00d4ff" />
+                                <stop offset="100%" style="stop-color:#0096ff" />
+                            </linearGradient>
+                        </defs>
+                        <circle cx="100" cy="80" r="35" fill="url(#proj2Grad)" />
+                        <circle cx="88" cy="75" r="5" fill="#0a0e27" />
+                        <circle cx="112" cy="75" r="5" fill="#0a0e27" />
+                        <circle cx="90" cy="73" r="2" fill="#00d4ff" />
+                        <circle cx="114" cy="73" r="2" fill="#00d4ff" />
+                        <path d="M 85 90 Q 100 100 115 90" stroke="#0a0e27" stroke-width="3" fill="none"
+                            stroke-linecap="round" />
+                        <ellipse cx="100" cy="140" rx="45" ry="35" fill="url(#proj2Grad)" opacity="0.9" />
+                        <rect x="92" y="55" width="16" height="10" rx="2" fill="#00d4ff" opacity="0.8" />
+                        <circle cx="96" cy="60" r="1.5" fill="#0a0e27" />
+                        <circle cx="100" cy="60" r="1.5" fill="#0a0e27" />
+                        <circle cx="104" cy="60" r="1.5" fill="#0a0e27" />
+                        <path d="M 125 75 Q 135 75 140 70" stroke="#00d4ff" stroke-width="2" fill="none"
+                            opacity="0.6" />
+                        <path d="M 125 80 Q 140 80 145 75" stroke="#00d4ff" stroke-width="2" fill="none"
+                            opacity="0.4" />
+                        <path d="M 75 75 Q 65 75 60 70" stroke="#00d4ff" stroke-width="2" fill="none" opacity="0.6" />
+                        <path d="M 75 80 Q 60 80 55 75" stroke="#00d4ff" stroke-width="2" fill="none" opacity="0.4" />
+                    </svg></div>
+                <div class="project-content">
+                    <h3>Avatar AI Assistente</h3>
+                    <p>Avatar intelligenti con capacità di conversazione naturale personalizzabile.</p>
+                    <div class="project-tags"><span class="tag">AI</span><span class="tag">NLP</span><span
+                            class="tag">3D</span></div>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-image"><svg class="project-icon" viewBox="0 0 200 200"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="proj3Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00d4ff" />
+                                <stop offset="100%" style="stop-color:#0096ff" />
+                            </linearGradient>
+                        </defs>
+                        <rect x="40" y="80" width="120" height="80" rx="5" fill="url(#proj3Grad)" />
+                        <rect x="50" y="90" width="100" height="60" rx="3" fill="#0a0e27" opacity="0.3" />
+                        <circle cx="100" cy="120" r="20" fill="#00d4ff" opacity="0.7" />
+                        <circle cx="100" cy="120" r="15" fill="url(#proj3Grad)" />
+                        <rect x="90" y="160" width="20" height="15" fill="url(#proj3Grad)" opacity="0.8" />
+                        <rect x="70" y="175" width="60" height="5" rx="2" fill="url(#proj3Grad)" />
+                        <circle cx="60" cy="100" r="4" fill="#00d4ff" />
+                        <circle cx="140" cy="100" r="4" fill="#00d4ff" />
+                        <circle cx="60" cy="140" r="4" fill="#00d4ff" />
+                        <circle cx="140" cy="140" r="4" fill="#00d4ff" />
+                        <path d="M 85 105 L 80 95 M 90 105 L 85 95 M 95 105 L 92 95" stroke="#00d4ff" stroke-width="1.5"
+                            opacity="0.5" />
+                        <path d="M 115 105 L 120 95 M 110 105 L 115 95 M 105 105 L 108 95" stroke="#00d4ff"
+                            stroke-width="1.5" opacity="0.5" />
+                    </svg></div>
+                <div class="project-content">
+                    <h3>Showrooms Virtuali</h3>
+                    <p>Esperienze immersive per la presentazione di prodotti in ambiente virtuale con presentazioni
+                        AI-Powered.</p>
+                    <div class="project-tags"><span class="tag">Presentazioni</span><span class="tag">Web3</span><span
+                            class="tag">Marketing</span></div>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-image"><svg class="project-icon" viewBox="0 0 200 200"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="proj4Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00d4ff" />
+                                <stop offset="100%" style="stop-color:#0096ff" />
+                            </linearGradient>
+                        </defs>
+                        <rect x="45" y="50" width="110" height="100" rx="10" fill="url(#proj4Grad)" />
+                        <rect x="50" y="55" width="100" height="90" rx="8" fill="#0a0e27" opacity="0.3" />
+                        <rect x="60" y="70" width="60" height="15" rx="7" fill="#00d4ff" opacity="0.7" />
+                        <rect x="80" y="95" width="60" height="15" rx="7" fill="url(#proj4Grad)" opacity="0.5" />
+                        <rect x="60" y="120" width="60" height="15" rx="7" fill="#00d4ff" opacity="0.7" />
+                        <circle cx="130" cy="100" r="18" fill="#00d4ff" />
+                        <circle cx="125" cy="96" r="3" fill="#0a0e27" />
+                        <circle cx="135" cy="96" r="3" fill="#0a0e27" />
+                        <rect x="125" y="105" width="10" height="4" rx="2" fill="#0a0e27" opacity="0.5" />
+                        <path d="M 35 80 Q 30 85 35 90" stroke="#00d4ff" stroke-width="2" fill="none" opacity="0.6" />
+                        <path d="M 30 80 Q 22 85 30 90" stroke="#00d4ff" stroke-width="2" fill="none" opacity="0.4" />
+                        <path d="M 165 80 Q 170 85 165 90" stroke="#00d4ff" stroke-width="2" fill="none" opacity="0.6" />
+                        <path d="M 170 80 Q 178 85 170 90" stroke="#00d4ff" stroke-width="2" fill="none" opacity="0.4" />
+                    </svg></div>
+                <div class="project-content">
+                    <h3>Chatbot AI Personalizzati</h3>
+                    <p>Sistemi di intelligenza artificiale per automazione customer service con apprendimento
+                        personalizzabile.</p>
+                    <div class="project-tags"><span class="tag">Support</span><span class="tag">Machine
+                            Learning</span><span class="tag">API</span></div>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-image"><svg class="project-icon" viewBox="0 0 200 200"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="proj5Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00d4ff" />
+                                <stop offset="100%" style="stop-color:#0096ff" />
+                            </linearGradient>
+                        </defs>
+                        <rect x="50" y="50" width="100" height="70" rx="5" fill="url(#proj5Grad)" />
+                        <rect x="55" y="55" width="90" height="60" rx="3" fill="#0a0e27" opacity="0.3" />
+                        <ellipse cx="100" cy="85" rx="25" ry="15" fill="#00d4ff" opacity="0.8" />
+                        <circle cx="88" cy="85" r="8" fill="#0a0e27" opacity="0.5" />
+                        <circle cx="112" cy="85" r="8" fill="#0a0e27" opacity="0.5" />
+                        <rect x="95" y="120" width="10" height="25" fill="url(#proj5Grad)" opacity="0.7" />
+                        <rect x="75" y="145" width="50" height="8" rx="4" fill="url(#proj5Grad)" />
+                        <circle cx="65" cy="165" r="8" fill="#00d4ff" opacity="0.6" />
+                        <path d="M 65 173 Q 65 180 57 180 L 73 180 Q 65 180 65 173" fill="#00d4ff" opacity="0.6" />
+                        <circle cx="100" cy="165" r="8" fill="#00d4ff" opacity="0.6" />
+                        <path d="M 100 173 Q 100 180 92 180 L 108 180 Q 100 180 100 173" fill="#00d4ff" opacity="0.6" />
+                        <circle cx="135" cy="165" r="8" fill="#00d4ff" opacity="0.6" />
+                        <path d="M 135 173 Q 135 180 127 180 L 143 180 Q 135 180 135 173" fill="#00d4ff" opacity="0.6" />
+                        <circle cx="70" cy="70" r="3" fill="#00d4ff" />
+                        <circle cx="85" cy="70" r="3" fill="#00d4ff" />
+                        <circle cx="115" cy="70" r="3" fill="#00d4ff" />
+                        <circle cx="130" cy="70" r="3" fill="#00d4ff" />
+                    </svg></div>
+                <div class="project-content">
+                    <h3>Formazione Web3</h3>
+                    <p>Studio, raccolgo e scrivo materiali didattici per la formazione pratica sull'utilizzo di visori VR e dispositivi Web3 per aziende.</p>
+                    <div class="project-tags"><span class="tag">Learing</span><span class="tag">Smart
+                            Working</span><span class="tag">Realtà Virtuale</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="contact">
+        <h2 class="section-title">Contattami</h2>
+        <div class="contact-info">
+            <div class="contact-card">
+                <h3>📧 Email</h3><a href="mailto:tizianomazzetti@gmail.com">tizianomazzetti@gmail.com</a>
+            </div>
+            <div class="contact-card">
+                <h3>📱 Telefono</h3><a href="tel:+393331203503">+39 333 120 3503</a>
+            </div>
+            <div class="contact-card">
+                <h3>📍 Location</h3>
+                <p>Palestrina, Roma</p>
+            </div>
+            <div class="contact-card" style="cursor: pointer;" onclick="openCVPreview()">
+                <h3>📄 Curriculum</h3>
+                <p style="color: #00d4ff;">Visualizza il mio CV</p>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <p>&copy;
+
+            2025 Tiziano Mazzetti - AI Consultant | Tutti i diritti riservati</p>
+    </footer>
+    <div id="cvModal" class="cv-modal">
+        <div class="cv-modal-content">
+            <div class="cv-modal-header">
+                <h3>📄 Curriculum Vitae</h3>
+                <div class="cv-modal-buttons"><button class="cv-modal-btn download" onclick="downloadCV()">⬇️ Scarica
+                        PDF</button><button class="cv-modal-btn close" onclick="closeCVPreview()">✕ Chiudi</button>
+                </div>
+            </div>
+            <div class="cv-preview-container">
+                <h1>TIZIANO MAZZETTI</h1>
+                
+                <div class="cv-info-section">
+                    <div>
+                        <h2>INFORMAZIONI PERSONALI</h2>
+                        <p>Giovane dinamico e volenteroso,
+                            con una forte passione per la tecnologia e l'intelligenza artificiale. Nativo digitale,
+                            apprendo rapidamente nuove competenze e mi adatto con facilità alle innovazioni del settore.
+                        </p>
+                        <p>Ho maturato esperienza come promotore e formatore nell'uso di dispositivi Web3, viaggiando in
+                            tutta Italia per supportare clienti e aziende nell' adozione di nuove tecnologie.</p>
+                        <p>Ottime capacità comunicative e predisposizione al contatto diretto con l'interlocutore,
+                            maturate attraverso diverse esperienze come public speaker in eventi tematici
+                            sull'informatica.</p>
+                    </div>
+
+                    <div class="cv-right-column">
+                        <div class="cv-photo-frame">
+                            <img src="IMG-20250922-WA0014.jpg" alt="Tiziano Mazzetti">
+                        </div>
+                        <div class="cv-contact-info" style="width: 100%;">
+                            <h3>CONTATTI</h3>
+                            <p>📞+39 333 120 3503</p>
+                            <p>📧 tizianomazzetti@gmail.com</p>
+                            <p>📍 Via Colle Carbone, snc<br>Palestrina, RM</p>
+                            <p>🔗 https://tizianomazzetti.github.io/</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h2>SKILLS</h2>
+                <ul>
+                    <li>Tecnologia & AI</li>
+                    <li>Formazione Web3</li>
+                    <li>Metaverso & visori</li>
+                    <li>Avatar con AI</li>
+                    <li>Comunicazione & clienti</li>
+                    <li>Lavoro di squadra</li>
+                    <li>Studio AI & applicazioni</li>
+                </ul>
+                <h2>ESPERIENZE</h2>
+                <h3>2025 - Tecnico informatico e assistenza telefonia | Tech&Toner</h3>
+                <ul>
+                    <li>Riparazione computer e assistenza su operatori Iliad, Optima e Tiscali</li>
+                    <li>Stoccaggio merci e gestione magazzino</li>
+                    <li>Contatto diretto col cliente e vendita prodotti</li>
+                </ul>
+                <h3>2023-2024 - Modellatore 3D | Fondazione Olitec</h3>
+                <ul>
+                    <li>Realizzazione di stanze virtuali metaversali usufruibili da visore</li>
+                    <li>Creazione di avatar dotati di intelligenza artificiale</li>
+                    <li>Ricerca e studio dell'applicazione di intelligenza artificiale in ambiti lavorativi</li>
+                    <li>Formazione del fruitore all'utilizzo pratico del visore</li>
+                </ul>
+                <h3>2018-2021 - Cuoco</h3>
+                <p>Esperienza anche in ambito alberghiero come aiuto cuoco, dove ho sviluppato un forte senso del lavoro
+                    di squadra e di supporto al team.</p>
+                <h2>FORMAZIONE</h2>
+                <h3>02/2025 - 07/2025 | ENGIM LAZIO - ROMA</h3>
+                <p>Attestato di tecnico di rete</p>
+                <h3>11/2024 - 12/2024 | FONDAZIONE MONDO DIGITALE</h3>
+                <p>Attestato micro-professionalizzante di alfabetizzazione digitale</p>
+                <h3>2018-2021 | I.P.S. "MAFFEO PANTALEONI" </h3>
+                <p>Diploma di stato in accoglienza alberghiera</p>
+                <h2>STUDI AUTONOMI</h2>
+                <p>Ho approfondito autonomamente la tecnologia e l'intelligenza artificiale, studiando l' applicazione
+                    pratica di dispositivi Web3 e visori per la realtà virtuale. Ho sperimentato la realizzazione di
+                    stanze virtuali metaversali e la creazione di avatar con AI, sviluppando competenze pratiche
+                    attraverso ricerca e test diretti. Inoltre, ho affinato le mie capacità comunicative e relazionali,
+                    formandomi sull'interazione con il cliente e sul lavoro di squadra. Continuo a esplorare nuove
+                    applicazioni dell' AI in ambito lavorativo, con un approccio sperimentale.</p>
+                <h2>LINGUE</h2>
+                <ul>
+                    <li>Italiano (madrelingua)</li>
+                    <li>Inglese (Avanzato)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script type="importmap"> {
+                "imports": {
+                    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+                        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+                }
+            }
+
+            </script>
+    <script type="module">import * as THREE from 'three';
+
+        import {
+            GLTFLoader
+        }
+
+            from 'three/addons/loaders/GLTFLoader.js';
+
+        const scene = new THREE.Scene();
+
+        const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+        camera.position.set(0, 1.5, 3);
+
+        const renderer = new THREE.WebGLRenderer({
+            antialias: true,
+            alpha: true
+        });
+
+        const container = document.getElementById('avatar-container');
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+
+        renderer.setSize(width, height);
+        renderer.setClearColor(0x000000, 0);
+        container.appendChild(renderer.domElement);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(2, 4, 5);
+        scene.add(directionalLight);
+
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
+
+        const loader = new GLTFLoader();
+        let model = null;
+
+        loader.load('models_avatar_tiziano.glb',
+            function (gltf) {
+                model = gltf.scene;
+
+                const isMobile = window.innerWidth <= 768;
+                const scale = isMobile ? 3.0 : 1.3;
+
+                model.scale.set(scale, scale, scale);
+                model.position.set(0, 1, 0);
+                scene.add(model);
+            }
+
+            ,
+            undefined,
+            function (error) {
+                console.error('Errore caricamento modello:', error);
+            });
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            if (model) {
+                model.rotation.y += 0.005;
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+            renderer.setSize(width, height);
+
+            if (model) {
+                const isMobile = window.innerWidth <= 768;
+                const scale = isMobile ? 2.0 : 1.3;
+                model.scale.set(scale, scale, scale);
+            }
+        });
+
+    </script>
+    <script>function openCVPreview() {
+            document.getElementById('cvModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCVPreview() {
+            document.getElementById('cvModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        async function downloadCV() {
+            const pdfPath = 'Mazzetti_Tiziano_CV_2025.pdf';
+
+            try {
+                const response = await fetch(pdfPath);
+
+                if (!response.ok) {
+                    throw new Error('File non trovato');
+                }
+
+                const blob = await response.blob();
+
+                if (blob.size === 0) {
+                    throw new Error('File vuoto');
+                }
+
+                console.log('PDF scaricato, dimensione:', blob.size, 'bytes');
+
+                const blobUrl = window.URL.createObjectURL(blob);
+
+                const link = document.createElement('a');
+                link.href = blobUrl;
+                link.download = 'Mazzetti_Tiziano_CV_2025.pdf';
+                link.style.display = 'none';
+
+                document.body.appendChild(link);
+                link.click();
+
+                setTimeout(() => {
+                    document.body.removeChild(link);
+                    window.URL.revokeObjectURL(blobUrl);
+                }
+
+                    , 100);
+
+            }
+
+            catch (error) {
+                console.error('Errore download:', error);
+                alert('Impossibile scaricare il CV. Prova ad aprirlo in una nuova scheda.');
+                window.open(pdfPath, '_blank');
+            }
+        }
+
+        document.getElementById('cvModal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                closeCVPreview();
+            }
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                closeCVPreview();
+            }
+        });
+    </script>
+</body>
+
+</html>

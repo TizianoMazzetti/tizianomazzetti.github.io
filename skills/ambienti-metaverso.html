@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="it">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ambienti Metaverso | Tiziano Mazzetti</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0e27;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(0, 150, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 212, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(30, 60, 114, 0.2) 0%, transparent 50%),
+                linear-gradient(135deg, #0a0e27 0%, #1a2332 50%, #0f1c2e 100%);
+            z-index: -1;
+        }
+
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 212, 255, 0.03) 2px, rgba(0, 212, 255, 0.03) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0, 212, 255, 0.03) 2px, rgba(0, 212, 255, 0.03) 4px);
+            z-index: -1;
+        }
+
+
+        .tech-network {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+
+        @keyframes pulse {
+
+
+            0%,
+            100% {
+                opacity: 0.6;
+            }
+
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+
+        .network-node {
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+
+        .network-orbit {
+            animation: rotate 60s linear infinite;
+            transform-origin: center;
+        }
+
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 14, 39, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+        }
+
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #00d4ff 0%, #0096ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+
+        .back-link {
+            color: #00d4ff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+
+        .back-link:hover {
+            color: #fff;
+            transform: translateX(-5px);
+        }
+
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+        }
+
+
+        .hero-content {
+            max-width: 900px;
+        }
+
+
+        .hero-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 2rem;
+            filter: drop-shadow(0 10px 30px rgba(0, 212, 255, 0.4));
+        }
+
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #00d4ff 0%, #0096ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+
+        .hero p {
+            font-size: 1.3rem;
+            color: #cbd5e0;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+
+        section {
+            padding: 5rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, #00d4ff 0%, #0096ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #a0c4e0;
+            margin-bottom: 4rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+
+        .service-card {
+            background: rgba(10, 20, 40, 0.6);
+            padding: 2.5rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+        }
+
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.3);
+            border-color: rgba(0, 212, 255, 0.5);
+        }
+
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 5px 15px rgba(0, 212, 255, 0.3));
+        }
+
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            color: #00d4ff;
+            margin-bottom: 1rem;
+        }
+
+
+        .service-card p {
+            color: #cbd5e0;
+            line-height: 1.6;
+        }
+
+
+        .process-timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+
+        .process-step {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+
+        .step-number {
+            min-width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #00d4ff 0%, #0096ff 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            flex-shrink: 0;
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
+        }
+
+
+        .step-content {
+            flex: 1;
+            background: rgba(10, 20, 40, 0.6);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+
+        .step-content h3 {
+            color: #00d4ff;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+
+        .step-content p {
+            color: #cbd5e0;
+            line-height: 1.6;
+        }
+
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 3rem;
+        }
+
+
+        .tech-badge {
+            background: rgba(0, 212, 255, 0.15);
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            color: #00d4ff;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            transition: all 0.3s;
+        }
+
+
+        .tech-badge:hover {
+            background: rgba(0, 212, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+        }
+
+
+        .case-studies {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+
+        .case-card {
+            background: rgba(10, 20, 40, 0.6);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            transition: transform 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+
+        .case-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 212, 255, 0.5);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.25);
+        }
+
+
+        .case-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, #0f1c2e 0%, #1a2332 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+            overflow: hidden;
+        }
+
+        .case-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+
+        .case-placeholder {
+            font-size: 4rem;
+            opacity: 0.3;
+            filter: drop-shadow(0 5px 15px rgba(0, 212, 255, 0.3));
+        }
+
+
+        .case-content {
+            padding: 2rem;
+        }
+
+
+        .case-content h3 {
+            color: #00d4ff;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+
+        .case-content .problem {
+            background: rgba(0, 212, 255, 0.1);
+            border-left: 3px solid #00d4ff;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+
+
+        .case-content .solution {
+            background: rgba(0, 212, 255, 0.1);
+            border-left: 3px solid #00d4ff;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+
+
+        .case-content .result {
+            background: rgba(0, 212, 255, 0.1);
+            border-left: 3px solid #00d4ff;
+            padding: 1rem;
+            border-radius: 4px;
+        }
+
+
+        .case-content h4 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            opacity: 0.8;
+        }
+
+
+        .case-content p {
+            color: #cbd5e0;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+
+        .faq-item {
+            background: rgba(10, 20, 40, 0.6);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            transition: border-color 0.3s, box-shadow 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+
+        .faq-item:hover {
+            border-color: rgba(0, 212, 255, 0.5);
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.2);
+        }
+
+
+        .faq-item h3 {
+            color: #00d4ff;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+
+        .faq-item p {
+            color: #cbd5e0;
+            line-height: 1.6;
+        }
+
+
+        .cta-section {
+            text-align: center;
+            padding: 5rem 2rem;
+            background: rgba(0, 212, 255, 0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #00d4ff 0%, #0096ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+
+        .cta-section p {
+            font-size: 1.2rem;
+            color: #cbd5e0;
+            margin-bottom: 2rem;
+        }
+
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0.5rem;
+        }
+
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00d4ff 0%, #0096ff 100%);
+            color: white;
+        }
+
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.4);
+        }
+
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid #00d4ff;
+            color: #00d4ff;
+        }
+
+
+        .btn-secondary:hover {
+            background: #00d4ff;
+            color: white;
+        }
+
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(10, 14, 39, 0.9);
+            color: #a0aec0;
+            border-top: 1px solid rgba(0, 212, 255, 0.1);
+            margin-top: 4rem;
+        }
+
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+
+            .services-grid,
+            .case-studies {
+                grid-template-columns: 1fr;
+            }
+
+
+            .process-step {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+
+            .step-number {
+                margin: 0 auto;
+            }
+
+
+            .tech-network {
+                opacity: 0.4;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+    <svg class="tech-network" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <linearGradient id="techGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:0.9" />
+                <stop offset="50%" style="stop-color:#00d4ff;stop-opacity:0.7" />
+                <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:0.5" />
+            </linearGradient>
+            <linearGradient id="techGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:0.8" />
+                <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:0.6" />
+            </linearGradient>
+            <filter id="glow">
+                <feGaussianBlur stdDeviation="4" result="coloredBlur" />
+                <feMerge>
+                    <feMergeNode in="coloredBlur" />
+                    <feMergeNode in="SourceGraphic" />
+                </feMerge>
+            </filter>
+            <filter id="glow-strong">
+                <feGaussianBlur stdDeviation="6" result="coloredBlur" />
+                <feMerge>
+                    <feMergeNode in="coloredBlur" />
+                    <feMergeNode in="SourceGraphic" />
+                </feMerge>
+            </filter>
+        </defs>
+
+
+        <g class="network-orbit">
+            <circle cx="300" cy="300" r="120" fill="none" stroke="url(#techGrad)" stroke-width="3" opacity="0.6" />
+            <circle cx="300" cy="300" r="90" fill="none" stroke="url(#techGrad)" stroke-width="2" opacity="0.5" />
+            <circle cx="300" cy="300" r="60" fill="none" stroke="url(#techGrad)" stroke-width="2" opacity="0.4" />
+
+
+            <ellipse cx="300" cy="300" rx="120" ry="40" fill="none" stroke="url(#techGrad2)" stroke-width="2"
+                opacity="0.5" />
+            <ellipse cx="300" cy="300" rx="40" ry="120" fill="none" stroke="url(#techGrad2)" stroke-width="2"
+                opacity="0.5" />
+            <ellipse cx="300" cy="300" rx="100" ry="100" fill="none" stroke="url(#techGrad)" stroke-width="1.5"
+                opacity="0.4" transform="rotate(45 300 300)" />
+
+
+            <circle class="network-node" cx="180" cy="180" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="420" cy="180" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="460" cy="300" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="420" cy="420" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="180" cy="420" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="140" cy="300" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="300" cy="140" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="300" cy="460" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+
+
+            <line x1="300" y1="300" x2="180" y2="180" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="300" y1="300" x2="420" y2="180" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="300" y1="300" x2="460" y2="300" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="300" y1="300" x2="420" y2="420" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="300" y1="300" x2="180" y2="420" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="300" y1="300" x2="140" y2="300" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="300" y1="300" x2="300" y2="140" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="300" y1="300" x2="300" y2="460" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+        </g>
+
+
+        <g class="network-orbit" style="animation-direction: reverse;">
+            <circle cx="1620" cy="540" r="100" fill="none" stroke="url(#techGrad)" stroke-width="3" opacity="0.6" />
+            <circle cx="1620" cy="540" r="75" fill="none" stroke="url(#techGrad)" stroke-width="2" opacity="0.5" />
+            <circle cx="1620" cy="540" r="50" fill="none" stroke="url(#techGrad)" stroke-width="2" opacity="0.4" />
+
+
+            <ellipse cx="1620" cy="540" rx="100" ry="35" fill="none" stroke="url(#techGrad2)" stroke-width="2"
+                opacity="0.5" />
+            <ellipse cx="1620" cy="540" rx="35" ry="100" fill="none" stroke="url(#techGrad2)" stroke-width="2"
+                opacity="0.5" />
+
+
+            <circle class="network-node" cx="1520" cy="440" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="1720" cy="440" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="1760" cy="540" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="1720" cy="640" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="1520" cy="640" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="1480" cy="540" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+
+
+            <line x1="1620" y1="540" x2="1520" y2="440" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="1620" y1="540" x2="1720" y2="440" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="1620" y1="540" x2="1760" y2="540" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="1620" y1="540" x2="1720" y2="640" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="1620" y1="540" x2="1520" y2="640" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="1620" y1="540" x2="1480" y2="540" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+        </g>
+    </svg>
+
+
+    <header>
+        <nav>
+            <a href="../index.html" class="logo">TM</a>
+            <a href="../index.html" class="back-link">
+                <span>←</span> Torna alla Home
+            </a>
+        </nav>
+    </header>
+
+
+    <section class="hero">
+        <div class="hero-content">
+            <svg class="hero-icon" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="heroGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#00d4ff" />
+                        <stop offset="100%" style="stop-color:#00d4ff" />
+                    </linearGradient>
+                </defs>
+                <circle cx="100" cy="100" r="60" fill="url(#heroGrad)" opacity="0.3" />
+                <circle cx="100" cy="100" r="45" fill="url(#heroGrad)" opacity="0.5" />
+                <circle cx="100" cy="100" r="30" fill="url(#heroGrad)" />
+                <rect x="70" y="95" width="60" height="10" fill="#0a0e27" opacity="0.8" />
+                <rect x="95" y="70" width="10" height="60" fill="#0a0e27" opacity="0.8" />
+                <circle cx="75" cy="75" r="8" fill="#0a0e27" />
+                <circle cx="125" cy="75" r="8" fill="#0a0e27" />
+                <circle cx="75" cy="125" r="8" fill="#0a0e27" />
+                <circle cx="125" cy="125" r="8" fill="#0a0e27" />
+            </svg>
+            <h1>Ambienti Metaverso</h1>
+            <p>Progetto e sviluppo mondi virtuali immersivi per business, eventi, formazione e intrattenimento. Creo
+                esperienze 3D interattive che connettono persone da tutto il mondo in spazi digitali coinvolgenti.</p>
+        </div>
+    </section>
+
+
+    <section id="services">
+        <h2 class="section-title">Cosa Offro</h2>
+
+
+        <div class="services-grid">
+            <div class="service-card">
+                <svg class="service-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="20" y="30" width="60" height="40" rx="5" fill="#00d4ff" opacity="0.7" />
+                    <rect x="30" y="40" width="15" height="20" fill="#0a0e27" opacity="0.6" />
+                    <rect x="55" y="40" width="15" height="20" fill="#0a0e27" opacity="0.6" />
+                    <rect x="35" y="75" width="30" height="3" fill="#00d4ff" />
+                </svg>
+                <h3>Showroom Virtuali</h3>
+                <p>Spazi espositivi 3D per presentare prodotti e servizi in modo innovativo. I visitatori possono
+                    esplorare, interagire e acquistare in un ambiente immersivo.</p>
+            </div>
+
+
+            <div class="service-card">
+                <svg class="service-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="40" r="15" fill="#00d4ff" />
+                    <ellipse cx="50" cy="75" rx="20" ry="15" fill="#00d4ff" opacity="0.8" />
+                    <circle cx="30" cy="45" r="10" fill="#00d4ff" opacity="0.6" />
+                    <circle cx="70" cy="45" r="10" fill="#00d4ff" opacity="0.6" />
+                </svg>
+                <h3>Eventi Virtuali</h3>
+                <p>Organizzazione di fiere, concerti e meeting in ambienti metaverso personalizzati con
+                    networking, stand espositivi e sale conferenze.</p>
+            </div>
+
+
+            <div class="service-card">
+                <svg class="service-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="25" y="25" width="50" height="50" rx="5" fill="#00d4ff" opacity="0.5" />
+                    <rect x="35" y="35" width="30" height="20" fill="#0a0e27" opacity="0.7" />
+                    <rect x="35" y="60" width="12" height="10" fill="#00d4ff" />
+                    <rect x="53" y="60" width="12" height="10" fill="#00d4ff" />
+                </svg>
+                <h3>Spazi Formativi VR</h3>
+                <p>Aule virtuali, laboratori e ambienti di training immersivi per formazione aziendale, corsi
+                     e workshop interattivi.</p>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="process">
+        <h2 class="section-title">Il Mio Processo di Lavoro</h2>
+
+
+        <div class="process-timeline">
+            <div class="process-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Concept e Design</h3>
+                    <p>Definizione degli obiettivi, target audience e funzionalità desiderate. Creazione di concept art AI
+                         e architettura dell'ambiente virtuale.</p>
+                </div>
+            </div>
+
+
+            <div class="process-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Modellazione 3D</h3>
+                    <p>Sviluppo di asset 3D ottimizzati, texturing e creazione dell'ambiente completo con
+                        attenzione alle performance e all'estetica.</p>
+                </div>
+            </div>
+
+
+            <div class="process-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Programmazione e Interattività</h3>
+                    <p>Implementazione delle meccaniche, sistemi di networking, interazioni con
+                        oggetti e integrazione di funzionalità innovative.</p>
+                </div>
+            </div>
+
+
+            <div class="process-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3>Testing e Launch</h3>
+                    <p>Test di usabilità, ottimizzazione performance, beta testing con utenti reali e deployment su
+                        piattaforme metaverso (Spatial, custom).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="case-studies">
+        <h2 class="section-title">Progetti Realizzati</h2>
+
+
+        <div class="case-studies">
+            <div class="case-card">
+                <div class="case-image">
+                    <img src="../assets/ambienti-metaverso/Classe_VR.png" alt="Classe VR" />
+                </div>
+                <div class="case-content">
+                    <h3>Classe VR</h3>
+                    <div class="problem">
+                        <h4>💡 Problema</h4>
+                        <p>Nella mia esperienza precedente, avevamo bisogno di un luogo virtuale dove fare lezione e
+                            caricare materiale per lo studio in tempo reale.</p>
+                    </div>
+                    <div class="solution">
+                        <h4>🔧 Soluzione</h4>
+                        <p>Creata una colossale soluzione con più di 100 stanze virtuali, ognuna collegata ad una lezione e
+                            a loro volta unite tra loro, in maniera da creare un flow di apprendimento unico.</p>
+                    </div>
+                    <div class="result">
+                        <h4>✅ Risultati</h4>
+                        <p>In poco più di una settimana abbiamo realizzato l'ambiente per intero, per noi e per i futuri partecipanti
+                            all'esperienza della classe virtuale.</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="case-card">
+                <div class="case-image">
+                    <img src="../assets/ambienti-metaverso/Filiera_Virtuale.png" alt="Filiera Virtuale" />
+                </div>
+                <div class="case-content">
+                    <h3>Filiera Virtuale</h3>
+                    <div class="problem">
+                        <h4>💡 Problema</h4>
+                        <p>Era stata commissionata una stanza VR che doveva mostrare tutta la vita di un bene materiale,
+                            dalla fabbrica al consumatore.</p>
+                    </div>
+                    <div class="solution">
+                        <h4>🔧 Soluzione</h4>
+                        <p>Creato un ambiente con 4 sub-stanze, ognuna visitabile in qualsiasi ordine, che mostrava: Fabbrica, Stoccaggio,
+                            Vendita e Consumatore.</p>
+                    </div>
+                    <div class="result">
+                        <h4>✅ Risultati</h4>
+                        <p>Progetto consegnato ad una fiera di Confindustria locale ed ottenuto alto indice di gradimento.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="case-card">
+                <div class="case-image">
+                    <img src="../assets/ambienti-metaverso/Negozio_Virtuale.png" alt="Negozio Virtuale" />
+                </div>
+                <div class="case-content">
+                    <h3>Negozio Virtuale</h3>
+                    <div class="problem">
+                        <h4>💡 Problema</h4>
+                        <p>Un negozio di assistenza informatica aveva bisogno di uno showroom virtuale
+                            sui servizi offerti.</p>
+                    </div>
+                    <div class="solution">
+                        <h4>🔧 Soluzione</h4>
+                        <p>Creato ampio ambiente open-space virtuale, in cui sono stati caricati sia filmati
+                            che immagini a scopo promozionale.</p>
+                    </div>
+                    <div class="result">
+                        <h4>✅ Risultati</h4>
+                        <p>Curiosità aumentata e di conseguenza, affluenza, da parte dei
+                            consumatori che visitavano lo showroom virtuale da visore.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="technologies">
+        <h2 class="section-title">Tecnologie Utilizzate</h2>
+        <p class="section-subtitle">Piattaforme e strumenti per creare metaversi di qualità</p>
+
+
+        <div class="tech-stack">
+            <span class="tech-badge">Blender</span>
+            <span class="tech-badge">Spatial.io</span>
+            <span class="tech-badge">3D Asset Stock</span>
+            <span class="tech-badge">VR/AR Ready</span>
+            <span class="tech-badge">Meta Quest 2 & 3</span>
+        </div>
+    </section>
+
+
+    <section id="faq">
+        <h2 class="section-title">Domande Frequenti</h2>
+
+
+        <div class="faq-container">
+            <div class="faq-item">
+                <h3>❓ Serve un visore VR per accedere al metaverso?</h3>
+                <p>No, gli ambienti che creo sono accessibili da browser web, smartphone e PC senza
+                    necessità di visori VR. Tuttavia, offro particolare supporto per visori Meta Quest,
+                      per un'esperienza ancora più immersiva.</p>
+            </div>
+
+
+            <div class="faq-item">
+                <h3>❓ Quante persone possono accedere contemporaneamente?</h3>
+                <p>Dipende dalla piattaforma e dall'infrastruttura scelta. Posso creare ambienti che supportano da 20-30
+                    utenti simultanei fino a centinaia di partecipanti per eventi su larga scala, con architetture
+                    scalabili basate su cloud.</p>
+            </div>
+
+
+            <div class="faq-item">
+                <h3>❓ Posso integrare NFT e criptovalute?</h3>
+                <p>Assolutamente sì! Posso integrare wallet crypto, token NFT, sistemi di pagamento blockchain e
+                    meccaniche play-to-earn nel tuo metaverso, utilizzando smart contract su Ethereum, Polygon o altre
+                    blockchain.</p>
+            </div>
+
+
+            <div class="faq-item">
+                <h3>❓ Quanto tempo richiede creare un ambiente metaverso?</h3>
+                <p>Un ambiente base può richiedere 3-4 settimane, mentre progetti complessi con funzionalità avanzate
+                    possono richiedere 2-4 mesi. La timeline dipende dalla complessità degli asset 3D, delle interazioni
+                    e delle integrazioni richieste.</p>
+            </div>
+
+
+            <div class="faq-item">
+                <h3>❓ Posso aggiornare e modificare l'ambiente dopo il lancio?</h3>
+                <p>Certamente! Gli ambienti metaverso sono progettati per essere facilmente aggiornabili. Posso
+                    aggiungere nuovi asset, organizzare eventi temporanei e implementare nuove
+                    funzionalità in qualsiasi momento.</p>
+            </div>
+        </div>
+    </section>
+
+
+    <section>
+        <div class="cta-section">
+            <h2>Pronti a Entrare nel Metaverso?</h2>
+            <p>Discutiamo del vostro progetto e creiamo un mondo virtuale che stupirà i vostri utenti!</p>
+            <div>
+                <a href="mailto:tizianomazzetti@gmail.com" class="btn btn-primary">📧 Richiedi Consulenza</a>
+            </div>
+        </div>
+    </section>
+
+
+    <footer>
+        <p>&copy; 2025 Tiziano Mazzetti - AI Consultant | <a href="../index.html"
+                style="color: #00d4ff; text-decoration: none;">Torna alla Home</a></p>
+    </footer>
+</body>
+
+
+</html>

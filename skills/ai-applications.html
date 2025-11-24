@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Practical Applications | Tiziano Mazzetti</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0e27;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 212, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(30, 60, 114, 0.2) 0%, transparent 50%),
+                linear-gradient(135deg, #0a0e27 0%, #0f1c2e 50%, #1a2332 100%);
+            z-index: -1;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 212, 255, 0.03) 2px, rgba(0, 212, 255, 0.03) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0, 212, 255, 0.03) 2px, rgba(0, 212, 255, 0.03) 4px);
+            z-index: -1;
+        }
+
+        .tech-network {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 0.6;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .network-node {
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        .network-orbit {
+            animation: rotate 60s linear infinite;
+            transform-origin: center;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 14, 39, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #00d4ff 0%, #00d4ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .back-link {
+            color: #00d4ff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-link:hover {
+            color: #fff;
+            transform: translateX(-5px);
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 900px;
+        }
+
+        .hero-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 2rem;
+            filter: drop-shadow(0 10px 30px rgba(0, 212, 255, 0.4));
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #00d4ff 0%, #00d4ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: #cbd5e0;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        section {
+            padding: 5rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, #00d4ff 0%, #00d4ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #a0c4e0;
+            margin-bottom: 4rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .service-card {
+            background: rgba(10, 20, 40, 0.6);
+            padding: 2.5rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.3);
+            border-color: rgba(0, 212, 255, 0.5);
+        }
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 5px 15px rgba(0, 212, 255, 0.3));
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            color: #00d4ff;
+            margin-bottom: 1rem;
+        }
+
+        .service-card p {
+            color: #cbd5e0;
+            line-height: 1.6;
+        }
+
+        .process-timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .process-step {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .step-number {
+            min-width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #00d4ff 0%, #00d4ff 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            flex-shrink: 0;
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
+            color: #0a0e27;
+        }
+
+        .step-content {
+            flex: 1;
+            background: rgba(10, 20, 40, 0.6);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .step-content h3 {
+            color: #00d4ff;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-content p {
+            color: #cbd5e0;
+            line-height: 1.6;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 3rem;
+        }
+
+        .tech-badge {
+            background: rgba(0, 212, 255, 0.15);
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            color: #00d4ff;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            transition: all 0.3s;
+        }
+
+        .tech-badge:hover {
+            background: rgba(0, 212, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .case-studies {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .case-card {
+            background: rgba(10, 20, 40, 0.6);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            transition: transform 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .case-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 212, 255, 0.5);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.25);
+        }
+
+        .case-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, #1a3a2a 0%, #0f1c2e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+            overflow: hidden;
+        }
+
+        .case-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .case-placeholder {
+            font-size: 4rem;
+            opacity: 0.3;
+            filter: drop-shadow(0 5px 15px rgba(0, 212, 255, 0.3));
+        }
+
+        .case-content {
+            padding: 2rem;
+        }
+
+        .case-content h3 {
+            color: #00d4ff;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .case-content .problem {
+            background: rgba(255, 100, 100, 0.1);
+            border-left: 3px solid #ff6464;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+
+        .case-content .solution {
+            background: rgba(0, 212, 255, 0.1);
+            border-left: 3px solid #00d4ff;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+
+        .case-content .result {
+            background: rgba(100, 255, 100, 0.1);
+            border-left: 3px solid #64ff64;
+            padding: 1rem;
+            border-radius: 4px;
+        }
+
+        .case-content h4 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            opacity: 0.8;
+        }
+
+        .case-content p {
+            color: #cbd5e0;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: rgba(10, 20, 40, 0.6);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            transition: border-color 0.3s, box-shadow 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .faq-item:hover {
+            border-color: rgba(0, 212, 255, 0.5);
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.2);
+        }
+
+        .faq-item h3 {
+            color: #00d4ff;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .faq-item p {
+            color: #cbd5e0;
+            line-height: 1.6;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 5rem 2rem;
+            background: rgba(0, 212, 255, 0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #00d4ff 0%, #00d4ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            color: #cbd5e0;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00d4ff 0%, #00d4ff 100%);
+            color: #0a0e27;
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid #00d4ff;
+            color: #00d4ff;
+        }
+
+        .btn-secondary:hover {
+            background: #00d4ff;
+            color: #0a0e27;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(10, 14, 39, 0.9);
+            color: #a0aec0;
+            border-top: 1px solid rgba(0, 212, 255, 0.1);
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .services-grid,
+            .case-studies {
+                grid-template-columns: 1fr;
+            }
+
+            .process-step {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .step-number {
+                margin: 0 auto;
+            }
+
+            .tech-network {
+                opacity: 0.4;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <svg class="tech-network" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <linearGradient id="techGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:0.9" />
+                <stop offset="50%" style="stop-color:#00d4ff;stop-opacity:0.7" />
+                <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:0.5" />
+            </linearGradient>
+            <linearGradient id="techGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:0.8" />
+                <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:0.6" />
+            </linearGradient>
+            <filter id="glow">
+                <feGaussianBlur stdDeviation="4" result="coloredBlur" />
+                <feMerge>
+                    <feMergeNode in="coloredBlur" />
+                    <feMergeNode in="SourceGraphic" />
+                </feMerge>
+            </filter>
+            <filter id="glow-strong">
+                <feGaussianBlur stdDeviation="6" result="coloredBlur" />
+                <feMerge>
+                    <feMergeNode in="coloredBlur" />
+                    <feMergeNode in="SourceGraphic" />
+                </feMerge>
+            </filter>
+        </defs>
+
+        <g class="network-orbit">
+            <circle cx="300" cy="300" r="120" fill="none" stroke="url(#techGrad)" stroke-width="3" opacity="0.6" />
+            <circle cx="300" cy="300" r="90" fill="none" stroke="url(#techGrad)" stroke-width="2" opacity="0.5" />
+            <circle cx="300" cy="300" r="60" fill="none" stroke="url(#techGrad)" stroke-width="2" opacity="0.4" />
+
+            <ellipse cx="300" cy="300" rx="120" ry="40" fill="none" stroke="url(#techGrad2)" stroke-width="2"
+                opacity="0.5" />
+            <ellipse cx="300" cy="300" rx="40" ry="120" fill="none" stroke="url(#techGrad2)" stroke-width="2"
+                opacity="0.5" />
+            <ellipse cx="300" cy="300" rx="100" ry="100" fill="none" stroke="url(#techGrad)" stroke-width="1.5"
+                opacity="0.4" transform="rotate(45 300 300)" />
+
+            <circle class="network-node" cx="180" cy="180" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="420" cy="180" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="460" cy="300" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="420" cy="420" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="180" cy="420" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="140" cy="300" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="300" cy="140" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="300" cy="460" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+
+            <line x1="300" y1="300" x2="180" y2="180" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="300" y1="300" x2="420" y2="180" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="300" y1="300" x2="460" y2="300" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="300" y1="300" x2="420" y2="420" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="300" y1="300" x2="180" y2="420" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="300" y1="300" x2="140" y2="300" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="300" y1="300" x2="300" y2="140" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="300" y1="300" x2="300" y2="460" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+        </g>
+
+        <g class="network-orbit" style="animation-direction: reverse;">
+            <circle cx="1620" cy="540" r="100" fill="none" stroke="url(#techGrad)" stroke-width="3" opacity="0.6" />
+            <circle cx="1620" cy="540" r="75" fill="none" stroke="url(#techGrad)" stroke-width="2" opacity="0.5" />
+            <circle cx="1620" cy="540" r="50" fill="none" stroke="url(#techGrad)" stroke-width="2" opacity="0.4" />
+
+            <ellipse cx="1620" cy="540" rx="100" ry="35" fill="none" stroke="url(#techGrad2)" stroke-width="2"
+                opacity="0.5" />
+            <ellipse cx="1620" cy="540" rx="35" ry="100" fill="none" stroke="url(#techGrad2)" stroke-width="2"
+                opacity="0.5" />
+
+            <circle class="network-node" cx="1520" cy="440" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="1720" cy="440" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="1760" cy="540" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="1720" cy="640" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="1520" cy="640" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+            <circle class="network-node" cx="1480" cy="540" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
+
+            <line x1="1620" y1="540" x2="1520" y2="440" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="1620" y1="540" x2="1720" y2="440" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="1620" y1="540" x2="1760" y2="540" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="1620" y1="540" x2="1720" y2="640" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="1620" y1="540" x2="1520" y2="640" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+            <line x1="1620" y1="540" x2="1480" y2="540" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
+                filter="url(#glow)" />
+        </g>
+    </svg>
+
+    <header>
+        <nav>
+            <a href="../index.html" class="logo">TM</a>
+            <a href="../index.html" class="back-link">
+                <span>←</span> Torna alla Home
+            </a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <svg class="hero-icon" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="heroGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#00d4ff" />
+                        <stop offset="100%" style="stop-color:#00d4ff" />
+                    </linearGradient>
+                </defs>
+                <circle cx="100" cy="100" r="50" fill="url(#heroGrad)" opacity="0.3" />
+                <circle cx="100" cy="100" r="35" fill="url(#heroGrad)" opacity="0.6" />
+                <circle cx="100" cy="100" r="20" fill="url(#heroGrad)" />
+                <rect x="90" y="50" width="20" height="100" fill="#0a0e27" opacity="0.7" />
+                <rect x="50" y="90" width="100" height="20" fill="#0a0e27" opacity="0.7" />
+                <circle cx="70" cy="70" r="10" fill="#00d4ff" />
+                <circle cx="130" cy="70" r="10" fill="#00d4ff" />
+                <circle cx="70" cy="130" r="10" fill="#00d4ff" />
+                <circle cx="130" cy="130" r="10" fill="#00d4ff" />
+            </svg>
+            <h1>AI Practical Applications</h1>
+            <p>Propongo soluzioni smart custom che integrano AI e automazione per risolvere
+                problemi e ottimizzare i processi aziendali. Dal concept alla produzione.</p>
+        </div>
+    </section>
+
+    <section id="services">
+        <h2 class="section-title">Cosa Offro</h2>
+        <p class="section-subtitle">Soluzioni AI su misura per ogni esigenza di business</p>
+
+        <div class="services-grid">
+            <div class="service-card">
+                <svg class="service-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="25" y="25" width="50" height="50" rx="8" fill="#00d4ff" opacity="0.6" />
+                    <circle cx="50" cy="40" r="8" fill="#0a0e27" />
+                    <rect x="35" y="55" width="30" height="4" rx="2" fill="#0a0e27" opacity="0.6" />
+                    <rect x="35" y="63" width="20" height="4" rx="2" fill="#0a0e27" opacity="0.6" />
+                </svg>
+                <h3>Chatbot Intelligenti</h3>
+                <p>Assistenti conversazionali AI-powered per customer service, lead generation, supporto tecnico e
+                    automazione FAQ.</p>
+            </div>
+
+            <div class="service-card">
+                <svg class="service-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="30" y="30" width="40" height="40" rx="5" fill="#00d4ff" opacity="0.5" />
+                    <rect x="35" y="35" width="30" height="20" fill="#0a0e27" opacity="0.7" />
+                    <circle cx="50" cy="62" r="5" fill="#00d4ff" />
+                </svg>
+                <h3>Computer Vision</h3>
+                <p>Sistemi semplici di riconoscimento immagini, object detection, quality control automatico, analisi video.</p>
+            </div>
+
+            <div class="service-card">
+                <svg class="service-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M 30 70 Q 40 40 50 50 T 70 30" stroke="#00d4ff" stroke-width="4" fill="none" />
+                    <circle cx="30" cy="70" r="5" fill="#00d4ff" />
+                    <circle cx="50" cy="50" r="5" fill="#00d4ff" />
+                    <circle cx="70" cy="30" r="5" fill="#00d4ff" />
+                </svg>
+                <h3>Predictive Analytics</h3>
+                <p>Modelli predittivi per forecasting vendite, demand planning, manutenzione
+                    predittiva e ottimizzazione inventario.</p>
+            </div>
+
+            <div class="service-card">
+                <svg class="service-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="20" y="40" width="60" height="30" rx="5" fill="#00d4ff" opacity="0.6" />
+                    <rect x="25" y="48" width="15" height="14" fill="#0a0e27" opacity="0.7" />
+                    <rect x="45" y="48" width="30" height="4" rx="2" fill="#0a0e27" opacity="0.6" />
+                    <rect x="45" y="56" width="25" height="4" rx="2" fill="#0a0e27" opacity="0.6" />
+                </svg>
+                <h3>NLP & Text Analysis</h3>
+                <p>Sentiment analysis, document classification, entity extraction, summarization automatica e traduzione
+                    con modelli linguistici avanzati tramite chiavi API.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="process">
+        <h2 class="section-title">Il Mio Processo di Sviluppo</h2>
+
+        <div class="process-timeline">
+            <div class="process-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Discovery & Requirements</h3>
+                    <p>Analisi approfondita del problema, definizione KPI, studio fattibilità tecnica, valutazione dati
+                        disponibili e stesura specifiche funzionali.</p>
+                </div>
+            </div>
+
+            <div class="process-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Data Preparation & Modeling</h3>
+                    <p>Raccolta e pulizia dati, tuning e validazione performance.</p>
+                </div>
+            </div>
+
+            <div class="process-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Application Development</h3>
+                    <p>Sviluppo backend API, frontend UI/UX ibrido AI, integrazione modelli AI, implementazione business logic e
+                        connessione con sistemi esistenti.</p>
+                </div>
+            </div>
+
+            <div class="process-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3>Monitoring</h3>
+                    <p>Testing e iterazioni basate su feedback reali.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="case-studies">
+        <h2 class="section-title">Progetti Realizzati</h2>
+        <p class="section-subtitle">Applicazioni AI che ho applicato</p>
+
+        <div class="case-studies">
+            <div class="case-card">
+                <div class="case-image">
+                    <img src="../assets/ai-applications/Chatbot_divulgatore.png" alt="Chatbot Divulgatore Multilingua" />
+                </div>
+                <div class="case-content">
+                    <h3>Chatbot Divulgatore Multilingua</h3>
+                    <div class="problem">
+                        <h4>💡 Problema</h4>
+                        <p>Gli organizzatori di un importante evento sulla sanità richiedevano l'implementazione di una IA
+                            che parlasse di epilessia durante lo svolgimento dell'evento.</p>
+                    </div>
+                    <div class="solution">
+                        <h4>🔧 Soluzione</h4>
+                        <p>Chatbot GPT integrato con Knowledge affinata su casi medici reali. Interazioni in tutte le
+                            lingue e modo di parlate adattivo in base all'interlocutore.</p>
+                    </div>
+                    <div class="result">
+                        <h4>✅ Risultati</h4>
+                        <p>Avatar Chatbot creato con successo, suscitando l'interesse di medici, visitatori, studenti laureandi
+                        e professionisti della sanità.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="case-card">
+                <div class="case-image">
+                    <img src="../assets/ai-applications/Illuminazione_AI.png" alt="Studio logico illuminazione AI" />
+                </div>
+                <div class="case-content">
+                    <h3>Studio logico illuminazione AI</h3>
+                    <div class="problem">
+                        <h4>💡 Problema</h4>
+                        <p>Un architetto richiedeva una consulenza su come gestire l'illuminazione in una sezione storica della città di Roma,
+                        per vedere in prima persona un eventuale modello 3D del progetto finale.</p>
+                    </div>
+                    <div class="solution">
+                        <h4>🔧 Soluzione</h4>
+                        <p>Modello GPT addestrato con dati urbanistici e dati architettonici contestuali alla natura storica del progetto,
+                        insieme ad un ambiente di metaverso aggiornato con la nuova illuminazione.</p>
+                    </div>
+                    <div class="result">
+                        <h4>✅ Risultati</h4>
+                        <p>Progettazione efficace e consegna dell'ambiente e del modello addestrato all'architetto,
+                        con alto indice di soddisfazione.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="case-card">
+                <div class="case-image">
+                    <img src="../assets/ai-applications/Avatar_AI_addetto.png" alt="Avatar AI addetto all'inventario" />
+                </div>
+                <div class="case-content">
+                    <h3>Avatar AI addetto all'inventario</h3>
+                    <div class="problem">
+                        <h4>💡 Problema</h4>
+                        <p>Un negozio di assistenza informatica a Roma aveva bisogno di un modello AI che catturasse l'occhio dei clienti e
+                        potesse rispondere a domande basiche poste da questi ultimi.</p>
+                    </div>
+                    <div class="solution">
+                        <h4>🔧 Soluzione</h4>
+                        <p>Sistema custom per rilevare espressioni facciali e parole in tempo reale. Integrazione con
+                            PC e webcam e installazione in totem verticale.</p>
+                    </div>
+                    <div class="result">
+                        <h4>✅ Risultati</h4>
+                        <p>Avatar che interagisce con i clienti, generando interesse crescente
+                         e feedback positivo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="technologies">
+        <h2 class="section-title">Stack Tecnologico</h2>
+        <p class="section-subtitle">Tecnologie e framework per applicazioni AI.</p>
+
+        <div class="tech-stack">
+            <span class="tech-badge">Antigravity</span>
+            <span class="tech-badge">Claude</span>
+            <span class="tech-badge">Perplexity</span>
+            <span class="tech-badge">Grok</span>
+            <span class="tech-badge">ChatGPT</span>
+            <span class="tech-badge">Gemini</span>
+            <span class="tech-badge">ConvAI</span>
+            <span class="tech-badge">Manus</span>
+            <span class="tech-badge">Copilot</span>
+        </div>
+    </section>
+
+    <section id="faq">
+        <h2 class="section-title">Domande Frequenti</h2>
+
+        <div class="faq-container">
+            <div class="faq-item">
+                <h3>❓ Quanto tempo richiede sviluppare una soluzione AI?</h3>
+                <p>Dipende dalla complessità. Un chatbot base può richiedere 2-3 settimane, mentre sistemi predittivi
+                possono richiedere 2-4 mesi. Fornisco sempre una timeline dettagliata dopo la fase di
+                allineamento.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>❓ Serve avere già dei dati per iniziare?</h3>
+                <p>Idealmente sì, ma non è obbligatorio. Posso aiutare a definire una strategia di raccolta dati,
+                    o sfruttare con modelli pre-addestrati per
+                    partire subito.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>❓ Come viene garantita la privacy e sicurezza dei dati?</h3>
+                <p>I sistemi che utilizzo sono creati in maniera da rispettare le normative correnti vigenti sulla
+                    privacy. Ogni dato caricato non rimane realmente in mio possesso
+                    e può essere revocato in ogni momento.</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="cta-section">
+            <h2>Pronti a Sviluppare la Vostra AI Solution?</h2>
+            <p>Discutiamo del vostro progetto e implementiamo la nuova soluzione custom nel vostro workflow!</p>
+            <div>
+                <a href="mailto:tizianomazzetti@gmail.com" class="btn btn-primary">📧 Richiedi Consulenza</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Tiziano Mazzetti - AI Consultant | <a href="../index.html"
+                style="color: #00d4ff; text-decoration: none;">Torna alla Home</a></p>
+    </footer>
+</body>
+
+</html>
