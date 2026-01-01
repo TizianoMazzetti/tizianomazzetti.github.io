@@ -7,4 +7,6 @@ body {
               width: 100vw;
                 height: 100vh;
           }
-          
+          .case-card:first-child .case-image img {
+    object-fit: contain;
+          }      
