@@ -5,463 +5,1070 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tiziano Mazzetti | AI Consultant</title>
+    <meta name="description"
+        content="Tiziano Mazzetti — AI & Web3 Consultant. Avatar AI, ambienti di metaverso, formazione e applicazioni di intelligenza artificiale.">
+    <meta name="theme-color" content="#0d0c0b">
+
+    <!-- Fonts: Boska (display) + Satoshi (body) via Fontshare -->
+    <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+    <link href="https://api.fontshare.com/v2/css?f[]=boska@400,500,700&f[]=satoshi@400,500,700,900&f[]=clash-display@600,700&display=swap"
+        rel="stylesheet">
+
     <style>
-        * {
+        /* ============================================================
+           @property — animated gradient angle for the CTA border
+           ============================================================ */
+        @property --gradient-angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+        }
+
+        /* ============================================================
+           DESIGN TOKENS
+           ============================================================ */
+        :root {
+            color-scheme: dark;
+            --bg: #0d0c0b;
+            --bg-2: #131110;
+            --surface: rgba(255, 255, 255, 0.035);
+            --surface-2: rgba(255, 255, 255, 0.06);
+            --surface-solid: #16140f;
+            --border: rgba(255, 255, 255, 0.10);
+            --border-strong: rgba(255, 255, 255, 0.18);
+            --text: #f4efe6;
+            --text-muted: #a59d92;
+            --primary: oklch(0.72 0.13 192);
+            --primary-strong: oklch(0.65 0.14 192);
+            --primary-soft: oklch(0.72 0.13 192 / 0.14);
+            --amber: oklch(0.82 0.12 75);
+            --amber-soft: oklch(0.82 0.12 75 / 0.16);
+            --on-primary: #042422;
+            --shadow: 0 24px 70px -28px rgba(0, 0, 0, 0.85);
+            --glow: 0 0 60px -10px oklch(0.72 0.13 192 / 0.45);
+
+            --font-display: 'Boska', Georgia, serif;
+            --font-body: 'Satoshi', 'Segoe UI', system-ui, sans-serif;
+
+            --maxw: 1280px;
+            --radius: 18px;
+            --ease: cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        html.light {
+            color-scheme: light;
+            --bg: #f4f0e8;
+            --bg-2: #ebe5d9;
+            --surface: rgba(13, 12, 11, 0.035);
+            --surface-2: rgba(13, 12, 11, 0.06);
+            --surface-solid: #ffffff;
+            --border: rgba(13, 12, 11, 0.12);
+            --border-strong: rgba(13, 12, 11, 0.22);
+            --text: #19150f;
+            --text-muted: #5e564a;
+            --primary: oklch(0.55 0.14 192);
+            --primary-strong: oklch(0.5 0.15 192);
+            --primary-soft: oklch(0.55 0.14 192 / 0.12);
+            --amber: oklch(0.62 0.14 65);
+            --amber-soft: oklch(0.62 0.14 65 / 0.14);
+            --on-primary: #f4f0e8;
+            --shadow: 0 24px 60px -30px rgba(0, 0, 0, 0.30);
+            --glow: 0 0 50px -12px oklch(0.55 0.14 192 / 0.30);
+        }
+
+        /* ============================================================
+           BASE
+           ============================================================ */
+        *,
+        *::before,
+        *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #0a0e27;
-            color: #fff;
-            overflow-x: hidden;
-            position: relative;
+        html {
+            scroll-behavior: smooth;
         }
 
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            transition: background 0.5s var(--ease), color 0.5s var(--ease);
+        }
+
+        /* Atmospheric backdrop layers */
         body::before {
             content: '';
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
+            z-index: -2;
             background:
-                radial-gradient(circle at 20% 50%, rgba(0, 150, 255, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(0, 212, 255, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 40% 20%, rgba(30, 60, 114, 0.2) 0%, transparent 50%),
-                linear-gradient(135deg, #0a0e27 0%, #1a2332 50%, #0f1c2e 100%);
-            z-index: -1;
+                radial-gradient(60% 50% at 15% 10%, var(--primary-soft) 0%, transparent 60%),
+                radial-gradient(45% 45% at 90% 85%, var(--amber-soft) 0%, transparent 60%),
+                linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+            transition: opacity 0.5s var(--ease);
         }
 
+        /* Fine grain texture */
         body::after {
             content: '';
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image:
-                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 212, 255, 0.03) 2px, rgba(0, 212, 255, 0.03) 4px),
-                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0, 212, 255, 0.03) 2px, rgba(0, 212, 255, 0.03) 4px);
+            inset: 0;
             z-index: -1;
+            pointer-events: none;
+            opacity: 0.5;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+            mix-blend-mode: overlay;
         }
 
+        #bg-particles {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.85;
+        }
+
+        html.light #bg-particles {
+            opacity: 0.5;
+        }
+
+        ::selection {
+            background: var(--primary);
+            color: var(--on-primary);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        .ic {
+            width: 1.05em;
+            height: 1.05em;
+            vertical-align: -0.16em;
+            flex-shrink: 0;
+        }
+
+        .wrap {
+            width: 100%;
+            max-width: var(--maxw);
+            margin: 0 auto;
+            padding: 0 clamp(1.2rem, 4vw, 3rem);
+        }
+
+        /* Eyebrow / kicker */
+        .kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.72rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .kicker::before {
+            content: '';
+            width: 28px;
+            height: 1px;
+            background: var(--primary);
+            opacity: 0.6;
+        }
+
+        /* ============================================================
+           NAVBAR — glass morphism, appears on scroll
+           ============================================================ */
         header {
             position: fixed;
             top: 0;
+            left: 0;
             width: 100%;
-            background: rgba(10, 14, 39, 0.9);
-            backdrop-filter: blur(10px);
             z-index: 1000;
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
-            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+            padding: 1.1rem 0;
+            border-bottom: 1px solid transparent;
+            transition: padding 0.4s var(--ease), background 0.4s var(--ease),
+                border-color 0.4s var(--ease), backdrop-filter 0.4s var(--ease);
+        }
+
+        header.scrolled {
+            padding: 0.6rem 0;
+            background: color-mix(in oklab, var(--bg) 65%, transparent);
+            backdrop-filter: blur(18px) saturate(160%);
+            -webkit-backdrop-filter: blur(18px) saturate(160%);
+            border-bottom: 1px solid var(--border);
         }
 
         nav {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            max-width: 1400px;
-            margin: 0 auto;
+            justify-content: space-between;
+            gap: 1rem;
         }
 
-        .logo {
-            font-size: 1.5rem;
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            font-family: var(--font-display);
             font-weight: 700;
-            font-family: 'Courier New', monospace;
-            letter-spacing: 2px;
-            background: linear-gradient(135deg, #00d4ff 0%, #0096ff 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 1.15rem;
+            letter-spacing: 0.02em;
+        }
+
+        .logo-mark {
+            color: var(--text);
+            flex-shrink: 0;
+            transition: transform 0.5s var(--ease);
+        }
+
+        .brand:hover .logo-mark {
+            transform: rotate(-8deg) scale(1.05);
         }
 
         .nav-links {
             display: flex;
-            gap: 2rem;
+            gap: 0.4rem;
             list-style: none;
+            align-items: center;
         }
 
         .nav-links a {
-            color: #fff;
-            text-decoration: none;
-            transition: color 0.3s;
+            position: relative;
+            padding: 0.5rem 0.9rem;
+            font-size: 0.92rem;
             font-weight: 500;
+            color: var(--text-muted);
+            border-radius: 8px;
+            transition: color 0.3s var(--ease);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0.9rem;
+            right: 0.9rem;
+            bottom: 0.35rem;
+            height: 1.5px;
+            background: var(--primary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.35s var(--ease);
         }
 
         .nav-links a:hover {
-            color: #00d4ff;
+            color: var(--text);
         }
 
-        .hero {
-            height: 100vh;
-            display: flex;
+        .nav-links a:hover::after {
+            transform: scaleX(1);
+        }
+
+        .theme-toggle {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text);
+            cursor: pointer;
+            transition: border-color 0.3s var(--ease), transform 0.3s var(--ease), background 0.3s var(--ease);
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--primary);
+            transform: rotate(15deg);
+        }
+
+        .theme-toggle .sun {
+            display: none;
+        }
+
+        html.light .theme-toggle .sun {
+            display: block;
+        }
+
+        html.light .theme-toggle .moon {
+            display: none;
+        }
+
+        /* ============================================================
+           BUTTONS
+           ============================================================ */
+        .btn {
+            position: relative;
+            display: inline-flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 0 4rem;
-            max-width: 1400px;
-            margin: 0 auto;
+            gap: 0.6rem;
+            padding: 0.95rem 1.6rem;
+            font-family: var(--font-body);
+            font-size: 0.98rem;
+            font-weight: 700;
+            border-radius: 14px;
+            cursor: pointer;
+            border: none;
+            transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+            isolation: isolate;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .btn svg {
+            transition: transform 0.35s var(--ease);
+        }
+
+        .btn:hover svg {
+            transform: translateX(4px);
+        }
+
+        /* Primary CTA with animated @property gradient border */
+        .btn-primary {
+            background: var(--primary-strong);
+            color: var(--on-primary);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 16px;
+            z-index: -1;
+            background: conic-gradient(from var(--gradient-angle),
+                    var(--primary), var(--amber), var(--primary-strong), var(--primary));
+            animation: spin-gradient 4s linear infinite;
+            filter: blur(0.5px);
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 14px;
+            z-index: -1;
+            background: var(--primary-strong);
+        }
+
+        .btn-primary:hover {
+            box-shadow: var(--glow);
+        }
+
+        @keyframes spin-gradient {
+            to {
+                --gradient-angle: 360deg;
+            }
+        }
+
+        .btn-secondary {
+            background: var(--surface);
+            color: var(--text);
+            border: 1px solid var(--border-strong);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* ============================================================
+           HERO
+           ============================================================ */
+        .hero {
+            position: relative;
+            min-height: 100svh;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            align-items: center;
+            gap: 2rem;
+            padding-top: 6rem;
+            z-index: 2;
         }
 
         .hero-content {
-            flex: 1;
-            z-index: 10;
+            position: relative;
+            z-index: 3;
         }
 
-        .hero-content h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #00d4ff 0%, #0096ff 100%);
+        .hero h1 {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: clamp(3rem, 8vw, 6.4rem);
+            line-height: 0.96;
+            letter-spacing: -0.02em;
+            margin: 1.4rem 0 0.4rem;
+        }
+
+        .hero h1 .line {
+            display: block;
+            overflow: hidden;
+        }
+
+        .hero h1 .accent {
+            background: linear-gradient(110deg, var(--primary) 20%, var(--amber) 90%);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
+            font-style: italic;
+            font-weight: 500;
         }
 
-        .hero-content h2 {
-            font-size: 2rem;
-            color: #a0c4e0;
-            margin-bottom: 1.5rem;
+        .hero-role {
+            font-size: clamp(1.05rem, 2.2vw, 1.4rem);
+            color: var(--text);
+            font-weight: 500;
+            margin-bottom: 1.2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
         }
 
-        .hero-content p {
-            font-size: 1.2rem;
-            color: #cbd5e0;
+        .hero-role .dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--primary);
+            box-shadow: 0 0 0 0 var(--primary);
+            animation: ping 2.4s var(--ease) infinite;
+        }
+
+        @keyframes ping {
+
+            0% {
+                box-shadow: 0 0 0 0 oklch(0.72 0.13 192 / 0.5);
+            }
+
+            70%,
+            100% {
+                box-shadow: 0 0 0 12px transparent;
+            }
+        }
+
+        .hero p.lead {
+            font-size: clamp(1rem, 1.4vw, 1.15rem);
+            color: var(--text-muted);
+            max-width: 46ch;
             margin-bottom: 2rem;
-            line-height: 1.6;
         }
 
         .cta-buttons {
             display: flex;
             gap: 1rem;
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #00d4ff 0%, #0096ff 100%);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.4);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            border: 2px solid #00d4ff;
-            color: #00d4ff;
-        }
-
-        .btn-secondary:hover {
-            background: #00d4ff;
-            color: white;
+            flex-wrap: wrap;
         }
 
         #avatar-container {
-            flex: 1;
-            height: 600px;
+            position: relative;
+            height: min(80vh, 720px);
+            width: 100%;
+            z-index: 2;
+        }
+
+        #avatar-container::after {
+            content: '';
+            position: absolute;
+            inset: 12% 8%;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--primary-soft) 0%, transparent 70%);
+            z-index: -1;
+            filter: blur(20px);
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 1.6rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            z-index: 3;
+        }
+
+        .scroll-hint .mouse {
+            width: 22px;
+            height: 36px;
+            border: 1.5px solid var(--border-strong);
+            border-radius: 12px;
             position: relative;
         }
 
-        .tech-network {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            opacity: 0.7;
-            pointer-events: none;
+        .scroll-hint .mouse::after {
+            content: '';
+            position: absolute;
+            top: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 7px;
+            border-radius: 2px;
+            background: var(--primary);
+            animation: wheel 1.8s var(--ease) infinite;
         }
 
-        @keyframes pulse {
+        @keyframes wheel {
 
-            0%,
-            100% {
-                opacity: 0.6;
+            0% {
+                opacity: 0;
+                transform: translate(-50%, 0);
             }
 
-            50% {
+            40% {
                 opacity: 1;
             }
-        }
 
-        @keyframes rotate {
-            from {
-                transform: rotate(0deg);
-            }
-
-            to {
-                transform: rotate(360deg);
+            100% {
+                opacity: 0;
+                transform: translate(-50%, 12px);
             }
         }
 
-        .network-node {
-            animation: pulse 3s ease-in-out infinite;
-        }
-
-        .network-orbit {
-            animation: rotate 60s linear infinite;
-            transform-origin: center;
-        }
-
+        /* ============================================================
+           SECTION SCAFFOLD
+           ============================================================ */
         section {
-            padding: 5rem 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            padding: clamp(4rem, 10vw, 8rem) 0;
+        }
+
+        .section-head {
+            max-width: 720px;
+            margin-bottom: 3.2rem;
         }
 
         .section-title {
-            font-size: 2.5rem;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: clamp(2.1rem, 5vw, 3.6rem);
+            line-height: 1.02;
+            letter-spacing: -0.02em;
+            margin-top: 1rem;
+        }
+
+        /* clip-path scroll reveal (no translateY -> no CLS) */
+        .reveal {
+            clip-path: inset(0 0 0 0);
+        }
+
+        /* ============================================================
+           STATS BAND
+           ============================================================ */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .stat {
+            background: var(--bg);
+            padding: 2rem 1.4rem;
             text-align: center;
-            margin-bottom: 3rem;
-            background: linear-gradient(135deg, #00d4ff 0%, #0096ff 100%);
+        }
+
+        .stat .num {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: clamp(2.4rem, 5vw, 3.4rem);
+            line-height: 1;
+            color: var(--primary);
+            display: block;
+        }
+
+        .stat .label {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            letter-spacing: 0.06em;
+            margin-top: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        /* ============================================================
+           SKILLS — asymmetric bento grid
+           ============================================================ */
+        .bento {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: minmax(190px, auto);
+            gap: 1.1rem;
+        }
+
+        .bento-item {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1.8rem;
+            border-radius: var(--radius);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            color: inherit;
+            transition: border-color 0.4s var(--ease), background 0.4s var(--ease);
+            will-change: transform;
+        }
+
+        .bento-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(120% 120% at 100% 0%, var(--primary-soft) 0%, transparent 45%);
+            opacity: 0;
+            transition: opacity 0.4s var(--ease);
+            pointer-events: none;
+        }
+
+        .bento-item:hover {
+            border-color: var(--primary);
+            background: var(--surface-2);
+        }
+
+        .bento-item:hover::before {
+            opacity: 1;
+        }
+
+        .bento-item.feature {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .bento-item.wide {
+            grid-column: span 2;
+        }
+
+        .bento-item.full {
+            grid-column: 1 / -1;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .bento-icon {
+            width: 56px;
+            height: 56px;
+            flex-shrink: 0;
+            border-radius: 14px;
+            background: var(--primary-soft);
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--border);
+        }
+
+        .bento-icon svg {
+            width: 36px;
+            height: 36px;
+        }
+
+        .feature .bento-icon {
+            width: 72px;
+            height: 72px;
+        }
+
+        .feature .bento-icon svg {
+            width: 48px;
+            height: 48px;
+        }
+
+        .bento-item h3 {
+            font-family: var(--font-display);
+            font-weight: 500;
+            font-size: 1.35rem;
+            letter-spacing: -0.01em;
+        }
+
+        .feature h3 {
+            font-size: 1.9rem;
+        }
+
+        .bento-item p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .bento-text {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .bento-arrow {
+            position: absolute;
+            top: 1.4rem;
+            right: 1.4rem;
+            color: var(--text-muted);
+            opacity: 0;
+            transform: translate(-6px, 6px);
+            transition: all 0.4s var(--ease);
+        }
+
+        .bento-item:hover .bento-arrow {
+            opacity: 1;
+            transform: translate(0, 0);
+            color: var(--primary);
+        }
+
+        .full .bento-icon {
+            width: 64px;
+            height: 64px;
+        }
+
+        /* ============================================================
+           FULL-BLEED CINEMATIC QUOTE
+           ============================================================ */
+        .fullbleed {
+            position: relative;
+            z-index: 2;
+            padding: clamp(5rem, 14vw, 11rem) 0;
+            overflow: hidden;
+        }
+
+        .fullbleed::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(60% 120% at 50% 120%, var(--primary-soft) 0%, transparent 55%),
+                linear-gradient(180deg, transparent, color-mix(in oklab, var(--primary) 8%, transparent), transparent);
+            z-index: -1;
+        }
+
+        .fullbleed .grid-lines {
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background-image:
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 64px 64px;
+            mask-image: radial-gradient(ellipse 70% 80% at 50% 50%, #000 30%, transparent 75%);
+            -webkit-mask-image: radial-gradient(ellipse 70% 80% at 50% 50%, #000 30%, transparent 75%);
+            opacity: 0.6;
+        }
+
+        .quote {
+            text-align: center;
+            max-width: 14ch;
+            margin: 0 auto;
+            font-family: 'Clash Display', var(--font-body);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: clamp(2.8rem, 9.5vw, 7.4rem);
+            line-height: 0.92;
+            letter-spacing: -0.02em;
+        }
+
+        .quote .em {
+            font-style: normal;
+            font-weight: 700;
+            background: linear-gradient(110deg, var(--primary), var(--amber));
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
+        .quote-sub {
+            text-align: center;
+            margin-top: 1.8rem;
+            color: var(--text-muted);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            font-size: 0.78rem;
         }
 
-        .skill-card {
-            background: rgba(10, 20, 40, 0.6);
-            padding: 2rem;
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(0, 212, 255, 0.2);
-            transition: transform 0.3s, box-shadow 0.3s;
-            cursor: pointer;
-        }
-
-        .skill-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.3);
-            border-color: rgba(0, 212, 255, 0.5);
-        }
-
-        .skill-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: #00d4ff;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .skill-icon {
-            width: 40px;
-            height: 40px;
-            flex-shrink: 0;
-        }
-
-        .skill-card p {
-            color: #cbd5e0;
-            line-height: 1.6;
-        }
-
+        /* ============================================================
+           PROJECTS
+           ============================================================ */
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+            gap: 1.4rem;
         }
 
         .project-card {
-            background: rgba(10, 20, 40, 0.6);
-            border-radius: 12px;
+            position: relative;
+            border-radius: var(--radius);
             overflow: hidden;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(0, 212, 255, 0.2);
-            transition: transform 0.3s;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            transition: border-color 0.4s var(--ease), transform 0.4s var(--ease);
+            display: flex;
+            flex-direction: column;
         }
 
         .project-card:hover {
-            transform: translateY(-10px);
-            border-color: rgba(0, 212, 255, 0.5);
+            border-color: var(--primary);
+            transform: translateY(-6px);
         }
 
         .project-image {
-            width: 100%;
-            height: 250px;
-            background: linear-gradient(135deg, #1a2f4a 0%, #0f1c2e 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
+            height: 210px;
+            display: grid;
+            place-items: center;
+            background:
+                radial-gradient(circle at 50% 40%, var(--primary-soft), transparent 65%),
+                var(--surface-solid);
+            border-bottom: 1px solid var(--border);
             position: relative;
             overflow: hidden;
-            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .project-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 28px 28px;
+            opacity: 0.4;
+            mask-image: radial-gradient(circle at center, #000, transparent 75%);
+            -webkit-mask-image: radial-gradient(circle at center, #000, transparent 75%);
         }
 
         .project-icon {
-            width: 120px;
-            height: 120px;
-            filter: drop-shadow(0 10px 30px rgba(0, 212, 255, 0.3));
+            width: 116px;
+            height: 116px;
+            position: relative;
+            z-index: 1;
+            filter: drop-shadow(0 12px 30px oklch(0.72 0.13 192 / 0.35));
+            transition: transform 0.5s var(--ease);
+        }
+
+        .project-card:hover .project-icon {
+            transform: scale(1.08) rotate(-3deg);
         }
 
         .project-content {
-            padding: 2rem;
+            padding: 1.8rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            flex: 1;
         }
 
         .project-content h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: #00d4ff;
+            font-family: var(--font-display);
+            font-weight: 500;
+            font-size: 1.4rem;
+            letter-spacing: -0.01em;
         }
 
         .project-content p {
-            color: #cbd5e0;
-            line-height: 1.6;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            flex: 1;
         }
 
         .project-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
-            margin-top: 1rem;
+            margin-top: 0.4rem;
         }
 
         .tag {
-            background: rgba(0, 212, 255, 0.15);
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            color: #00d4ff;
-            border: 1px solid rgba(0, 212, 255, 0.3);
+            font-size: 0.78rem;
+            font-weight: 500;
+            padding: 0.32rem 0.8rem;
+            border-radius: 999px;
+            color: var(--primary);
+            background: var(--primary-soft);
+            border: 1px solid var(--border);
         }
 
+        /* ============================================================
+           CONTACT
+           ============================================================ */
         .contact-info {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+            gap: 1.2rem;
         }
 
         .contact-card {
-            background: rgba(10, 20, 40, 0.6);
-            padding: 2rem;
-            border-radius: 12px;
+            padding: 2.2rem;
+            border-radius: var(--radius);
             text-align: center;
-            border: 1px solid rgba(0, 212, 255, 0.2);
-            transition: transform 0.3s, border-color 0.3s;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            transition: border-color 0.4s var(--ease), transform 0.4s var(--ease), background 0.4s var(--ease);
         }
 
         .contact-card:hover {
+            border-color: var(--primary);
             transform: translateY(-5px);
-            border-color: rgba(0, 212, 255, 0.5);
+            background: var(--surface-2);
+        }
+
+        .contact-card .c-ico {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 1rem;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: var(--primary-soft);
+            color: var(--primary);
         }
 
         .contact-card h3 {
-            color: #00d4ff;
-            margin-bottom: 0.5rem;
+            font-family: var(--font-display);
+            font-weight: 500;
+            font-size: 1.2rem;
+            margin-bottom: 0.4rem;
         }
 
-        .contact-card a {
-            color: #cbd5e0;
-            text-decoration: none;
-            transition: color 0.3s;
+        .contact-card a,
+        .contact-card p {
+            color: var(--text-muted);
+            transition: color 0.3s var(--ease);
+            word-break: break-word;
         }
 
         .contact-card a:hover {
-            color: #00d4ff;
+            color: var(--primary);
         }
 
-        .contact-card p {
-            color: #cbd5e0;
+        .contact-card.is-button {
+            cursor: pointer;
         }
 
-        /* MODAL STYLES */
+        .contact-card.is-button p {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* ============================================================
+           FOOTER
+           ============================================================ */
+        footer {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 3rem 0;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        footer .brand {
+            justify-content: center;
+            margin-bottom: 0.8rem;
+            font-size: 1rem;
+        }
+
+        /* ============================================================
+           CV MODAL
+           ============================================================ */
         .cv-modal {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
+            inset: 0;
+            background: rgba(0, 0, 0, 0.82);
+            backdrop-filter: blur(6px);
             z-index: 2000;
             justify-content: center;
             align-items: center;
-            padding: 2rem;
+            padding: 1.5rem;
         }
 
         .cv-modal.active {
             display: flex;
+            animation: fade 0.3s var(--ease);
+        }
+
+        @keyframes fade {
+            from {
+                opacity: 0;
+            }
         }
 
         .cv-modal-content {
-            background: rgba(10, 20, 40, 0.95);
-            border: 2px solid rgba(0, 212, 255, 0.3);
-            border-radius: 12px;
+            background: var(--surface-solid);
+            border: 1px solid var(--border-strong);
+            border-radius: var(--radius);
             width: 100%;
             max-width: 900px;
             max-height: 90vh;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
         }
 
         .cv-modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.5rem 2rem;
-            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+            padding: 1.2rem 1.6rem;
+            border-bottom: 1px solid var(--border);
+            gap: 1rem;
         }
 
         .cv-modal-header h3 {
-            color: #00d4ff;
-            font-size: 1.5rem;
+            font-family: var(--font-display);
+            font-weight: 500;
+            color: var(--primary);
+            font-size: 1.3rem;
         }
 
         .cv-modal-buttons {
             display: flex;
-            gap: 1rem;
+            gap: 0.7rem;
         }
 
         .cv-modal-btn {
-            padding: 0.6rem 1.2rem;
+            padding: 0.6rem 1.1rem;
             border: none;
-            border-radius: 6px;
-            font-size: 0.9rem;
+            border-radius: 10px;
+            font-family: var(--font-body);
+            font-size: 0.88rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 500;
+            transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
         }
 
         .cv-modal-btn.download {
-            background: linear-gradient(135deg, #00d4ff 0%, #0096ff 100%);
-            color: white;
+            background: var(--primary-strong);
+            color: var(--on-primary);
         }
 
         .cv-modal-btn.download:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.4);
+            box-shadow: var(--glow);
         }
 
         .cv-modal-btn.close {
             background: transparent;
-            border: 2px solid #ff4444;
-            color: #ff4444;
+            border: 1px solid var(--border-strong);
+            color: var(--text);
         }
 
         .cv-modal-btn.close:hover {
-            background: #ff4444;
-            color: white;
+            border-color: #e5484d;
+            color: #e5484d;
         }
 
         .cv-preview-container {
@@ -469,27 +1076,28 @@
             overflow: auto;
             padding: 2rem;
             background: #fff;
-            color: #000;
+            color: #1a1a1a;
         }
 
         .cv-preview-container h1 {
-            color: #0096ff;
+            color: #0c7a85;
             font-size: 2rem;
             margin-bottom: 0.5rem;
+            font-family: var(--font-display);
         }
 
         .cv-preview-container h2 {
-            color: #00d4ff;
-            font-size: 1.3rem;
+            color: #0c7a85;
+            font-size: 1.25rem;
             margin-top: 1.5rem;
             margin-bottom: 0.8rem;
-            border-bottom: 2px solid #00d4ff;
+            border-bottom: 2px solid #0c7a85;
             padding-bottom: 0.3rem;
         }
 
         .cv-preview-container h3 {
-            color: #0096ff;
-            font-size: 1.1rem;
+            color: #0a5a63;
+            font-size: 1.05rem;
             margin-top: 1rem;
             margin-bottom: 0.5rem;
         }
@@ -514,10 +1122,9 @@
             display: grid;
             grid-template-columns: 2fr 1fr;
             gap: 2rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
         }
 
-        /* --- NUOVO STILE PER LA FOTO NEL CV --- */
         .cv-right-column {
             display: flex;
             flex-direction: column;
@@ -530,8 +1137,8 @@
             height: 160px;
             border-radius: 50%;
             overflow: hidden;
-            border: 3px solid #00d4ff;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 3px solid #0c7a85;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
             background-color: #e0e0e0;
             flex-shrink: 0;
         }
@@ -540,16 +1147,19 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center 0%; /* Centra la foto sul viso */
+            object-position: center 0%;
         }
-        /* ------------------------------------- */
 
         .cv-contact-info {
-            background: #f0f8ff;
+            background: #f0fafb;
             padding: 1rem;
             border-radius: 8px;
-            border-left: 4px solid #00d4ff;
-            width: 100%; /* Assicura che occupi la larghezza nel flex container */
+            border-left: 4px solid #0c7a85;
+            width: 100%;
+        }
+
+        .cv-contact-info h3 {
+            margin-top: 0;
         }
 
         .cv-contact-info p {
@@ -557,681 +1167,916 @@
             font-size: 0.95rem;
         }
 
-        footer {
-            text-align: center;
-            padding: 2rem;
-            background: rgba(10, 14, 39, 0.9);
-            color: #a0aec0;
-            border-top: 1px solid rgba(0, 212, 255, 0.1);
+        /* ============================================================
+           NEURAL — "digital brain" panel
+           ============================================================ */
+        .neural-panel {
+            position: relative;
+            border-radius: calc(var(--radius) + 6px);
+            overflow: hidden;
+            min-height: 480px;
+            display: flex;
+            align-items: flex-end;
+            border: 1px solid var(--border);
+            background: #07100f;
+            box-shadow: var(--shadow);
         }
 
-        @media (max-width: 768px) {
+        #neural-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .neural-panel::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, rgba(5, 10, 10, 0.92) 0%, rgba(5, 10, 10, 0.55) 38%, transparent 70%),
+                linear-gradient(0deg, rgba(5, 10, 10, 0.85) 0%, transparent 45%);
+            pointer-events: none;
+        }
+
+        .neural-content {
+            position: relative;
+            z-index: 2;
+            padding: clamp(2rem, 5vw, 3.8rem);
+            max-width: 620px;
+            color: #f4efe6;
+        }
+
+        .neural-content h2 {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: clamp(2rem, 5vw, 3.4rem);
+            line-height: 1;
+            letter-spacing: -0.02em;
+            margin: 1rem 0 1rem;
+        }
+
+        .neural-content p {
+            color: #b9b1a6;
+            font-size: clamp(1rem, 1.4vw, 1.12rem);
+            max-width: 48ch;
+        }
+
+        .neural-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-top: 1.6rem;
+        }
+
+        .neural-tags span {
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            padding: 0.4rem 0.9rem;
+            border-radius: 999px;
+            color: var(--primary);
+            background: oklch(0.72 0.13 192 / 0.12);
+            border: 1px solid oklch(0.72 0.13 192 / 0.3);
+        }
+
+        /* ============================================================
+           CLICKABLE PROJECT CARDS + arrow
+           ============================================================ */
+        .project-card {
+            cursor: pointer;
+        }
+
+        .project-card .proj-go {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: color-mix(in oklab, var(--bg) 55%, transparent);
+            backdrop-filter: blur(6px);
+            border: 1px solid var(--border);
+            color: var(--primary);
+            opacity: 0;
+            transform: translateY(-6px) scale(0.9);
+            transition: all 0.4s var(--ease);
+            z-index: 2;
+        }
+
+        .project-card:hover .proj-go {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* ============================================================
+           PROJECT MODAL
+           ============================================================ */
+        .proj-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 2100;
+            background: rgba(0, 0, 0, 0.78);
+            backdrop-filter: blur(8px);
+            padding: 1.5rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .proj-modal.active {
+            display: flex;
+            animation: fade 0.3s var(--ease);
+        }
+
+        .proj-modal-content {
+            position: relative;
+            width: 100%;
+            max-width: 620px;
+            background: var(--surface-solid);
+            border: 1px solid var(--border-strong);
+            border-radius: var(--radius);
+            padding: clamp(1.8rem, 4vw, 2.8rem);
+            box-shadow: var(--shadow);
+            max-height: 88vh;
+            overflow: auto;
+        }
+
+        .proj-modal-content h3 {
+            font-family: var(--font-display);
+            font-weight: 500;
+            font-size: clamp(1.6rem, 4vw, 2.2rem);
+            letter-spacing: -0.01em;
+            margin: 0.8rem 0 1rem;
+        }
+
+        .proj-modal-content p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .proj-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid var(--border-strong);
+            background: var(--surface);
+            color: var(--text);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s var(--ease);
+        }
+
+        .proj-close:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: rotate(90deg);
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 960px) {
             .hero {
-                flex-direction: column;
-                padding: 6rem 1.5rem 2rem;
-                text-align: center;
-                height: auto;
-                min-height: 100vh;
-            }
-
-            .hero-content {
-                margin-bottom: 2rem;
-            }
-
-            .hero-content h1 {
-                font-size: 2rem;
-            }
-
-            .hero-content h2 {
-                font-size: 1.3rem;
-            }
-
-            .hero-content p {
-                font-size: 1rem;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-                gap: 0.8rem;
-                width: 100%;
-            }
-
-            .btn {
-                width: 100%;
-                max-width: 280px;
-                margin: 0 auto;
+                grid-template-columns: 1fr;
+                text-align: left;
+                padding-top: 7rem;
+                min-height: auto;
+                gap: 0;
             }
 
             #avatar-container {
-                height: 350px;
-                width: 100%;
+                order: -1;
+                height: 46vh;
+                margin-bottom: 1rem;
             }
 
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .bento-item.feature,
+            .bento-item.wide {
+                grid-column: span 2;
+                grid-row: span 1;
+            }
+
+            .scroll-hint {
+                display: none;
+            }
+        }
+
+        @media (max-width: 640px) {
             .nav-links {
                 display: none;
             }
 
-            section {
-                padding: 3rem 1.5rem;
-            }
-
-            .skills-grid,
-            .projects-grid,
-            .contact-info {
+            .bento {
                 grid-template-columns: 1fr;
             }
 
-            .tech-network {
-                opacity: 0.5;
+            .bento-item.feature,
+            .bento-item.wide,
+            .bento-item.full {
+                grid-column: span 1;
             }
 
-            .cv-modal {
-                padding: 1rem;
-            }
-
-            .cv-modal-header {
+            .bento-item.full {
                 flex-direction: column;
-                gap: 1rem;
-            }
-
-            .cv-modal-buttons {
-                flex-direction: column;
-                width: 100%;
-            }
-
-            .cv-modal-btn {
-                width: 100%;
+                align-items: flex-start;
             }
 
             .cv-info-section {
                 grid-template-columns: 1fr;
             }
-            
-            /* Adattamento foto per mobile */
-            .cv-right-column {
-                flex-direction: row;
-                align-items: center;
+
+            .cv-modal-header {
+                flex-direction: column;
+                align-items: stretch;
             }
-            
-            .cv-photo-frame {
-                width: 100px;
-                height: 100px;
+
+            .cv-modal-buttons {
+                flex-direction: column;
+            }
+
+            .cv-modal-btn {
+                width: 100%;
+            }
+        }
+
+        /* ============================================================
+           REDUCED MOTION
+           ============================================================ */
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.001ms !important;
+                scroll-behavior: auto !important;
+            }
+
+            .btn-primary::before {
+                animation: none;
             }
         }
     </style>
 </head>
 
 <body>
-    <svg class="tech-network" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-            <linearGradient id="techGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:0.9" />
-                <stop offset="50%" style="stop-color:#0096ff;stop-opacity:0.7" />
-                <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:0.5" />
-            </linearGradient>
-            <linearGradient id="techGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#0096ff;stop-opacity:0.8" />
-                <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:0.6" />
-            </linearGradient>
-            <filter id="glow">
-                <feGaussianBlur stdDeviation="4" result="coloredBlur" />
-                <feMerge>
-                    <feMergeNode in="coloredBlur" />
-                    <feMergeNode in="SourceGraphic" />
-                </feMerge>
-            </filter>
-            <filter id="glow-strong">
-                <feGaussianBlur stdDeviation="6" result="coloredBlur" />
-                <feMerge>
-                    <feMergeNode in="coloredBlur" />
-                    <feMergeNode in="SourceGraphic" />
-                </feMerge>
-            </filter>
-        </defs>
+    <!-- Three.js floating particle mesh background -->
+    <canvas id="bg-particles"></canvas>
 
-        <g class="network-orbit">
-            <circle cx="300" cy="300" r="120" fill="none" stroke="url(#techGrad)" stroke-width="3" opacity="0.6" />
-            <circle cx="300" cy="300" r="90" fill="none" stroke="url(#techGrad)" stroke-width="2" opacity="0.5" />
-            <circle cx="300" cy="300" r="60" fill="none" stroke="url(#techGrad)" stroke-width="2" opacity="0.4" />
-
-            <ellipse cx="300" cy="300" rx="120" ry="40" fill="none" stroke="url(#techGrad2)" stroke-width="2"
-                opacity="0.5" />
-            <ellipse cx="300" cy="300" rx="40" ry="120" fill="none" stroke="url(#techGrad2)" stroke-width="2"
-                opacity="0.5" />
-            <ellipse cx="300" cy="300" rx="100" ry="100" fill="none" stroke="url(#techGrad)" stroke-width="1.5"
-                opacity="0.4" transform="rotate(45 300 300)" />
-
-            <circle class="network-node" cx="180" cy="180" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
-            <circle class="network-node" cx="420" cy="180" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
-            <circle class="network-node" cx="460" cy="300" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
-            <circle class="network-node" cx="420" cy="420" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
-            <circle class="network-node" cx="180" cy="420" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
-            <circle class="network-node" cx="140" cy="300" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
-            <circle class="network-node" cx="300" cy="140" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
-            <circle class="network-node" cx="300" cy="460" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
-
-            <circle class="network-node" cx="240" cy="200" r="8" fill="url(#techGrad2)" filter="url(#glow)"
-                opacity="0.8" />
-            <circle class="network-node" cx="360" cy="200" r="8" fill="url(#techGrad2)" filter="url(#glow)"
-                opacity="0.8" />
-            <circle class="network-node" cx="400" cy="260" r="8" fill="url(#techGrad2)" filter="url(#glow)"
-                opacity="0.8" />
-            <circle class="network-node" cx="400" cy="340" r="8" fill="url(#techGrad2)" filter="url(#glow)"
-                opacity="0.8" />
-            <circle class="network-node" cx="360" cy="400" r="8" fill="url(#techGrad2)" filter="url(#glow)"
-                opacity="0.8" />
-            <circle class="network-node" cx="240" cy="400" r="8" fill="url(#techGrad2)" filter="url(#glow)"
-                opacity="0.8" />
-            <circle class="network-node" cx="200" cy="340" r="8" fill="url(#techGrad2)" filter="url(#glow)"
-                opacity="0.8" />
-            <circle class="network-node" cx="200" cy="260" r="8" fill="url(#techGrad2)" filter="url(#glow)"
-                opacity="0.8" />
-
-            <line x1="300" y1="300" x2="180" y2="180" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
-                filter="url(#glow)" />
-            <line x1="300" y1="300" x2="420" y2="180" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
-                filter="url(#glow)" />
-            <line x1="300" y1="300" x2="460" y2="300" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
-                filter="url(#glow)" />
-            <line x1="300" y1="300" x2="420" y2="420" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
-                filter="url(#glow)" />
-            <line x1="300" y1="300" x2="180" y2="420" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
-                filter="url(#glow)" />
-            <line x1="300" y1="300" x2="140" y2="300" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
-                filter="url(#glow)" />
-            <line x1="300" y1="300" x2="300" y2="140" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
-                filter="url(#glow)" />
-            <line x1="300" y1="300" x2="300" y2="460" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
-                filter="url(#glow)" />
-
-            <line x1="180" y1="180" x2="140" y2="300" stroke="url(#techGrad2)" stroke-width="1" opacity="0.4" />
-            <line x1="420" y1="180" x2="460" y2="300" stroke="url(#techGrad2)" stroke-width="1" opacity="0.4" />
-            <line x1="180" y1="420" x2="140" y2="300" stroke="url(#techGrad2)" stroke-width="1" opacity="0.4" />
-            <line x1="420" y1="420" x2="460" y2="300" stroke="url(#techGrad2)" stroke-width="1" opacity="0.4" />
-            <line x1="180" y1="180" x2="300" y2="140" stroke="url(#techGrad2)" stroke-width="1" opacity="0.4" />
-            <line x1="420" y1="180" x2="300" y2="140" stroke="url(#techGrad2)" stroke-width="1" opacity="0.4" />
-            <line x1="180" y1="420" x2="300" y2="460" stroke="url(#techGrad2)" stroke-width="1" opacity="0.4" />
-            <line x1="420" y1="420" x2="300" y2="460" stroke="url(#techGrad2)" stroke-width="1" opacity="0.4" />
-
-            <line x1="300" y1="300" x2="240" y2="200" stroke="url(#techGrad2)" stroke-width="1" opacity="0.3" />
-            <line x1="300" y1="300" x2="360" y2="200" stroke="url(#techGrad2)" stroke-width="1" opacity="0.3" />
-            <line x1="300" y1="300" x2="400" y2="260" stroke="url(#techGrad2)" stroke-width="1" opacity="0.3" />
-            <line x1="300" y1="300" x2="400" y2="340" stroke="url(#techGrad2)" stroke-width="1" opacity="0.3" />
-        </g>
-
-        <g class="network-orbit" style="animation-direction: reverse;">
-            <circle cx="1620" cy="540" r="100" fill="none" stroke="url(#techGrad)" stroke-width="3" opacity="0.6" />
-            <circle cx="1620" cy="540" r="75" fill="none" stroke="url(#techGrad)" stroke-width="2" opacity="0.5" />
-            <circle cx="1620" cy="540" r="50" fill="none" stroke="url(#techGrad)" stroke-width="2" opacity="0.4" />
-
-            <ellipse cx="1620" cy="540" rx="100" ry="35" fill="none" stroke="url(#techGrad2)" stroke-width="2"
-                opacity="0.5" />
-            <ellipse cx="1620" cy="540" rx="35" ry="100" fill="none" stroke="url(#techGrad2)" stroke-width="2"
-                opacity="0.5" />
-
-            <circle class="network-node" cx="1520" cy="440" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
-            <circle class="network-node" cx="1720" cy="440" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
-            <circle class="network-node" cx="1760" cy="540" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
-            <circle class="network-node" cx="1720" cy="640" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
-            <circle class="network-node" cx="1520" cy="640" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
-            <circle class="network-node" cx="1480" cy="540" r="12" fill="url(#techGrad)" filter="url(#glow-strong)" />
-
-            <line x1="1620" y1="540" x2="1520" y2="440" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
-                filter="url(#glow)" />
-            <line x1="1620" y1="540" x2="1720" y2="440" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
-                filter="url(#glow)" />
-            <line x1="1620" y1="540" x2="1760" y2="540" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
-                filter="url(#glow)" />
-            <line x1="1620" y1="540" x2="1720" y2="640" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
-                filter="url(#glow)" />
-            <line x1="1620" y1="540" x2="1520" y2="640" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
-                filter="url(#glow)" />
-            <line x1="1620" y1="540" x2="1480" y2="540" stroke="url(#techGrad)" stroke-width="2" opacity="0.6"
-                filter="url(#glow)" />
-        </g>
-
-        <g>
-            <circle cx="960" cy="900" r="80" fill="none" stroke="url(#techGrad)" stroke-width="2" opacity="0.5" />
-            <circle cx="960" cy="900" r="50" fill="none" stroke="url(#techGrad2)" stroke-width="1.5" opacity="0.4" />
-
-            <circle class="network-node" cx="880" cy="850" r="10" fill="url(#techGrad)" filter="url(#glow)" />
-            <circle class="network-node" cx="1040" cy="850" r="10" fill="url(#techGrad)" filter="url(#glow)" />
-            <circle class="network-node" cx="1040" cy="950" r="10" fill="url(#techGrad)" filter="url(#glow)" />
-            <circle class="network-node" cx="880" cy="950" r="10" fill="url(#techGrad)" filter="url(#glow)" />
-
-            <line x1="960" y1="900" x2="880" y2="850" stroke="url(#techGrad)" stroke-width="1.5" opacity="0.5" />
-            <line x1="960" y1="900" x2="1040" y2="850" stroke="url(#techGrad)" stroke-width="1.5" opacity="0.5" />
-            <line x1="960" y1="900" x2="1040" y2="950" stroke="url(#techGrad)" stroke-width="1.5" opacity="0.5" />
-            <line x1="960" y1="900" x2="880" y2="950" stroke="url(#techGrad)" stroke-width="1.5" opacity="0.5" />
-        </g>
-
-        <g>
-            <circle cx="1500" cy="150" r="60" fill="none" stroke="url(#techGrad2)" stroke-width="2" opacity="0.4" />
-            <circle class="network-node" cx="1450" cy="120" r="8" fill="url(#techGrad)" filter="url(#glow)" />
-            <circle class="network-node" cx="1550" cy="120" r="8" fill="url(#techGrad)" filter="url(#glow)" />
-            <circle class="network-node" cx="1550" cy="180" r="8" fill="url(#techGrad)" filter="url(#glow)" />
-            <circle class="network-node" cx="1450" cy="180" r="8" fill="url(#techGrad)" filter="url(#glow)" />
-
-            <line x1="1500" y1="150" x2="1450" y2="120" stroke="url(#techGrad2)" stroke-width="1" opacity="0.4" />
-            <line x1="1500" y1="150" x2="1550" y2="120" stroke="url(#techGrad2)" stroke-width="1" opacity="0.4" />
-            <line x1="1500" y1="150" x2="1550" y2="180" stroke="url(#techGrad2)" stroke-width="1" opacity="0.4" />
-            <line x1="1500" y1="150" x2="1450" y2="180" stroke="url(#techGrad2)" stroke-width="1" opacity="0.4" />
-        </g>
-
-        <line x1="460" y1="300" x2="880" y2="850" stroke="url(#techGrad)" stroke-width="1" opacity="0.2"
-            stroke-dasharray="10,10" />
-        <line x1="420" y1="420" x2="1480" y2="540" stroke="url(#techGrad)" stroke-width="1" opacity="0.2"
-            stroke-dasharray="10,10" />
-        <line x1="1040" y1="850" x2="1520" y2="640" stroke="url(#techGrad)" stroke-width="1" opacity="0.2"
-            stroke-dasharray="10,10" />
-
-        <circle class="network-node" cx="700" cy="200" r="5" fill="url(#techGrad)" filter="url(#glow)" opacity="0.6" />
-        <circle class="network-node" cx="1200" cy="300" r="5" fill="url(#techGrad)" filter="url(#glow)" opacity="0.6" />
-        <circle class="network-node" cx="800" cy="600" r="5" fill="url(#techGrad)" filter="url(#glow)" opacity="0.6" />
-        <circle class="network-node" cx="1400" cy="700" r="5" fill="url(#techGrad)" filter="url(#glow)" opacity="0.6" />
-        <circle class="network-node" cx="600" cy="500" r="5" fill="url(#techGrad)" filter="url(#glow)" opacity="0.6" />
-    </svg>
-
-    <header>
-        <nav>
-            <div class="logo">TM</div>
+    <!-- ============================ NAV ============================ -->
+    <header id="site-header">
+        <nav class="wrap">
+            <a href="#home" class="brand" aria-label="Tiziano Mazzetti — home">
+                <svg class="logo-mark" width="34" height="34" viewBox="0 0 40 40" fill="none"
+                    xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <rect x="2.5" y="2.5" width="35" height="35" rx="11" stroke="currentColor" stroke-width="1.6"
+                        opacity="0.35" />
+                    <path d="M11 14 H29 M20 14 V27" stroke="url(#logoGrad)" stroke-width="3.4" stroke-linecap="round" />
+                    <circle cx="20" cy="29.5" r="2.4" fill="var(--amber)" />
+                    <defs>
+                        <linearGradient id="logoGrad" x1="11" y1="14" x2="29" y2="29" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="var(--primary)" />
+                            <stop offset="1" stop-color="var(--amber)" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                Tiziano Mazzetti
+            </a>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#skills">Skills</a></li>
                 <li><a href="#projects">Progetti</a></li>
                 <li><a href="#contact">Contatti</a></li>
             </ul>
+            <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema" title="Cambia tema chiaro/scuro">
+                <svg class="moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                </svg>
+                <svg class="sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="4.5" />
+                    <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+                </svg>
+            </button>
         </nav>
     </header>
 
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1>Tiziano Mazzetti</h1>
-            <h2>AI & Web3 Junior Consultant</h2>
-            <p>Appassionato di intelligenza artificiale, avatar AI, ambienti di metaverso e tecnologie Web3.</p>
-            <p></p><strong>IL FUTURO NON CAPITA, SI PROGETTA.</strong></p>
-            <div class="cta-buttons">
-                <a href="#projects" class="btn btn-primary">Vedi Progetti</a>
-                <a href="#contact" class="btn btn-secondary">Contattami</a>
-            </div>
-        </div>
-        <div id="avatar-container"></div>
-    </section>
-
-    <section id="skills">
-        <h2 class="section-title">Esplora con un clic le mie Competenze</h2>
-        <div class="skills-grid">
-
-            <a href="skills/avatar-ai.html" class="skill-card"
-                style="text-decoration: none; display: block; color: inherit;">
-                <h3>
-                    <svg class="skill-icon" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="avatarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#00d4ff" />
-                                <stop offset="100%" style="stop-color:#0096ff" />
-                            </linearGradient>
-                        </defs>
-                        <rect x="60" y="60" width="80" height="80" rx="10" fill="url(#avatarGrad)" />
-                        <line x1="100" y1="60" x2="100" y2="40" stroke="#00d4ff" stroke-width="3" />
-                        <circle cx="100" cy="35" r="5" fill="#00d4ff" />
-                        <circle cx="80" cy="85" r="8" fill="#0a0e27" />
-                        <circle cx="120" cy="85" r="8" fill="#0a0e27" />
-                        <circle cx="82" cy="83" r="3" fill="#00d4ff" />
-                        <circle cx="122" cy="83" r="3" fill="#00d4ff" />
-                        <rect x="75" y="110" width="50" height="15" rx="3" fill="#0a0e27" opacity="0.6" />
-                        <line x1="85" y1="110" x2="85" y2="125" stroke="#00d4ff" stroke-width="2" />
-                        <line x1="95" y1="110" x2="95" y2="125" stroke="#00d4ff" stroke-width="2" />
-                        <line x1="105" y1="110" x2="105" y2="125" stroke="#00d4ff" stroke-width="2" />
-                        <line x1="115" y1="110" x2="115" y2="125" stroke="#00d4ff" stroke-width="2" />
-                        <rect x="70" y="145" width="60" height="40" rx="5" fill="url(#avatarGrad)" opacity="0.8" />
-                        <circle cx="85" cy="165" r="4" fill="#0a0e27" opacity="0.5" />
-                        <circle cx="115" cy="165" r="4" fill="#0a0e27" opacity="0.5" />
-                    </svg>
-                    Avatar AI
-                </h3>
-                <p>Creo avatar dotati di intelligenza artificiale per interazioni immersive e personalizzate.</p>
-            </a>
-
-            <a href="skills/ambienti-metaverso.html" class="skill-card"
-                style="text-decoration: none; display: block; color: inherit;">
-                <h3>
-                    <svg class="skill-icon" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="metaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#00d4ff" />
-                                <stop offset="100%" style="stop-color:#0096ff" />
-                            </linearGradient>
-                        </defs>
-                        <ellipse cx="100" cy="100" rx="70" ry="45" fill="url(#metaGrad)" />
-                        <circle cx="75" cy="100" r="20" fill="#0a0e27" opacity="0.6" />
-                        <circle cx="125" cy="100" r="20" fill="#0a0e27" opacity="0.6" />
-                        <circle cx="75" cy="100" r="15" fill="#00d4ff" opacity="0.3" />
-                        <circle cx="125" cy="100" r="15" fill="#00d4ff" opacity="0.3" />
-                        <path d="M 30 100 Q 20 100 20 110 L 20 120 Q 20 125 25 125 L 30 125" fill="url(#metaGrad)"
-                            opacity="0.7" />
-                        <path d="M 170 100 Q 180 100 180 110 L 180 120 Q 180 125 175 125 L 170 125" fill="url(#metaGrad)"
-                            opacity="0.7" />
-                        <line x1="100" y1="70" x2="100" y2="130" stroke="#0a0e27" stroke-width="2" opacity="0.3" />
-                        <rect x="90" y="55" width="20" height="8" rx="2" fill="#00d4ff" opacity="0.6" />
-                    </svg>
-                    Ambienti Metaverso
-                </h3>
-                <p>Realizzo stanze virtuali metaversali usufruibili anche tramite visore VR.</p>
-            </a>
-
-            <a href="skills/formazione.html" class="skill-card"
-                style="text-decoration: none; display: block; color: inherit;">
-                <h3>
-                    <svg class="skill-icon" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="formGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#00d4ff" />
-                                <stop offset="100%" style="stop-color:#0096ff" />
-                            </linearGradient>
-                        </defs>
-                        <rect x="50" y="40" width="100" height="120" rx="5" fill="url(#formGrad)" />
-                        <rect x="55" y="45" width="90" height="110" rx="3" fill="#0a0e27" opacity="0.2" />
-                        <line x1="70" y1="70" x2="130" y2="70" stroke="#0a0e27" stroke-width="3" opacity="0.4" />
-                        <line x1="70" y1="85" x2="130" y2="85" stroke="#0a0e27" stroke-width="3" opacity="0.4" />
-                        <line x1="70" y1="100" x2="110" y2="100" stroke="#0a0e27" stroke-width="3" opacity="0.4" />
-                        <circle cx="100" cy="125" r="12" fill="#00d4ff" opacity="0.8" />
-                        <path d="M 95 137 L 95 145 L 105 145 L 105 137" fill="#00d4ff" opacity="0.6" />
-                        <line x1="85" y1="120" x2="80" y2="115" stroke="#00d4ff" stroke-width="2" />
-                        <line x1="115" y1="120" x2="120" y2="115" stroke="#00d4ff" stroke-width="2" />
-                        <line x1="85" y1="130" x2="80" y2="135" stroke="#00d4ff" stroke-width="2" />
-                        <line x1="115" y1="130" x2="120" y2="135" stroke="#00d4ff" stroke-width="2" />
-                    </svg>
-                    Formazione
-                </h3>
-                <p>Ho esperienza come formatore nell'uso di visori VR e tecnologie innovative.</p>
-            </a>
-
-            <a href="skills/ai-applications.html" class="skill-card"
-                style="text-decoration: none; display: block; color: inherit;">
-                <h3>
-                    <svg class="skill-icon" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="aiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#00d4ff" />
-                                <stop offset="100%" style="stop-color:#0096ff" />
-                            </linearGradient>
-                        </defs>
-                        <ellipse cx="100" cy="90" rx="50" ry="55" fill="url(#aiGrad)" />
-                        <circle cx="75" cy="70" r="6" fill="#0a0e27" opacity="0.5" />
-                        <circle cx="125" cy="70" r="6" fill="#0a0e27" opacity="0.5" />
-                        <circle cx="85" cy="95" r="6" fill="#0a0e27" opacity="0.5" />
-                        <circle cx="115" cy="95" r="6" fill="#0a0e27" opacity="0.5" />
-                        <circle cx="75" cy="115" r="6" fill="#0a0e27" opacity="0.5" />
-                        <circle cx="125" cy="115" r="6" fill="#0a0e27" opacity="0.5" />
-                        <circle cx="100" cy="105" r="8" fill="#00d4ff" />
-                        <line x1="75" y1="70" x2="85" y2="95" stroke="#0a0e27" stroke-width="2" opacity="0.3" />
-                        <line x1="125" y1="70" x2="115" y2="95" stroke="#0a0e27" stroke-width="2" opacity="0.3" />
-                        <line x1="85" y1="95" x2="100" y2="105" stroke="#00d4ff" stroke-width="2" opacity="0.6" />
-                        <line x1="115" y1="95" x2="100" y2="105" stroke="#00d4ff" stroke-width="2" opacity="0.6" />
-                        <line x1="100" y1="105" x2="75" y2="115" stroke="#00d4ff" stroke-width="2" opacity="0.6" />
-                        <line x1="100" y1="105" x2="125" y2="115" stroke="#00d4ff" stroke-width="2" opacity="0.6" />
-                        <rect x="70" y="145" width="60" height="30" rx="5" fill="url(#aiGrad)" opacity="0.7" />
-                        <circle cx="85" cy="160" r="4" fill="#00d4ff" />
-                        <circle cx="100" cy="160" r="4" fill="#00d4ff" />
-                        <circle cx="115" cy="160" r="4" fill="#00d4ff" />
-                    </svg>
-                    AI Applications
-                </h3>
-                <p>Studio e applico praticamente l'intelligenza artificiale in ambiti lavorativi.</p>
-            </a>
-
-            <a href="skills/modellazione-3d.html" class="skill-card"
-                style="text-decoration: none; display: block; color: inherit;">
-                <h3>
-                    <svg class="skill-icon" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="modelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#00d4ff" />
-                                <stop offset="100%" style="stop-color:#0096ff" />
-                            </linearGradient>
-                        </defs>
-                        <path d="M 100 50 L 150 75 L 150 125 L 100 150 L 50 125 L 50 75 Z" fill="url(#modelGrad)"
-                            opacity="0.8" />
-                        <path d="M 100 50 L 150 75 L 100 100 L 50 75 Z" fill="url(#modelGrad)" />
-                        <path d="M 100 100 L 100 150 L 50 125 L 50 75 Z" fill="url(#modelGrad)" opacity="0.6" />
-                        <path d="M 100 100 L 100 150 L 150 125 L 150 75 Z" fill="url(#modelGrad)" opacity="0.9" />
-                        <line x1="100" y1="50" x2="100" y2="100" stroke="#0a0e27" stroke-width="2" opacity="0.3" />
-                        <line x1="75" y1="62.5" x2="75" y2="112.5" stroke="#0a0e27" stroke-width="1.5" opacity="0.3" />
-                        <line x1="125" y1="62.5" x2="125" y2="112.5" stroke="#0a0e27" stroke-width="1.5" opacity="0.3" />
-                        <line x1="50" y1="75" x2="100" y2="100" stroke="#0a0e27" stroke-width="1.5" opacity="0.3" />
-                        <line x1="150" y1="75" x2="100" y2="100" stroke="#0a0e27" stroke-width="1.5" opacity="0.3" />
-                        <circle cx="100" cy="50" r="4" fill="#00d4ff" />
-                        <circle cx="50" cy="75" r="4" fill="#00d4ff" />
-                        <circle cx="150" cy="75" r="4" fill="#00d4ff" />
-                        <circle cx="100" cy="150" r="4" fill="#00d4ff" />
-                        <circle cx="50" cy="125" r="4" fill="#00d4ff" />
-                        <circle cx="150" cy="125" r="4" fill="#00d4ff" />
-                    </svg>
-                    Modellazione 3D
-                </h3>
-                <p>Creo modelli 3D per stanze di metaverso in realtà virtuale.</p>
-            </a>
-        </div>
-    </section>
-
-    <section id="projects">
-        <h2 class="section-title">Sintesi dei miei Progetti </h2>
-        <div class="projects-grid">
-            <div class="project-card">
-                <div class="project-image"><svg class="project-icon" viewBox="0 0 200 200"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="proj1Grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#00d4ff" />
-                                <stop offset="100%" style="stop-color:#0096ff" />
-                            </linearGradient>
-                        </defs>
-                        <rect x="50" y="60" width="100" height="100" rx="8" fill="url(#proj1Grad)" />
-                        <rect x="65" y="75" width="20" height="20" rx="2" fill="#0a0e27" opacity="0.4" />
-                        <rect x="90" y="75" width="20" height="20" rx="2" fill="#0a0e27" opacity="0.4" />
-                        <rect x="115" y="75" width="20" height="20" rx="2" fill="#0a0e27" opacity="0.4" />
-                        <rect x="65" y="100" width="20" height="20" rx="2" fill="#0a0e27" opacity="0.4" />
-                        <rect x="90" y="100" width="20" height="20" rx="2" fill="#00d4ff" opacity="0.6" />
-                        <rect x="115" y="100" width="20" height="20" rx="2" fill="#0a0e27" opacity="0.4" />
-                        <rect x="65" y="125" width="20" height="20" rx="2" fill="#0a0e27" opacity="0.4" />
-                        <rect x="90" y="125" width="20" height="20" rx="2" fill="#0a0e27" opacity="0.4" />
-                        <rect x="115" y="125" width="20" height="20" rx="2" fill="#0a0e27" opacity="0.4" />
-                        <rect x="85" y="145" width="30" height="15" rx="2" fill="#0a0e27" opacity="0.5" />
-                        <circle cx="100" cy="40" r="15" fill="#00d4ff" opacity="0.8" /><text x="100" y="48"
-                            text-anchor="middle" font-size="14" fill="#0a0e27" font-weight="bold">VR</text>
-                    </svg></div>
-                <div class="project-content">
-                    <h3>Ambienti Metaversali Aziendali</h3>
-                    <p>Stanze virtuali metaversali per meeting aziendali,
-                        complete di spazi personalizzabili.</p>
-                    <div class="project-tags"><span class="tag">Metaverso</span><span class="tag">VR</span><span
-                            class="tag">Blender</span></div>
+    <main class="wrap">
+        <!-- ============================ HERO ============================ -->
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <span class="kicker reveal-hero">Welcome</span>
+                <h1>
+                    <span class="line reveal-hero">Tiziano</span>
+                    <span class="line reveal-hero accent">Mazzetti</span>
+                </h1>
+                <div class="hero-role reveal-hero">
+                    <span class="dot"></span> AI &amp; Web3 Consultant
+                </div>
+                <p class="lead reveal-hero">Appassionato di intelligenza artificiale, avatar AI, ambienti di
+                    metaverso e tecnologie Web3.</p>
+                <div class="cta-buttons reveal-hero">
+                    <a href="#projects" class="btn btn-primary">
+                        Vedi Progetti
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M5 12h14M13 6l6 6-6 6" />
+                        </svg>
+                    </a>
+                    <a href="#contact" class="btn btn-secondary">Contattami</a>
                 </div>
             </div>
-            <div class="project-card">
-                <div class="project-image"><svg class="project-icon" viewBox="0 0 200 200"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="proj2Grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#00d4ff" />
-                                <stop offset="100%" style="stop-color:#0096ff" />
-                            </linearGradient>
-                        </defs>
-                        <circle cx="100" cy="80" r="35" fill="url(#proj2Grad)" />
-                        <circle cx="88" cy="75" r="5" fill="#0a0e27" />
-                        <circle cx="112" cy="75" r="5" fill="#0a0e27" />
-                        <circle cx="90" cy="73" r="2" fill="#00d4ff" />
-                        <circle cx="114" cy="73" r="2" fill="#00d4ff" />
-                        <path d="M 85 90 Q 100 100 115 90" stroke="#0a0e27" stroke-width="3" fill="none"
-                            stroke-linecap="round" />
-                        <ellipse cx="100" cy="140" rx="45" ry="35" fill="url(#proj2Grad)" opacity="0.9" />
-                        <rect x="92" y="55" width="16" height="10" rx="2" fill="#00d4ff" opacity="0.8" />
-                        <circle cx="96" cy="60" r="1.5" fill="#0a0e27" />
-                        <circle cx="100" cy="60" r="1.5" fill="#0a0e27" />
-                        <circle cx="104" cy="60" r="1.5" fill="#0a0e27" />
-                        <path d="M 125 75 Q 135 75 140 70" stroke="#00d4ff" stroke-width="2" fill="none"
-                            opacity="0.6" />
-                        <path d="M 125 80 Q 140 80 145 75" stroke="#00d4ff" stroke-width="2" fill="none"
-                            opacity="0.4" />
-                        <path d="M 75 75 Q 65 75 60 70" stroke="#00d4ff" stroke-width="2" fill="none" opacity="0.6" />
-                        <path d="M 75 80 Q 60 80 55 75" stroke="#00d4ff" stroke-width="2" fill="none" opacity="0.4" />
-                    </svg></div>
-                <div class="project-content">
-                    <h3>Avatar AI Assistente</h3>
-                    <p>Avatar intelligenti con capacità di conversazione naturale personalizzabile.</p>
-                    <div class="project-tags"><span class="tag">AI</span><span class="tag">NLP</span><span
-                            class="tag">3D</span></div>
+            <div id="avatar-container"></div>
+            <div class="scroll-hint" aria-hidden="true">
+                <span class="mouse"></span>
+                Scroll
+            </div>
+        </section>
+
+        <!-- ==================== NEURAL — DIGITAL BRAIN ==================== -->
+        <section aria-label="Sistema neurale">
+            <div class="neural-panel reveal">
+                <canvas id="neural-canvas" aria-hidden="true"></canvas>
+                <div class="neural-content">
+                    <span class="kicker">Sistema neurale</span>
+                    <h2>Un ecosistema digitale<br>in azione</h2>
+                    <p>Progetto sistemi che pensano, imparano e dialogano: chatbot, agenti AI e avatar
+                        che trasformano i dati in conversazioni reali.</p>
+                    <div class="neural-tags">
+                        <span>Bot Conversazionali</span>
+                        <span>Agenti AI</span>
+                        <span>Machine Learning</span>
+                        <span>Automazione</span>
+                    </div>
                 </div>
             </div>
-            <div class="project-card">
-                <div class="project-image"><svg class="project-icon" viewBox="0 0 200 200"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="proj3Grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#00d4ff" />
-                                <stop offset="100%" style="stop-color:#0096ff" />
-                            </linearGradient>
-                        </defs>
-                        <rect x="40" y="80" width="120" height="80" rx="5" fill="url(#proj3Grad)" />
-                        <rect x="50" y="90" width="100" height="60" rx="3" fill="#0a0e27" opacity="0.3" />
-                        <circle cx="100" cy="120" r="20" fill="#00d4ff" opacity="0.7" />
-                        <circle cx="100" cy="120" r="15" fill="url(#proj3Grad)" />
-                        <rect x="90" y="160" width="20" height="15" fill="url(#proj3Grad)" opacity="0.8" />
-                        <rect x="70" y="175" width="60" height="5" rx="2" fill="url(#proj3Grad)" />
-                        <circle cx="60" cy="100" r="4" fill="#00d4ff" />
-                        <circle cx="140" cy="100" r="4" fill="#00d4ff" />
-                        <circle cx="60" cy="140" r="4" fill="#00d4ff" />
-                        <circle cx="140" cy="140" r="4" fill="#00d4ff" />
-                        <path d="M 85 105 L 80 95 M 90 105 L 85 95 M 95 105 L 92 95" stroke="#00d4ff" stroke-width="1.5"
-                            opacity="0.5" />
-                        <path d="M 115 105 L 120 95 M 110 105 L 115 95 M 105 105 L 108 95" stroke="#00d4ff"
-                            stroke-width="1.5" opacity="0.5" />
-                    </svg></div>
-                <div class="project-content">
-                    <h3>Showrooms Virtuali</h3>
-                    <p>Esperienze immersive per la presentazione di prodotti in ambiente virtuale con presentazioni
-                        AI-Powered.</p>
-                    <div class="project-tags"><span class="tag">Presentazioni</span><span class="tag">Web3</span><span
-                            class="tag">Marketing</span></div>
-                </div>
+        </section>
+
+        <!-- ============================ SKILLS ============================ -->
+        <section id="skills">
+            <div class="section-head">
+                <span class="kicker">Competenze</span>
+                <h2 class="section-title reveal">Esplora con un clic<br>le mie Competenze</h2>
             </div>
-            <div class="project-card">
-                <div class="project-image"><svg class="project-icon" viewBox="0 0 200 200"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="proj4Grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#00d4ff" />
-                                <stop offset="100%" style="stop-color:#0096ff" />
-                            </linearGradient>
-                        </defs>
-                        <rect x="45" y="50" width="110" height="100" rx="10" fill="url(#proj4Grad)" />
-                        <rect x="50" y="55" width="100" height="90" rx="8" fill="#0a0e27" opacity="0.3" />
-                        <rect x="60" y="70" width="60" height="15" rx="7" fill="#00d4ff" opacity="0.7" />
-                        <rect x="80" y="95" width="60" height="15" rx="7" fill="url(#proj4Grad)" opacity="0.5" />
-                        <rect x="60" y="120" width="60" height="15" rx="7" fill="#00d4ff" opacity="0.7" />
-                        <circle cx="130" cy="100" r="18" fill="#00d4ff" />
-                        <circle cx="125" cy="96" r="3" fill="#0a0e27" />
-                        <circle cx="135" cy="96" r="3" fill="#0a0e27" />
-                        <rect x="125" y="105" width="10" height="4" rx="2" fill="#0a0e27" opacity="0.5" />
-                        <path d="M 35 80 Q 30 85 35 90" stroke="#00d4ff" stroke-width="2" fill="none" opacity="0.6" />
-                        <path d="M 30 80 Q 22 85 30 90" stroke="#00d4ff" stroke-width="2" fill="none" opacity="0.4" />
-                        <path d="M 165 80 Q 170 85 165 90" stroke="#00d4ff" stroke-width="2" fill="none" opacity="0.6" />
-                        <path d="M 170 80 Q 178 85 170 90" stroke="#00d4ff" stroke-width="2" fill="none" opacity="0.4" />
-                    </svg></div>
-                <div class="project-content">
-                    <h3>Chatbot AI Personalizzati</h3>
-                    <p>Sistemi di intelligenza artificiale per automazione customer service con apprendimento
-                        personalizzabile.</p>
-                    <div class="project-tags"><span class="tag">Support</span><span class="tag">Machine
-                            Learning</span><span class="tag">API</span></div>
-                </div>
+
+            <div class="bento">
+                <!-- Avatar AI — feature -->
+                <a href="skills/avatar-ai.html" class="bento-item feature magnetic">
+                    <div class="bento-icon">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <defs>
+                                <linearGradient id="avatarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#00d4ff" />
+                                    <stop offset="100%" style="stop-color:#0096ff" />
+                                </linearGradient>
+                            </defs>
+                            <rect x="60" y="60" width="80" height="80" rx="10" fill="url(#avatarGrad)" />
+                            <line x1="100" y1="60" x2="100" y2="40" stroke="#00d4ff" stroke-width="3" />
+                            <circle cx="100" cy="35" r="5" fill="#00d4ff" />
+                            <circle cx="80" cy="85" r="8" fill="#0a0e27" />
+                            <circle cx="120" cy="85" r="8" fill="#0a0e27" />
+                            <circle cx="82" cy="83" r="3" fill="#00d4ff" />
+                            <circle cx="122" cy="83" r="3" fill="#00d4ff" />
+                            <rect x="75" y="110" width="50" height="15" rx="3" fill="#0a0e27" opacity="0.6" />
+                            <line x1="85" y1="110" x2="85" y2="125" stroke="#00d4ff" stroke-width="2" />
+                            <line x1="95" y1="110" x2="95" y2="125" stroke="#00d4ff" stroke-width="2" />
+                            <line x1="105" y1="110" x2="105" y2="125" stroke="#00d4ff" stroke-width="2" />
+                            <line x1="115" y1="110" x2="115" y2="125" stroke="#00d4ff" stroke-width="2" />
+                            <rect x="70" y="145" width="60" height="40" rx="5" fill="url(#avatarGrad)" opacity="0.8" />
+                            <circle cx="85" cy="165" r="4" fill="#0a0e27" opacity="0.5" />
+                            <circle cx="115" cy="165" r="4" fill="#0a0e27" opacity="0.5" />
+                        </svg>
+                    </div>
+                    <div class="bento-text">
+                        <h3>Avatar AI</h3>
+                        <p>Creo avatar dotati di intelligenza artificiale per interazioni immersive e personalizzate.</p>
+                    </div>
+                    <span class="bento-arrow" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M7 17L17 7M9 7h8v8" />
+                        </svg>
+                    </span>
+                </a>
+
+                <!-- Ambienti Metaverso — wide -->
+                <a href="skills/ambienti-metaverso.html" class="bento-item wide magnetic">
+                    <div class="bento-icon">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <defs>
+                                <linearGradient id="metaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#00d4ff" />
+                                    <stop offset="100%" style="stop-color:#0096ff" />
+                                </linearGradient>
+                            </defs>
+                            <ellipse cx="100" cy="100" rx="70" ry="45" fill="url(#metaGrad)" />
+                            <circle cx="75" cy="100" r="20" fill="#0a0e27" opacity="0.6" />
+                            <circle cx="125" cy="100" r="20" fill="#0a0e27" opacity="0.6" />
+                            <circle cx="75" cy="100" r="15" fill="#00d4ff" opacity="0.3" />
+                            <circle cx="125" cy="100" r="15" fill="#00d4ff" opacity="0.3" />
+                            <path d="M 30 100 Q 20 100 20 110 L 20 120 Q 20 125 25 125 L 30 125" fill="url(#metaGrad)"
+                                opacity="0.7" />
+                            <path d="M 170 100 Q 180 100 180 110 L 180 120 Q 180 125 175 125 L 170 125"
+                                fill="url(#metaGrad)" opacity="0.7" />
+                            <line x1="100" y1="70" x2="100" y2="130" stroke="#0a0e27" stroke-width="2" opacity="0.3" />
+                            <rect x="90" y="55" width="20" height="8" rx="2" fill="#00d4ff" opacity="0.6" />
+                        </svg>
+                    </div>
+                    <div class="bento-text">
+                        <h3>Ambienti Metaverso</h3>
+                        <p>Realizzo stanze virtuali metaversali usufruibili anche tramite visore VR.</p>
+                    </div>
+                    <span class="bento-arrow" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M7 17L17 7M9 7h8v8" />
+                        </svg>
+                    </span>
+                </a>
+
+                <!-- AI Applications -->
+                <a href="skills/ai-applications.html" class="bento-item magnetic">
+                    <div class="bento-icon">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <defs>
+                                <linearGradient id="aiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#00d4ff" />
+                                    <stop offset="100%" style="stop-color:#0096ff" />
+                                </linearGradient>
+                            </defs>
+                            <ellipse cx="100" cy="90" rx="50" ry="55" fill="url(#aiGrad)" />
+                            <circle cx="75" cy="70" r="6" fill="#0a0e27" opacity="0.5" />
+                            <circle cx="125" cy="70" r="6" fill="#0a0e27" opacity="0.5" />
+                            <circle cx="85" cy="95" r="6" fill="#0a0e27" opacity="0.5" />
+                            <circle cx="115" cy="95" r="6" fill="#0a0e27" opacity="0.5" />
+                            <circle cx="75" cy="115" r="6" fill="#0a0e27" opacity="0.5" />
+                            <circle cx="125" cy="115" r="6" fill="#0a0e27" opacity="0.5" />
+                            <circle cx="100" cy="105" r="8" fill="#00d4ff" />
+                            <line x1="85" y1="95" x2="100" y2="105" stroke="#00d4ff" stroke-width="2" opacity="0.6" />
+                            <line x1="115" y1="95" x2="100" y2="105" stroke="#00d4ff" stroke-width="2" opacity="0.6" />
+                            <rect x="70" y="145" width="60" height="30" rx="5" fill="url(#aiGrad)" opacity="0.7" />
+                            <circle cx="85" cy="160" r="4" fill="#00d4ff" />
+                            <circle cx="100" cy="160" r="4" fill="#00d4ff" />
+                            <circle cx="115" cy="160" r="4" fill="#00d4ff" />
+                        </svg>
+                    </div>
+                    <div class="bento-text">
+                        <h3>AI Applications</h3>
+                        <p>Studio e applico praticamente l'intelligenza artificiale in ambiti lavorativi.</p>
+                    </div>
+                    <span class="bento-arrow" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M7 17L17 7M9 7h8v8" />
+                        </svg>
+                    </span>
+                </a>
+
+                <!-- Formazione -->
+                <a href="skills/formazione.html" class="bento-item magnetic">
+                    <div class="bento-icon">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <defs>
+                                <linearGradient id="formGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#00d4ff" />
+                                    <stop offset="100%" style="stop-color:#0096ff" />
+                                </linearGradient>
+                            </defs>
+                            <rect x="50" y="40" width="100" height="120" rx="5" fill="url(#formGrad)" />
+                            <rect x="55" y="45" width="90" height="110" rx="3" fill="#0a0e27" opacity="0.2" />
+                            <line x1="70" y1="70" x2="130" y2="70" stroke="#0a0e27" stroke-width="3" opacity="0.4" />
+                            <line x1="70" y1="85" x2="130" y2="85" stroke="#0a0e27" stroke-width="3" opacity="0.4" />
+                            <line x1="70" y1="100" x2="110" y2="100" stroke="#0a0e27" stroke-width="3" opacity="0.4" />
+                            <circle cx="100" cy="125" r="12" fill="#00d4ff" opacity="0.8" />
+                            <path d="M 95 137 L 95 145 L 105 145 L 105 137" fill="#00d4ff" opacity="0.6" />
+                        </svg>
+                    </div>
+                    <div class="bento-text">
+                        <h3>Formazione</h3>
+                        <p>Ho esperienza come formatore nell'uso di visori VR e tecnologie innovative.</p>
+                    </div>
+                    <span class="bento-arrow" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M7 17L17 7M9 7h8v8" />
+                        </svg>
+                    </span>
+                </a>
+
+                <!-- Modellazione 3D — full width -->
+                <a href="skills/modellazione-3d.html" class="bento-item full magnetic">
+                    <div class="bento-icon">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <defs>
+                                <linearGradient id="modelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#00d4ff" />
+                                    <stop offset="100%" style="stop-color:#0096ff" />
+                                </linearGradient>
+                            </defs>
+                            <path d="M 100 50 L 150 75 L 150 125 L 100 150 L 50 125 L 50 75 Z" fill="url(#modelGrad)"
+                                opacity="0.8" />
+                            <path d="M 100 50 L 150 75 L 100 100 L 50 75 Z" fill="url(#modelGrad)" />
+                            <path d="M 100 100 L 100 150 L 50 125 L 50 75 Z" fill="url(#modelGrad)" opacity="0.6" />
+                            <path d="M 100 100 L 100 150 L 150 125 L 150 75 Z" fill="url(#modelGrad)" opacity="0.9" />
+                            <circle cx="100" cy="50" r="4" fill="#00d4ff" />
+                            <circle cx="50" cy="75" r="4" fill="#00d4ff" />
+                            <circle cx="150" cy="75" r="4" fill="#00d4ff" />
+                            <circle cx="100" cy="150" r="4" fill="#00d4ff" />
+                            <circle cx="50" cy="125" r="4" fill="#00d4ff" />
+                            <circle cx="150" cy="125" r="4" fill="#00d4ff" />
+                        </svg>
+                    </div>
+                    <div class="bento-text">
+                        <h3>Modellazione 3D</h3>
+                        <p>Creo modelli 3D per stanze di metaverso in realtà virtuale.</p>
+                    </div>
+                    <span class="bento-arrow" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M7 17L17 7M9 7h8v8" />
+                        </svg>
+                    </span>
+                </a>
             </div>
-            <div class="project-card">
-                <div class="project-image"><svg class="project-icon" viewBox="0 0 200 200"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="proj5Grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#00d4ff" />
-                                <stop offset="100%" style="stop-color:#0096ff" />
-                            </linearGradient>
-                        </defs>
-                        <rect x="50" y="50" width="100" height="70" rx="5" fill="url(#proj5Grad)" />
-                        <rect x="55" y="55" width="90" height="60" rx="3" fill="#0a0e27" opacity="0.3" />
-                        <ellipse cx="100" cy="85" rx="25" ry="15" fill="#00d4ff" opacity="0.8" />
-                        <circle cx="88" cy="85" r="8" fill="#0a0e27" opacity="0.5" />
-                        <circle cx="112" cy="85" r="8" fill="#0a0e27" opacity="0.5" />
-                        <rect x="95" y="120" width="10" height="25" fill="url(#proj5Grad)" opacity="0.7" />
-                        <rect x="75" y="145" width="50" height="8" rx="4" fill="url(#proj5Grad)" />
-                        <circle cx="65" cy="165" r="8" fill="#00d4ff" opacity="0.6" />
-                        <path d="M 65 173 Q 65 180 57 180 L 73 180 Q 65 180 65 173" fill="#00d4ff" opacity="0.6" />
-                        <circle cx="100" cy="165" r="8" fill="#00d4ff" opacity="0.6" />
-                        <path d="M 100 173 Q 100 180 92 180 L 108 180 Q 100 180 100 173" fill="#00d4ff" opacity="0.6" />
-                        <circle cx="135" cy="165" r="8" fill="#00d4ff" opacity="0.6" />
-                        <path d="M 135 173 Q 135 180 127 180 L 143 180 Q 135 180 135 173" fill="#00d4ff" opacity="0.6" />
-                        <circle cx="70" cy="70" r="3" fill="#00d4ff" />
-                        <circle cx="85" cy="70" r="3" fill="#00d4ff" />
-                        <circle cx="115" cy="70" r="3" fill="#00d4ff" />
-                        <circle cx="130" cy="70" r="3" fill="#00d4ff" />
-                    </svg></div>
-                <div class="project-content">
-                    <h3>Formazione Web3</h3>
-                    <p>Studio, raccolgo e scrivo materiali didattici per la formazione pratica sull'utilizzo di visori VR e dispositivi Web3 per aziende.</p>
-                    <div class="project-tags"><span class="tag">Learning</span><span class="tag">Smart
-                            Working</span><span class="tag">Realtà Virtuale</span></div>
-                </div>
-            </div>
+        </section>
+    </main>
+
+    <!-- ==================== FULL-BLEED CINEMATIC QUOTE ==================== -->
+    <section class="fullbleed" aria-label="Manifesto">
+        <div class="grid-lines" aria-hidden="true"></div>
+        <div class="wrap">
+            <p class="quote reveal">Il futuro non capita, <span class="em">si progetta.</span></p>
+            <p class="quote-sub">Tiziano Mazzetti — Manifesto</p>
         </div>
     </section>
-    <section id="contact">
-        <h2 class="section-title">Contattami</h2>
-        <div class="contact-info">
-            <div class="contact-card">
-                <h3>📧 Email</h3><a href="mailto:tizianomazzetti@gmail.com">tizianomazzetti@gmail.com</a>
+
+    <main class="wrap">
+        <!-- ============================ PROJECTS ============================ -->
+        <section id="projects">
+            <div class="section-head">
+                <span class="kicker">Portfolio</span>
+                <h2 class="section-title reveal">Sintesi dei<br>miei Progetti</h2>
             </div>
+
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image">
+                        <svg class="project-icon" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"
+                            aria-hidden="true">
+                            <defs>
+                                <linearGradient id="proj1Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#00d4ff" />
+                                    <stop offset="100%" style="stop-color:#0096ff" />
+                                </linearGradient>
+                            </defs>
+                            <rect x="50" y="60" width="100" height="100" rx="8" fill="url(#proj1Grad)" />
+                            <rect x="65" y="75" width="20" height="20" rx="2" fill="#0a0e27" opacity="0.4" />
+                            <rect x="90" y="75" width="20" height="20" rx="2" fill="#0a0e27" opacity="0.4" />
+                            <rect x="115" y="75" width="20" height="20" rx="2" fill="#0a0e27" opacity="0.4" />
+                            <rect x="65" y="100" width="20" height="20" rx="2" fill="#0a0e27" opacity="0.4" />
+                            <rect x="90" y="100" width="20" height="20" rx="2" fill="#00d4ff" opacity="0.6" />
+                            <rect x="115" y="100" width="20" height="20" rx="2" fill="#0a0e27" opacity="0.4" />
+                            <rect x="65" y="125" width="20" height="20" rx="2" fill="#0a0e27" opacity="0.4" />
+                            <rect x="90" y="125" width="20" height="20" rx="2" fill="#0a0e27" opacity="0.4" />
+                            <rect x="115" y="125" width="20" height="20" rx="2" fill="#0a0e27" opacity="0.4" />
+                            <circle cx="100" cy="40" r="15" fill="#00d4ff" opacity="0.8" /><text x="100" y="48"
+                                text-anchor="middle" font-size="14" fill="#0a0e27" font-weight="bold">VR</text>
+                        </svg>
+                    </div>
+                    <div class="project-content">
+                        <h3>Ambienti Metaversali Aziendali</h3>
+                        <p>Stanze virtuali metaversali per meeting aziendali, complete di spazi personalizzabili.</p>
+                        <div class="project-tags"><span class="tag">Metaverso</span><span class="tag">VR</span><span
+                                class="tag">Blender</span></div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <svg class="project-icon" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"
+                            aria-hidden="true">
+                            <defs>
+                                <linearGradient id="proj2Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#00d4ff" />
+                                    <stop offset="100%" style="stop-color:#0096ff" />
+                                </linearGradient>
+                            </defs>
+                            <circle cx="100" cy="80" r="35" fill="url(#proj2Grad)" />
+                            <circle cx="88" cy="75" r="5" fill="#0a0e27" />
+                            <circle cx="112" cy="75" r="5" fill="#0a0e27" />
+                            <path d="M 85 90 Q 100 100 115 90" stroke="#0a0e27" stroke-width="3" fill="none"
+                                stroke-linecap="round" />
+                            <ellipse cx="100" cy="140" rx="45" ry="35" fill="url(#proj2Grad)" opacity="0.9" />
+                            <rect x="92" y="55" width="16" height="10" rx="2" fill="#00d4ff" opacity="0.8" />
+                        </svg>
+                    </div>
+                    <div class="project-content">
+                        <h3>Avatar AI Assistente</h3>
+                        <p>Avatar intelligenti con capacità di conversazione naturale personalizzabile.</p>
+                        <div class="project-tags"><span class="tag">AI</span><span class="tag">NLP</span><span
+                                class="tag">3D</span></div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <svg class="project-icon" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"
+                            aria-hidden="true">
+                            <defs>
+                                <linearGradient id="proj3Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#00d4ff" />
+                                    <stop offset="100%" style="stop-color:#0096ff" />
+                                </linearGradient>
+                            </defs>
+                            <rect x="40" y="80" width="120" height="80" rx="5" fill="url(#proj3Grad)" />
+                            <rect x="50" y="90" width="100" height="60" rx="3" fill="#0a0e27" opacity="0.3" />
+                            <circle cx="100" cy="120" r="20" fill="#00d4ff" opacity="0.7" />
+                            <circle cx="100" cy="120" r="15" fill="url(#proj3Grad)" />
+                            <rect x="90" y="160" width="20" height="15" fill="url(#proj3Grad)" opacity="0.8" />
+                            <rect x="70" y="175" width="60" height="5" rx="2" fill="url(#proj3Grad)" />
+                            <circle cx="60" cy="100" r="4" fill="#00d4ff" />
+                            <circle cx="140" cy="100" r="4" fill="#00d4ff" />
+                        </svg>
+                    </div>
+                    <div class="project-content">
+                        <h3>Showrooms Virtuali</h3>
+                        <p>Esperienze immersive per la presentazione di prodotti in ambiente virtuale con presentazioni
+                            AI-Powered.</p>
+                        <div class="project-tags"><span class="tag">Presentazioni</span><span
+                                class="tag">Web3</span><span class="tag">Marketing</span></div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <svg class="project-icon" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"
+                            aria-hidden="true">
+                            <defs>
+                                <linearGradient id="proj4Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#00d4ff" />
+                                    <stop offset="100%" style="stop-color:#0096ff" />
+                                </linearGradient>
+                            </defs>
+                            <rect x="45" y="50" width="110" height="100" rx="10" fill="url(#proj4Grad)" />
+                            <rect x="50" y="55" width="100" height="90" rx="8" fill="#0a0e27" opacity="0.3" />
+                            <rect x="60" y="70" width="60" height="15" rx="7" fill="#00d4ff" opacity="0.7" />
+                            <rect x="80" y="95" width="60" height="15" rx="7" fill="url(#proj4Grad)" opacity="0.5" />
+                            <rect x="60" y="120" width="60" height="15" rx="7" fill="#00d4ff" opacity="0.7" />
+                            <circle cx="130" cy="100" r="18" fill="#00d4ff" />
+                            <circle cx="125" cy="96" r="3" fill="#0a0e27" />
+                            <circle cx="135" cy="96" r="3" fill="#0a0e27" />
+                        </svg>
+                    </div>
+                    <div class="project-content">
+                        <h3>Chatbot AI Personalizzati</h3>
+                        <p>Sistemi di intelligenza artificiale per automazione customer service con apprendimento
+                            personalizzabile.</p>
+                        <div class="project-tags"><span class="tag">Support</span><span class="tag">Machine
+                                Learning</span><span class="tag">API</span></div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <svg class="project-icon" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"
+                            aria-hidden="true">
+                            <defs>
+                                <linearGradient id="proj5Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#00d4ff" />
+                                    <stop offset="100%" style="stop-color:#0096ff" />
+                                </linearGradient>
+                            </defs>
+                            <rect x="50" y="50" width="100" height="70" rx="5" fill="url(#proj5Grad)" />
+                            <rect x="55" y="55" width="90" height="60" rx="3" fill="#0a0e27" opacity="0.3" />
+                            <ellipse cx="100" cy="85" rx="25" ry="15" fill="#00d4ff" opacity="0.8" />
+                            <circle cx="88" cy="85" r="8" fill="#0a0e27" opacity="0.5" />
+                            <circle cx="112" cy="85" r="8" fill="#0a0e27" opacity="0.5" />
+                            <rect x="95" y="120" width="10" height="25" fill="url(#proj5Grad)" opacity="0.7" />
+                            <rect x="75" y="145" width="50" height="8" rx="4" fill="url(#proj5Grad)" />
+                            <circle cx="65" cy="165" r="8" fill="#00d4ff" opacity="0.6" />
+                            <circle cx="100" cy="165" r="8" fill="#00d4ff" opacity="0.6" />
+                            <circle cx="135" cy="165" r="8" fill="#00d4ff" opacity="0.6" />
+                        </svg>
+                    </div>
+                    <div class="project-content">
+                        <h3>Formazione Web3</h3>
+                        <p>Studio, raccolgo e scrivo materiali didattici per la formazione pratica sull'utilizzo di
+                            visori VR e dispositivi Web3 per aziende.</p>
+                        <div class="project-tags"><span class="tag">Learning</span><span class="tag">Smart
+                                Working</span><span class="tag">Realtà Virtuale</span></div>
+                    </div>
+                </div>
+
+                <!-- ===== Progetti personali (dal CV) ===== -->
+                <div class="project-card">
+                    <div class="project-image">
+                        <svg class="project-icon" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"
+                            aria-hidden="true">
+                            <defs>
+                                <linearGradient id="proj6Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#00d4ff" />
+                                    <stop offset="100%" style="stop-color:#0096ff" />
+                                </linearGradient>
+                            </defs>
+                            <rect x="45" y="38" width="110" height="124" rx="10" fill="url(#proj6Grad)" />
+                            <rect x="62" y="58" width="76" height="14" rx="4" fill="#0a0e27" opacity="0.45" />
+                            <rect x="62" y="82" width="76" height="8" rx="4" fill="#0a0e27" opacity="0.3" />
+                            <rect x="62" y="98" width="58" height="8" rx="4" fill="#0a0e27" opacity="0.3" />
+                            <rect x="62" y="114" width="40" height="8" rx="4" fill="#0a0e27" opacity="0.3" />
+                            <circle cx="138" cy="138" r="24" fill="#00d4ff" />
+                            <path d="M127 138 l7 7 13-15" stroke="#0a0e27" stroke-width="4" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <div class="project-content">
+                        <h3>Arbiter — Filtro News &amp; Content Creator</h3>
+                        <p>Web app che filtra notizie rilevanti e genera automaticamente post pronti alla
+                            pubblicazione.</p>
+                        <div class="project-tags"><span class="tag">AI</span><span
+                                class="tag">Automazione</span><span class="tag">Web App</span></div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <svg class="project-icon" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"
+                            aria-hidden="true">
+                            <defs>
+                                <linearGradient id="proj7Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#00d4ff" />
+                                    <stop offset="100%" style="stop-color:#0096ff" />
+                                </linearGradient>
+                            </defs>
+                            <rect x="94" y="36" width="12" height="92" rx="4" fill="#00d4ff" />
+                            <path d="M94 40 L100 32 L106 40 Z" fill="#00d4ff" />
+                            <rect x="72" y="126" width="56" height="11" rx="4" fill="url(#proj7Grad)" />
+                            <rect x="95" y="137" width="10" height="28" rx="3" fill="url(#proj7Grad)" />
+                            <circle cx="100" cy="170" r="7" fill="#00d4ff" />
+                            <path d="M60 70 Q72 90 60 110" stroke="#00d4ff" stroke-width="2" fill="none"
+                                opacity="0.5" />
+                            <path d="M140 70 Q128 90 140 110" stroke="#00d4ff" stroke-width="2" fill="none"
+                                opacity="0.5" />
+                        </svg>
+                    </div>
+                    <div class="project-content">
+                        <h3>Traduzione Italiana Daggerfall Unity</h3>
+                        <p>Prima localizzazione italiana completa del celebre RPG, gestita autonomamente con
+                            supporto AI.</p>
+                        <div class="project-tags"><span class="tag">Localizzazione</span><span
+                                class="tag">Gaming</span><span class="tag">AI</span></div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <svg class="project-icon" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"
+                            aria-hidden="true">
+                            <defs>
+                                <linearGradient id="proj8Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#00d4ff" />
+                                    <stop offset="100%" style="stop-color:#0096ff" />
+                                </linearGradient>
+                            </defs>
+                            <rect x="38" y="50" width="124" height="100" rx="10" fill="url(#proj8Grad)" />
+                            <path d="M38 60 a10 10 0 0 1 10 -10 h104 a10 10 0 0 1 10 10 v8 H38 Z" fill="#0a0e27"
+                                opacity="0.45" />
+                            <circle cx="54" cy="60" r="4" fill="#00d4ff" />
+                            <circle cx="68" cy="60" r="4" fill="#00d4ff" opacity="0.6" />
+                            <circle cx="82" cy="60" r="4" fill="#00d4ff" opacity="0.4" />
+                            <rect x="54" y="86" width="42" height="50" rx="5" fill="#0a0e27" opacity="0.3" />
+                            <rect x="106" y="86" width="40" height="12" rx="4" fill="#0a0e27" opacity="0.3" />
+                            <rect x="106" y="106" width="40" height="12" rx="4" fill="#0a0e27" opacity="0.3" />
+                            <rect x="106" y="126" width="26" height="10" rx="4" fill="#00d4ff" opacity="0.65" />
+                        </svg>
+                    </div>
+                    <div class="project-content">
+                        <h3>Portfolio Personale Web</h3>
+                        <p>Sito professionale per la presentazione di progetti AI, Web3 e VR/AR.</p>
+                        <div class="project-tags"><span class="tag">Web</span><span class="tag">HTML</span><span
+                                class="tag">GitHub Pages</span></div>
+                    </div>
+                </div>
             </div>
-            <div class="contact-card">
-                <h3>📍 Location</h3>
-                <p>Roma</p>
+        </section>
+
+        <!-- ============================ CONTACT ============================ -->
+        <section id="contact">
+            <div class="section-head">
+                <span class="kicker">Get in touch</span>
+                <h2 class="section-title reveal">Contattami</h2>
             </div>
-            <div class="contact-card" style="cursor: pointer;" onclick="openCVPreview()">
-                <h3>📄 Curriculum</h3>
-                <p style="color: #00d4ff;">Visualizza il mio CV</p>
+            <div class="contact-info">
+                <div class="contact-card">
+                    <div class="c-ico" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="5" width="18" height="14" rx="2" />
+                            <path d="m3 7 9 6 9-6" />
+                        </svg>
+                    </div>
+                    <h3>Email</h3>
+                    <a href="mailto:tizianomazzetti@gmail.com">tizianomazzetti@gmail.com</a>
+                </div>
+                <div class="contact-card">
+                    <div class="c-ico" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                            <circle cx="12" cy="10" r="3" />
+                        </svg>
+                    </div>
+                    <h3>Location</h3>
+                    <p>Roma</p>
+                </div>
+                <div class="contact-card is-button" onclick="openCVPreview()" role="button" tabindex="0"
+                    onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openCVPreview();}">
+                    <div class="c-ico" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                            <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
+                        </svg>
+                    </div>
+                    <h3>Curriculum</h3>
+                    <p>Visualizza il mio CV</p>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
+
     <footer>
-        <p>&copy;
-
-            2025 Tiziano Mazzetti - AI Consultant | Tutti i diritti riservati</p>
+        <div class="wrap">
+            <div class="brand">
+                <svg class="logo-mark" width="26" height="26" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+                    <rect x="2.5" y="2.5" width="35" height="35" rx="11" stroke="currentColor" stroke-width="1.6"
+                        opacity="0.35" />
+                    <path d="M11 14 H29 M20 14 V27" stroke="var(--primary)" stroke-width="3.4" stroke-linecap="round" />
+                    <circle cx="20" cy="29.5" r="2.4" fill="var(--amber)" />
+                </svg>
+                Tiziano Mazzetti
+            </div>
+            <p>&copy; 2025 Tiziano Mazzetti — AI Consultant | Tutti i diritti riservati</p>
+        </div>
     </footer>
+
+    <!-- ============================ CV MODAL ============================ -->
     <div id="cvModal" class="cv-modal">
         <div class="cv-modal-content">
             <div class="cv-modal-header">
-                <h3>📄 Curriculum Vitae</h3>
-                <div class="cv-modal-buttons"><button class="cv-modal-btn download" onclick="downloadCV()">⬇️ Scarica
-                        PDF</button><button class="cv-modal-btn close" onclick="closeCVPreview()">✕ Chiudi</button>
+                <h3>Curriculum Vitae</h3>
+                <div class="cv-modal-buttons">
+                    <button class="cv-modal-btn download" onclick="downloadCV()"><svg class="ic" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" aria-hidden="true">
+                            <path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" />
+                        </svg> Scarica PDF</button>
+                    <button class="cv-modal-btn close" onclick="closeCVPreview()"><svg class="ic" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" aria-hidden="true">
+                            <path d="M18 6 6 18M6 6l12 12" />
+                        </svg> Chiudi</button>
                 </div>
             </div>
             <div class="cv-preview-container">
                 <h1>TIZIANO MAZZETTI</h1>
-                
                 <div class="cv-info-section">
                     <div>
                         <h2>PRESENTAZIONE</h2>
-                        <p>Giovane dinamico e volenteroso, con una forte passione per la tecnologia e l'intelligenza artificiale. Nativo digitale, apprendo rapidamente nuove competenze e mi adatto con facilità alle innovazioni del settore.</p>
-                        <p>Ho maturato esperienza come promotore e formatore nell'uso di dispositivi Web3, viaggiando in tutta Italia per supportare clienti e aziende nell'adozione di nuove tecnologie.</p>
-                        <p>Ottime capacità comunicative e predisposizione al contatto diretto con l'interlocutore, acquisite attraverso diverse esperienze come public speaker in eventi tematici sull'informatica.</p>
-                        <p>Esperienza anche in ambito alberghiero, dove ho sviluppato un forte senso del lavoro di squadra e di supporto al team. Determinato e sempre pronto ad apprendere.</p>
+                        <p>Giovane dinamico e volenteroso, con una forte passione per la tecnologia e l'intelligenza
+                            artificiale. Nativo digitale, apprendo rapidamente nuove competenze e mi adatto con facilità
+                            alle innovazioni del settore.</p>
+                        <p>Ho maturato esperienza come promotore e formatore nell'uso di dispositivi Web3, viaggiando in
+                            tutta Italia per supportare clienti e aziende nell'adozione di nuove tecnologie.</p>
+                        <p>Ottime capacità comunicative e predisposizione al contatto diretto con l'interlocutore,
+                            acquisite attraverso diverse esperienze come public speaker in eventi tematici
+                            sull'informatica.</p>
+                        <p>Esperienza anche in ambito alberghiero, dove ho sviluppato un forte senso del lavoro di
+                            squadra e di supporto al team. Determinato e sempre pronto ad apprendere.</p>
                     </div>
-
                     <div class="cv-right-column">
                         <div class="cv-photo-frame">
                             <img src="IMG-20250922-WA0014.jpg" alt="Tiziano Mazzetti">
                         </div>
-                        <div class="cv-contact-info" style="width: 100%;">
+                        <div class="cv-contact-info">
                             <h3>MAIL</h3>
-                            <p>📧 tizianomazzetti@gmail.com</p>
+                            <p><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <rect x="3" y="5" width="18" height="14" rx="2" />
+                                    <path d="m3 7 9 6 9-6" />
+                                </svg> tizianomazzetti@gmail.com</p>
                         </div>
                     </div>
                 </div>
@@ -1260,7 +2105,8 @@
                 <ul>
                     <li>Realizzazione di stanze virtuali metaversali usufruibili da visore</li>
                     <li>Creazione di avatar dotati di intelligenza artificiale comunicativa</li>
-                    <li>Ricerca e studio dell'applicazione di intelligenza artificiale in ambiti lavorativi e aziendali</li>
+                    <li>Ricerca e studio dell'applicazione di intelligenza artificiale in ambiti lavorativi e
+                        aziendali</li>
                 </ul>
                 <h3>2018-2022 - Aiuto Cuoco</h3>
                 <ul>
@@ -1278,11 +2124,15 @@
 
                 <h2>PROGETTI PERSONALI</h2>
                 <h3>Arbiter - Filtro News &amp; Content Creator (2025)</h3>
-                <p>Web app che filtra notizie rilevanti e genera automaticamente post LinkedIn pronti alla pubblicazione, integrando API AI, DuckDuckGo e text parsing per automatizzare il workflow di content creation.</p>
+                <p>Web app che filtra notizie rilevanti e genera automaticamente post LinkedIn pronti alla
+                    pubblicazione, integrando API AI, DuckDuckGo e text parsing per automatizzare il workflow di content
+                    creation.</p>
                 <h3>Portfolio Personale Web (2025)</h3>
-                <p>Sito professionale per presentazione progetti AI, Web3 e VR/AR. Stack: HTML, JavaScript, Google Antigravity, GitHub Pages.</p>
+                <p>Sito professionale per presentazione progetti AI, Web3 e VR/AR. Stack: HTML, JavaScript, Google
+                    Antigravity, GitHub Pages.</p>
                 <h3>Traduzione Italiana Daggerfall Unity (2026)</h3>
-                <p>Progetto di traduzione completa del videogioco RPG Daggerfall Unity, prima localizzazione italiana mai realizzata, gestita autonomamente con supporto AI.</p>
+                <p>Progetto di traduzione completa del videogioco RPG Daggerfall Unity, prima localizzazione italiana mai
+                    realizzata, gestita autonomamente con supporto AI.</p>
 
                 <h2>LINGUE</h2>
                 <ul>
@@ -1290,97 +2140,404 @@
                     <li>Inglese (Avanzato)</li>
                 </ul>
             </div>
+        </div>
     </div>
-    <script type="importmap"> {
-                "imports": {
-                    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
-                        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+
+    <!-- ============================ PROJECT MODAL ============================ -->
+    <div id="projModal" class="proj-modal" role="dialog" aria-modal="true" aria-labelledby="pmTitle">
+        <div class="proj-modal-content">
+            <button class="proj-close" onclick="closeProj()" aria-label="Chiudi"><svg class="ic" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    aria-hidden="true">
+                    <path d="M18 6 6 18M6 6l12 12" />
+                </svg></button>
+            <span class="kicker" id="pmKicker">Progetto</span>
+            <h3 id="pmTitle"></h3>
+            <div class="project-tags" id="pmTags"></div>
+            <p id="pmDesc"></p>
+        </div>
+    </div>
+
+    <!-- ============================ GSAP (CDN) ============================ -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <script>
+        (function () {
+            const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            /* ---- Glass navbar on scroll ---- */
+            const header = document.getElementById('site-header');
+            const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 40);
+            onScroll();
+            window.addEventListener('scroll', onScroll, { passive: true });
+
+            /* ---- Theme toggle (no localStorage per requirement) ---- */
+            const toggle = document.getElementById('themeToggle');
+            toggle.addEventListener('click', () => {
+                document.documentElement.classList.toggle('light');
+                const isLight = document.documentElement.classList.contains('light');
+                document.querySelector('meta[name="theme-color"]')
+                    .setAttribute('content', isLight ? '#f4f0e8' : '#0d0c0b');
+                window.dispatchEvent(new CustomEvent('themechange', { detail: { light: isLight } }));
+            });
+
+            if (!window.gsap) return;
+            gsap.registerPlugin(ScrollTrigger);
+
+            if (prefersReduced) {
+                // Make sure all counters show final value; reveals are visible by default.
+                document.querySelectorAll('[data-count]').forEach(el => el.textContent = el.dataset.count);
+                return;
+            }
+
+            /* ---- Hero load reveal (clip-path, no layout shift) ---- */
+            gsap.from('.reveal-hero', {
+                clipPath: 'inset(0 100% 0 0)',
+                opacity: 0,
+                duration: 1,
+                ease: 'power4.out',
+                stagger: 0.1,
+                delay: 0.15
+            });
+
+            /* ---- Section clip-path reveals on scroll ---- */
+            gsap.utils.toArray('.reveal').forEach(el => {
+                gsap.fromTo(el,
+                    { clipPath: 'inset(0 0 100% 0)' },
+                    {
+                        clipPath: 'inset(0 0 0% 0)',
+                        duration: 1,
+                        ease: 'power3.out',
+                        scrollTrigger: { trigger: el, start: 'top 82%' }
+                    });
+            });
+
+            /* ---- Bento / project staggered fade (opacity only) ---- */
+            gsap.utils.toArray('.bento-item, .project-card, .contact-card, .stat').forEach((el, i) => {
+                gsap.from(el, {
+                    opacity: 0,
+                    y: 24,
+                    duration: 0.7,
+                    ease: 'power2.out',
+                    scrollTrigger: { trigger: el, start: 'top 90%' }
+                });
+            });
+
+            /* ---- Count-up numbers ---- */
+            gsap.utils.toArray('[data-count]').forEach(el => {
+                const end = parseInt(el.dataset.count, 10);
+                const obj = { v: 0 };
+                ScrollTrigger.create({
+                    trigger: el,
+                    start: 'top 88%',
+                    once: true,
+                    onEnter: () => gsap.to(obj, {
+                        v: end,
+                        duration: 1.6,
+                        ease: 'power2.out',
+                        onUpdate: () => { el.textContent = Math.round(obj.v); }
+                    })
+                });
+            });
+
+            /* ---- Magnetic hover (pointer-capable devices only) ---- */
+            if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+                document.querySelectorAll('.magnetic').forEach(card => {
+                    const xTo = gsap.quickTo(card, 'x', { duration: 0.5, ease: 'power3' });
+                    const yTo = gsap.quickTo(card, 'y', { duration: 0.5, ease: 'power3' });
+                    card.addEventListener('mousemove', e => {
+                        const r = card.getBoundingClientRect();
+                        xTo((e.clientX - r.left - r.width / 2) * 0.12);
+                        yTo((e.clientY - r.top - r.height / 2) * 0.12);
+                    });
+                    card.addEventListener('mouseleave', () => { xTo(0); yTo(0); });
+                });
+            }
+        })();
+    </script>
+
+    <!-- ============================ NEURAL BRAIN CANVAS ============================ -->
+    <script>
+        (function neuralBrain() {
+            const canvas = document.getElementById('neural-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const TEAL = '53,208,214', AMBER = '240,180,90';
+            const DIST = 130;
+            let w = 0, h = 0, nodes = [], pulses = [], cols = [];
+            let mouse = { x: -9999, y: -9999 };
+
+            function build() {
+                const count = Math.round(Math.min(70, Math.max(26, w * h / 14000)));
+                nodes = [];
+                for (let i = 0; i < count; i++) {
+                    nodes.push({
+                        x: Math.random() * w, y: Math.random() * h,
+                        vx: (Math.random() - 0.5) * 0.25, vy: (Math.random() - 0.5) * 0.25,
+                        r: Math.random() * 1.8 + 1.2
+                    });
+                }
+                const fs = 14, n = Math.max(1, Math.floor(w / fs));
+                cols = [];
+                for (let i = 0; i < n; i++) cols.push({ x: i * fs, y: Math.random() * h, sp: Math.random() * 0.6 + 0.4 });
+            }
+
+            function size() {
+                const dpr = Math.min(window.devicePixelRatio || 1, 2);
+                const r = canvas.getBoundingClientRect();
+                w = r.width; h = r.height;
+                canvas.width = w * dpr; canvas.height = h * dpr;
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                build();
+            }
+
+            const glyphs = 'アイウエオカキクケコサシスセソタチツテトナニ0123456789TM</>{}#';
+            const rndGlyph = () => glyphs[Math.floor(Math.random() * glyphs.length)];
+
+            function spawnPulse() {
+                if (nodes.length < 2) return;
+                const a = nodes[Math.floor(Math.random() * nodes.length)];
+                let b = null, bd = 1e9;
+                for (const n of nodes) {
+                    if (n === a) continue;
+                    const d = (n.x - a.x) ** 2 + (n.y - a.y) ** 2;
+                    if (d < bd) { bd = d; b = n; }
+                }
+                if (b) pulses.push({ a, b, t: 0, sp: 0.012 + Math.random() * 0.02 });
+            }
+
+            function drawNetwork(alphaLine) {
+                for (let i = 0; i < nodes.length; i++) {
+                    for (let j = i + 1; j < nodes.length; j++) {
+                        const a = nodes[i], b = nodes[j];
+                        const d = Math.hypot(a.x - b.x, a.y - b.y);
+                        if (d < DIST) {
+                            ctx.strokeStyle = 'rgba(' + TEAL + ',' + (alphaLine * (1 - d / DIST)) + ')';
+                            ctx.lineWidth = 1;
+                            ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+                        }
+                    }
+                }
+                for (const n of nodes) {
+                    ctx.fillStyle = 'rgba(' + TEAL + ',0.9)';
+                    ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, 7); ctx.fill();
                 }
             }
 
-            </script>
-    <script type="module">import * as THREE from 'three';
+            function frame() {
+                ctx.fillStyle = 'rgba(7,16,15,0.16)';
+                ctx.fillRect(0, 0, w, h);
 
-        import {
-            GLTFLoader
+                ctx.font = '13px monospace';
+                for (const c of cols) {
+                    ctx.fillStyle = 'rgba(' + TEAL + ',0.13)';
+                    ctx.fillText(rndGlyph(), c.x, c.y);
+                    c.y += c.sp * 14;
+                    if (c.y > h) c.y = -20;
+                }
+
+                for (const n of nodes) {
+                    n.x += n.vx; n.y += n.vy;
+                    if (n.x < 0 || n.x > w) n.vx *= -1;
+                    if (n.y < 0 || n.y > h) n.vy *= -1;
+                    const dx = n.x - mouse.x, dy = n.y - mouse.y, d = Math.hypot(dx, dy);
+                    if (d < 90 && d > 0) { n.x += dx / d * 1.1; n.y += dy / d * 1.1; }
+                }
+
+                drawNetwork(0.16);
+
+                for (let i = pulses.length - 1; i >= 0; i--) {
+                    const p = pulses[i]; p.t += p.sp;
+                    const x = p.a.x + (p.b.x - p.a.x) * p.t, y = p.a.y + (p.b.y - p.a.y) * p.t;
+                    const g = ctx.createRadialGradient(x, y, 0, x, y, 7);
+                    g.addColorStop(0, 'rgba(' + AMBER + ',0.95)');
+                    g.addColorStop(1, 'rgba(' + AMBER + ',0)');
+                    ctx.fillStyle = g;
+                    ctx.beginPath(); ctx.arc(x, y, 7, 0, 7); ctx.fill();
+                    if (p.t >= 1) pulses.splice(i, 1);
+                }
+                requestAnimationFrame(frame);
+            }
+
+            function init() {
+                size();
+                if (reduced) {
+                    ctx.fillStyle = '#07100f'; ctx.fillRect(0, 0, w, h);
+                    drawNetwork(0.22);
+                    return;
+                }
+                requestAnimationFrame(frame);
+                setInterval(spawnPulse, 700);
+            }
+
+            canvas.addEventListener('mousemove', e => {
+                const r = canvas.getBoundingClientRect();
+                mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top;
+            });
+            canvas.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999; });
+            window.addEventListener('resize', size, { passive: true });
+
+            if (document.readyState === 'complete') init();
+            else window.addEventListener('load', init);
+        })();
+    </script>
+
+    <!-- ============================ THREE.JS ============================ -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
         }
+    }
+    </script>
 
-            from 'three/addons/loaders/GLTFLoader.js';
+    <script type="module">
+        import * as THREE from 'three';
+        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-        const scene = new THREE.Scene();
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-        const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
-        camera.position.set(0, 1.5, 3);
+        /* ============================================================
+           1) FLOATING PARTICLE MESH BACKGROUND
+           ============================================================ */
+        (function particleBackground() {
+            const canvas = document.getElementById('bg-particles');
+            if (!canvas) return;
 
-        const renderer = new THREE.WebGLRenderer({
-            antialias: true,
-            alpha: true
-        });
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(62, window.innerWidth / window.innerHeight, 0.1, 100);
+            camera.position.z = 6;
 
-        const container = document.getElementById('avatar-container');
-        const width = container.clientWidth;
-        const height = container.clientHeight;
+            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.setSize(window.innerWidth, window.innerHeight);
 
-        renderer.setSize(width, height);
-        renderer.setClearColor(0x000000, 0);
-        container.appendChild(renderer.domElement);
+            // Random points in 3D space
+            const COUNT = window.innerWidth < 720 ? 700 : 1400;
+            const positions = new Float32Array(COUNT * 3);
+            for (let i = 0; i < COUNT * 3; i++) {
+                positions[i] = (Math.random() - 0.5) * 16;
+            }
+            const geometry = new THREE.BufferGeometry();
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-        directionalLight.position.set(2, 4, 5);
-        scene.add(directionalLight);
+            const material = new THREE.PointsMaterial({
+                size: 0.028,
+                color: new THREE.Color(0x35d0d6),
+                transparent: true,
+                opacity: 0.9,
+                depthWrite: false,
+                blending: THREE.AdditiveBlending
+            });
 
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-        scene.add(ambientLight);
+            const points = new THREE.Points(geometry, material);
+            scene.add(points);
 
-        const loader = new GLTFLoader();
-        let model = null;
+            // Theme reaction
+            window.addEventListener('themechange', e => {
+                material.color.set(e.detail.light ? 0x0c7a85 : 0x35d0d6);
+                material.blending = e.detail.light ? THREE.NormalBlending : THREE.AdditiveBlending;
+                material.needsUpdate = true;
+            });
 
-        loader.load('models_avatar_tiziano.glb',
-            function (gltf) {
+            // Mouse parallax
+            let mx = 0, my = 0, tmx = 0, tmy = 0;
+            window.addEventListener('mousemove', e => {
+                tmx = (e.clientX / window.innerWidth - 0.5);
+                tmy = (e.clientY / window.innerHeight - 0.5);
+            });
+
+            const clock = new THREE.Clock();
+            function render() {
+                if (!prefersReduced) {
+                    const t = clock.getElapsedTime();
+                    points.rotation.y = t * 0.04;
+                    points.rotation.x = t * 0.015;
+                    mx += (tmx - mx) * 0.04;
+                    my += (tmy - my) * 0.04;
+                    camera.position.x = mx * 1.2;
+                    camera.position.y = -my * 1.2;
+                    camera.lookAt(scene.position);
+                }
+                renderer.render(scene, camera);
+                requestAnimationFrame(render);
+            }
+            render();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            }, { passive: true });
+        })();
+
+        /* ============================================================
+           2) HERO 3D AVATAR (preserved)
+           ============================================================ */
+        (function avatar() {
+            const container = document.getElementById('avatar-container');
+            if (!container) return;
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+            camera.position.set(0, 1.5, 3);
+
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            const width = container.clientWidth || 1;
+            const height = container.clientHeight || 1;
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.setSize(width, height);
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+            renderer.setClearColor(0x000000, 0);
+            container.appendChild(renderer.domElement);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1.1);
+            directionalLight.position.set(2, 4, 5);
+            scene.add(directionalLight);
+            const rim = new THREE.DirectionalLight(0x35d0d6, 0.8);
+            rim.position.set(-3, 2, -2);
+            scene.add(rim);
+            scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+
+            let model = null;
+            new GLTFLoader().load('models_avatar_tiziano.glb', gltf => {
                 model = gltf.scene;
-
                 const isMobile = window.innerWidth <= 768;
-                const scale = isMobile ? 3.0 : 1.3;
-
+                const scale = isMobile ? 3.6 : 1.9;
                 model.scale.set(scale, scale, scale);
                 model.position.set(0, 1, 0);
                 scene.add(model);
+            }, undefined, err => console.error('Errore caricamento modello:', err));
+
+            function animate() {
+                requestAnimationFrame(animate);
+                if (model && !prefersReduced) model.rotation.y += 0.005;
+                renderer.render(scene, camera);
             }
+            animate();
 
-            ,
-            undefined,
-            function (error) {
-                console.error('Errore caricamento modello:', error);
-            });
-
-        function animate() {
-            requestAnimationFrame(animate);
-
-            if (model) {
-                model.rotation.y += 0.005;
-            }
-
-            renderer.render(scene, camera);
-        }
-
-        animate();
-
-        window.addEventListener('resize', () => {
-            const width = container.clientWidth;
-            const height = container.clientHeight;
-            camera.aspect = width / height;
-            camera.updateProjectionMatrix();
-            renderer.setSize(width, height);
-
-            if (model) {
-                const isMobile = window.innerWidth <= 768;
-                const scale = isMobile ? 2.0 : 1.3;
-                model.scale.set(scale, scale, scale);
-            }
-        });
-
+            window.addEventListener('resize', () => {
+                const w = container.clientWidth || 1;
+                const h = container.clientHeight || 1;
+                camera.aspect = w / h;
+                camera.updateProjectionMatrix();
+                renderer.setSize(w, h);
+                if (model) {
+                    const isMobile = window.innerWidth <= 768;
+                    const scale = isMobile ? 3.6 : 1.9;
+                    model.scale.set(scale, scale, scale);
+                }
+            }, { passive: true });
+        })();
     </script>
-    <script>function openCVPreview() {
+
+    <!-- ============================ CV MODAL LOGIC ============================ -->
+    <script>
+        function openCVPreview() {
             document.getElementById('cvModal').classList.add('active');
             document.body.style.overflow = 'hidden';
         }
@@ -1392,42 +2549,23 @@
 
         async function downloadCV() {
             const pdfPath = 'Mazzetti_Tiziano_CV_2026.pdf';
-
             try {
                 const response = await fetch(pdfPath);
-
-                if (!response.ok) {
-                    throw new Error('File non trovato');
-                }
-
+                if (!response.ok) throw new Error('File non trovato');
                 const blob = await response.blob();
-
-                if (blob.size === 0) {
-                    throw new Error('File vuoto');
-                }
-
-                console.log('PDF scaricato, dimensione:', blob.size, 'bytes');
-
+                if (blob.size === 0) throw new Error('File vuoto');
                 const blobUrl = window.URL.createObjectURL(blob);
-
                 const link = document.createElement('a');
                 link.href = blobUrl;
                 link.download = 'Mazzetti_Tiziano_CV_2026.pdf';
                 link.style.display = 'none';
-
                 document.body.appendChild(link);
                 link.click();
-
                 setTimeout(() => {
                     document.body.removeChild(link);
                     window.URL.revokeObjectURL(blobUrl);
-                }
-
-                    , 100);
-
-            }
-
-            catch (error) {
+                }, 100);
+            } catch (error) {
                 console.error('Errore download:', error);
                 alert('Impossibile scaricare il CV. Prova ad aprirlo in una nuova scheda.');
                 window.open(pdfPath, '_blank');
@@ -1435,22 +2573,70 @@
         }
 
         document.getElementById('cvModal').addEventListener('click', function (e) {
-            if (e.target === this) {
-                closeCVPreview();
-            }
+            if (e.target === this) closeCVPreview();
         });
-
         document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape') {
-                closeCVPreview();
-            }
+            if (e.key === 'Escape') closeCVPreview();
         });
+    </script>
+
+    <!-- ============================ PROJECTS: clickable cards + modal ============================ -->
+    <script>
+        (function () {
+            const details = {
+                'Ambienti Metaversali Aziendali': 'Progetto e costruisco stanze virtuali metaversali per meeting e collaborazione aziendale, fruibili da browser e da visore VR. Ogni ambiente è modellato in Blender e personalizzabile con branding, postazioni, aree di presentazione e spazi sociali, per ricreare la presenza fisica in un contesto digitale immersivo.',
+                'Avatar AI Assistente': 'Avatar intelligenti con conversazione naturale in tempo reale, animazioni facciali e labiali sincronizzate e personalità su misura. Integrano modelli AI come GPT e Claude insieme a voice AI, per assistenza clienti, accoglienza ed e-learning.',
+                'Showrooms Virtuali': 'Esperienze immersive per presentare prodotti e servizi in ambienti virtuali navigabili, con presentazioni guidate AI-powered. Ideali per marketing, fiere digitali e demo da remoto, abbattono le distanze tra brand e cliente.',
+                'Chatbot AI Personalizzati': 'Assistenti conversazionali per automatizzare il customer service, con knowledge base aggiornabile e apprendimento continuo. Si integrano via API su web, app e canali aziendali, garantendo risposte coerenti 24/7.',
+                'Formazione Web3': 'Studio, raccolgo e scrivo materiali didattici per la formazione pratica su visori VR e dispositivi Web3. Ho viaggiato in tutta Italia come formatore, supportando aziende e clienti nell’adozione concreta delle nuove tecnologie.',
+                'Arbiter — Filtro News & Content Creator': 'Web app che filtra le notizie rilevanti e genera automaticamente post LinkedIn pronti alla pubblicazione. Integra API AI, DuckDuckGo e text parsing per automatizzare l’intero workflow di content creation. (2025)',
+                'Traduzione Italiana Daggerfall Unity': 'Progetto di traduzione completa del videogioco RPG Daggerfall Unity: la prima localizzazione italiana mai realizzata, gestita autonomamente con il supporto dell’AI per gestire l’enorme mole di testo. (2026)',
+                'Portfolio Personale Web': 'Sito professionale per la presentazione di progetti AI, Web3 e VR/AR. Stack: HTML, JavaScript, Google Antigravity e GitHub Pages. (2025)'
+            };
+
+            const modal = document.getElementById('projModal');
+            const pmTitle = document.getElementById('pmTitle');
+            const pmTags = document.getElementById('pmTags');
+            const pmDesc = document.getElementById('pmDesc');
+
+            function openProj(title, tagsHTML) {
+                pmTitle.textContent = title;
+                pmTags.innerHTML = tagsHTML || '';
+                pmDesc.textContent = details[title] || '';
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+            window.closeProj = function () {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            };
+
+            document.querySelectorAll('.project-card').forEach(card => {
+                const title = card.querySelector('h3')?.textContent.trim();
+                const tags = card.querySelector('.project-tags');
+                // inject open arrow
+                const go = document.createElement('span');
+                go.className = 'proj-go';
+                go.setAttribute('aria-hidden', 'true');
+                go.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>';
+                card.appendChild(go);
+                // accessibility
+                card.setAttribute('role', 'button');
+                card.setAttribute('tabindex', '0');
+                card.setAttribute('aria-label', title + ' — apri dettagli');
+                const open = () => openProj(title, tags ? tags.innerHTML : '');
+                card.addEventListener('click', open);
+                card.addEventListener('keydown', e => {
+                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
+                });
+            });
+
+            modal.addEventListener('click', e => { if (e.target === modal) closeProj(); });
+            document.addEventListener('keydown', e => {
+                if (e.key === 'Escape' && modal.classList.contains('active')) closeProj();
+            });
+        })();
     </script>
 </body>
 
-
 </html>
-
-
-
-

@@ -1,0 +1,710 @@
+/* ============================================================
+   Shared stylesheet for skill detail pages
+   Dark futuristic "digital pioneer" — teal + amber, Boska/Satoshi
+   ============================================================ */
+:root {
+    color-scheme: dark;
+    --bg: #0d0c0b;
+    --bg-2: #131110;
+    --surface: rgba(255, 255, 255, 0.035);
+    --surface-2: rgba(255, 255, 255, 0.06);
+    --surface-solid: #16140f;
+    --border: rgba(255, 255, 255, 0.10);
+    --border-strong: rgba(255, 255, 255, 0.18);
+    --text: #f4efe6;
+    --text-muted: #a59d92;
+    --primary: oklch(0.72 0.13 192);
+    --primary-strong: oklch(0.65 0.14 192);
+    --primary-soft: oklch(0.72 0.13 192 / 0.14);
+    --amber: oklch(0.82 0.12 75);
+    --on-primary: #042422;
+    --shadow: 0 24px 70px -28px rgba(0, 0, 0, 0.85);
+    --glow: 0 0 60px -10px oklch(0.72 0.13 192 / 0.45);
+    --font-display: 'Boska', Georgia, serif;
+    --font-body: 'Satoshi', 'Segoe UI', system-ui, sans-serif;
+    --maxw: 1280px;
+    --radius: 18px;
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    position: relative;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background:
+        radial-gradient(60% 50% at 12% 8%, var(--primary-soft) 0%, transparent 60%),
+        radial-gradient(45% 45% at 92% 88%, oklch(0.82 0.12 75 / 0.14) 0%, transparent 60%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.5;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+    mix-blend-mode: overlay;
+}
+
+::selection {
+    background: var(--primary);
+    color: var(--on-primary);
+}
+
+/* Decorative rotating SVG network (kept from original markup) */
+.tech-network {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    opacity: 0.28;
+    pointer-events: none;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.network-node {
+    animation: pulse 3s ease-in-out infinite;
+}
+
+.network-orbit {
+    animation: rotate 60s linear infinite;
+    transform-origin: center;
+}
+
+/* ---------------- Header ---------------- */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 1rem 0;
+    background: color-mix(in oklab, var(--bg) 65%, transparent);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    border-bottom: 1px solid var(--border);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 clamp(1.2rem, 4vw, 3rem);
+}
+
+.logo {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--text);
+    text-decoration: none;
+}
+
+.back-link {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: color 0.3s var(--ease), transform 0.3s var(--ease);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.back-link:hover {
+    color: var(--text);
+    transform: translateX(-5px);
+}
+
+/* ---------------- Hero ---------------- */
+.hero {
+    min-height: 86vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9rem 2rem 4rem;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.hero-content {
+    max-width: 880px;
+}
+
+.hero-icon {
+    width: 116px;
+    height: 116px;
+    margin: 0 auto 2rem;
+    padding: 1.4rem;
+    border-radius: 24px;
+    background: var(--primary-soft);
+    border: 1px solid var(--border);
+    filter: drop-shadow(0 14px 36px oklch(0.72 0.13 192 / 0.35));
+}
+
+.hero h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2.6rem, 7vw, 5rem);
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.2rem;
+    background: linear-gradient(110deg, var(--primary) 20%, var(--amber) 95%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+    font-size: clamp(1.05rem, 1.8vw, 1.3rem);
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    max-width: 60ch;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ---------------- Sections ---------------- */
+section {
+    padding: clamp(3.5rem, 8vw, 6rem) clamp(1.2rem, 4vw, 3rem);
+    max-width: var(--maxw);
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.section-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    text-align: center;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+    line-height: 1.04;
+}
+
+.section-subtitle {
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin: 0 auto 3.5rem;
+    max-width: 720px;
+}
+
+/* ---------------- Service cards ---------------- */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: 1.2rem;
+    margin-top: 2.5rem;
+}
+
+.service-card {
+    background: var(--surface);
+    padding: 2.2rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    transition: transform 0.4s var(--ease), border-color 0.4s var(--ease), background 0.4s var(--ease);
+}
+
+.service-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--primary);
+    background: var(--surface-2);
+}
+
+.service-icon {
+    width: 54px;
+    height: 54px;
+    margin-bottom: 1.4rem;
+    padding: 0.5rem;
+    border-radius: 14px;
+    background: var(--primary-soft);
+    border: 1px solid var(--border);
+}
+
+.service-card h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 1.35rem;
+    color: var(--text);
+    margin-bottom: 0.8rem;
+}
+
+.service-card p {
+    color: var(--text-muted);
+    line-height: 1.65;
+}
+
+/* ---------------- Process timeline ---------------- */
+.process-timeline {
+    position: relative;
+    max-width: 880px;
+    margin: 2.5rem auto 0;
+}
+
+.process-step {
+    display: flex;
+    gap: 1.6rem;
+    margin-bottom: 1.4rem;
+    position: relative;
+}
+
+.step-number {
+    min-width: 56px;
+    height: 56px;
+    background: var(--primary-strong);
+    color: var(--on-primary);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    box-shadow: var(--glow);
+}
+
+.step-content {
+    flex: 1;
+    background: var(--surface);
+    padding: 1.6rem 1.8rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    transition: border-color 0.3s var(--ease);
+}
+
+.step-content:hover {
+    border-color: var(--primary);
+}
+
+.step-content h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    color: var(--text);
+    font-size: 1.3rem;
+    margin-bottom: 0.4rem;
+}
+
+.step-content p {
+    color: var(--text-muted);
+    line-height: 1.65;
+}
+
+/* ---------------- Tech stack ---------------- */
+.tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    justify-content: center;
+    margin-top: 2.5rem;
+}
+
+.tech-badge {
+    background: var(--primary-soft);
+    padding: 0.7rem 1.3rem;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--primary);
+    border: 1px solid var(--border);
+    transition: transform 0.3s var(--ease), background 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+
+.tech-badge:hover {
+    background: var(--surface-2);
+    border-color: var(--primary);
+    transform: translateY(-3px);
+}
+
+/* ---------------- Case studies ---------------- */
+.case-studies {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+    gap: 1.4rem;
+    margin-top: 2.5rem;
+}
+
+.case-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    transition: transform 0.4s var(--ease), border-color 0.4s var(--ease);
+}
+
+.case-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--primary);
+}
+
+.case-image {
+    width: 100%;
+    height: 240px;
+    background:
+        radial-gradient(circle at 50% 40%, var(--primary-soft), transparent 65%),
+        var(--surface-solid);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+}
+
+.case-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    padding: 1.2rem;
+}
+
+.case-placeholder {
+    font-size: 4rem;
+    opacity: 0.4;
+}
+
+.case-content {
+    padding: 1.8rem;
+}
+
+.case-content h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    color: var(--text);
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+}
+
+.case-content .problem,
+.case-content .solution,
+.case-content .result {
+    padding: 0.9rem 1rem;
+    margin-bottom: 0.9rem;
+    border-radius: 10px;
+}
+
+.case-content .problem {
+    background: rgba(229, 72, 77, 0.10);
+    border-left: 3px solid #e5484d;
+}
+
+.case-content .solution {
+    background: var(--primary-soft);
+    border-left: 3px solid var(--primary);
+}
+
+.case-content .result {
+    background: oklch(0.82 0.12 75 / 0.12);
+    border-left: 3px solid var(--amber);
+}
+
+.case-content h4 {
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+    opacity: 0.9;
+    color: var(--text);
+}
+
+.case-content p {
+    color: var(--text-muted);
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+/* ---------------- FAQ ---------------- */
+.faq-container {
+    max-width: 880px;
+    margin: 2.5rem auto 0;
+}
+
+.faq-item {
+    background: var(--surface);
+    padding: 1.6rem 1.8rem;
+    border-radius: var(--radius);
+    margin-bottom: 1rem;
+    border: 1px solid var(--border);
+    transition: border-color 0.3s var(--ease), background 0.3s var(--ease);
+}
+
+.faq-item:hover {
+    border-color: var(--primary);
+    background: var(--surface-2);
+}
+
+.faq-item h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    color: var(--text);
+    font-size: 1.2rem;
+    margin-bottom: 0.7rem;
+}
+
+.faq-item p {
+    color: var(--text-muted);
+    line-height: 1.65;
+}
+
+/* ---------------- CTA ---------------- */
+.cta-section {
+    text-align: center;
+    padding: clamp(3rem, 7vw, 5rem) 2rem;
+    background:
+        radial-gradient(70% 120% at 50% 0%, var(--primary-soft), transparent 60%),
+        var(--surface);
+    border-radius: calc(var(--radius) + 6px);
+    border: 1px solid var(--border);
+}
+
+.cta-section h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+}
+
+.cta-section p {
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+}
+
+/* ---------------- Buttons ---------------- */
+.btn {
+    padding: 0.95rem 1.8rem;
+    border: none;
+    border-radius: 14px;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+    text-decoration: none;
+    display: inline-block;
+    margin: 0.4rem;
+}
+
+.btn-primary {
+    background: var(--primary-strong);
+    color: var(--on-primary);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--glow);
+}
+
+.btn-secondary {
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    color: var(--text);
+}
+
+.btn-secondary:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+/* ---------------- Footer ---------------- */
+footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    margin-top: 4rem;
+    position: relative;
+    z-index: 1;
+}
+
+footer a {
+    color: var(--primary) !important;
+    text-decoration: none;
+}
+
+/* ---------------- Responsive ---------------- */
+@media (max-width: 768px) {
+    .services-grid,
+    .case-studies {
+        grid-template-columns: 1fr;
+    }
+
+    .process-step {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .step-number {
+        margin: 0 auto;
+    }
+
+    .tech-network {
+        opacity: 0.16;
+    }
+}
+
+/* ---------------- Effects parity with home ---------------- */
+@property --gradient-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+#bg-particles {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+/* Floating "atoms" SVG removed in favour of the particle background */
+.tech-network {
+    display: none;
+}
+
+header.scrolled {
+    padding: 0.6rem 0;
+}
+
+/* Animated gradient border on primary CTA */
+.btn-primary {
+    position: relative;
+    isolation: isolate;
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 16px;
+    z-index: -1;
+    background: conic-gradient(from var(--gradient-angle),
+            var(--primary), var(--amber), var(--primary-strong), var(--primary));
+    animation: spin-gradient 4s linear infinite;
+}
+
+.btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    z-index: -1;
+    background: var(--primary-strong);
+}
+
+@keyframes spin-gradient {
+    to {
+        --gradient-angle: 360deg;
+    }
+}
+
+/* ---------------- Inline SVG icons (replace emoji) ---------------- */
+.ic {
+    width: 1.05em;
+    height: 1.05em;
+    vertical-align: -0.16em;
+    flex-shrink: 0;
+}
+
+.back-link .ic {
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+}
+
+.case-content h4 {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+.problem .ic {
+    color: #e5484d;
+}
+
+.solution .ic {
+    color: var(--primary);
+}
+
+.result .ic {
+    color: var(--amber);
+}
+
+.faq-item h3 .ic {
+    color: var(--primary);
+    margin-right: 0.2rem;
+}
+
+.cta-section .btn .ic {
+    margin-right: 0.35rem;
+    color: currentColor;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .btn-primary::before {
+        animation: none;
+    }
+}
