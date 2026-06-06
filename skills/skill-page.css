@@ -693,6 +693,61 @@ header.scrolled {
     color: currentColor;
 }
 
+/* ---------------- Email mini-menu ---------------- */
+.email-menu {
+    position: fixed;
+    z-index: 3000;
+    min-width: 232px;
+    background: var(--surface-solid);
+    border: 1px solid var(--border-strong);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 0.4rem;
+    display: none;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+.email-menu.open {
+    display: flex;
+    animation: emfade 0.18s ease;
+}
+
+@keyframes emfade {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+}
+
+.email-menu button {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    width: 100%;
+    text-align: left;
+    padding: 0.7rem 0.8rem;
+    background: transparent;
+    border: none;
+    border-radius: 10px;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s var(--ease);
+}
+
+.email-menu button:hover {
+    background: var(--surface-2);
+}
+
+.email-menu button .ic {
+    color: var(--primary);
+    width: 18px;
+    height: 18px;
+}
+
 @media (prefers-reduced-motion: reduce) {
 
     *,
